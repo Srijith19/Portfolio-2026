@@ -153,11 +153,11 @@ SITE.projects = [
     thumbs: ["assets/img/projects/akai-tsuki/concept-torii.webp", "assets/img/projects/akai-tsuki/render-hall.webp"],
     gallery: [] },
 
-  { id: "rasta-la-vista", title: "Rasta La Vista", year: "2025", sortYear: 2025, context: "IIT Jodhpur", chapter: "IIT Jodhpur",
-    discipline: "Physical", also: ["Game"], theme: "Play and worlds", depth: "Glimpse", status: "Coursework",
-    role: "", team: "", tools: "",
-    summary: "A board game for travellers.",
-    cover: "", hero: "", gallery: [] },
+  { id: "rasta-la-vista", title: "Rasta La Vista", year: "2025", sortYear: 2025, context: "IIT Jodhpur", chapter: "IIT Jodhpur", note: "Board Game Design, guided by Prof. Prasad Bokil",
+    discipline: "Physical", also: ["Game"], theme: "Play and worlds", depth: "Entry", status: "Coursework",
+    role: "Game designer", team: "Edwin, Mariya, Nidhin and Srijith", tools: "Illustrator, laser-cut acrylic",
+    summary: "A board game for travellers and explorers: buy a ticket, ride India's buses, trains, ferries and planes, and claim places before anyone else. Play it right here.",
+    cover: "assets/img/projects/rasta-la-vista/hero.webp", focus: "50% 55%", hero: "assets/img/projects/rasta-la-vista/hero.webp", gallery: [] },
 
   { id: "shape-chase", title: "Shape Chase", year: "", sortYear: null, context: "Coursework", chapter: "IIT Jodhpur",
     discipline: "Physical", also: ["Game"], theme: "Play and worlds", depth: "Glimpse", status: "Coursework",
@@ -194,5 +194,59 @@ SITE.projects = [
     links: [{ label: "See the design process", href: "https://tiny.cc/InSD" }],
     summary: "An Arduino prototype that senses objects with an ultrasonic sensor and shows how far away they are.",
     cover: "assets/img/projects/smart-device/cover.webp", focus: "50% 50%", hero: "",
-    gallery: [ { src: "assets/img/projects/smart-device/renders.webp", natural: true, caption: "Form studies for the device" } ] }
+    gallery: [ { src: "assets/img/projects/smart-device/renders.webp", natural: true, caption: "Form studies for the device" } ] },
+
+  // Added from the 2nd–4th year folders and the Instructional Design deck
+  { id: "uxplore", title: "UXplore", year: "", sortYear: null, context: "IIT Jodhpur", chapter: "IIT Jodhpur", note: "Instructional Design",
+    discipline: "XR", also: ["UX"], theme: "Care and access", depth: "Entry", status: "Coursework",
+    role: "", team: "Edwin, Nischay, Bhoomika and Srijith", tools: "Figma, AR",
+    summary: "A tablet app that teaches beginners UX laws by letting them feel each one: picking from buttons floating on their own wall in AR, then comparing flows on screen.",
+    cover: "assets/img/projects/uxplore/hick-ungrouped.webp", focus: "50% 50%", hero: "assets/img/projects/uxplore/hick-grouped.webp", gallery: [] },
+
+  { id: "type-and-image", title: "Type and image", year: "2021–22", sortYear: 2021, context: "PES University", chapter: "PES University", note: "Graphic Design and Advanced Graphic Design",
+    discipline: "Visual", also: [], theme: "Moving image and space", depth: "Entry", status: "Coursework",
+    role: "", team: "", tools: "Illustrator, Photoshop, After Effects",
+    summary: "Two semesters of graphic design: silhouettes, pop-art cubes, letters built from sticks, an editorial spread, posters, road signs, a paper bag, and a word that moos.",
+    cover: "assets/img/projects/type-and-image/bag-front.webp", focus: "50% 50%", hero: "assets/img/projects/type-and-image/bag-back.webp", gallery: [] },
+
+  { id: "geometrica", title: "Geometrica", year: "2021", sortYear: 2021, context: "PES University", chapter: "PES University", note: "Game Design",
+    discipline: "Game", also: ["Physical"], theme: "Play and worlds", depth: "Entry", status: "Coursework",
+    role: "Game designer", team: "", tools: "Illustrator",
+    summary: "A tabletop serious game that teaches geometry and fractions with shape frames and clue cards, for children learning online.",
+    cover: "assets/img/projects/geometrica/board.webp", focus: "50% 50%", hero: "", gallery: [] },
+
+  { id: "green-grocer", title: "Green Grocer", year: "2023", sortYear: 2023, context: "PES University", chapter: "PES University", note: "Design Innovation and Management",
+    discipline: "Visual", also: ["UX"], theme: "Systems and commerce", depth: "Entry", status: "Concept",
+    role: "", team: "", tools: "Illustrator, Figma, Blender",
+    summary: "A moving farmers' market: an auto-rickshaw that carries small farmers' produce to where the demand is, and pays for itself with the ads on its sides.",
+    cover: "assets/img/projects/green-grocer/rickshaw.webp", focus: "50% 55%", hero: "assets/img/projects/green-grocer/rickshaw-road-2.webp", gallery: [] },
+
+  { id: "youtube-redesign", title: "YouTube redesign and user testing", year: "2022", sortYear: 2022, context: "PES University", chapter: "PES University", note: "UI UX II",
+    discipline: "UX", also: [], theme: "Everyday interfaces", depth: "Glimpse", status: "Coursework",
+    role: "", team: "", tools: "Figma",
+    summary: "Interviews and task tests on the YouTube app, then redesigns of playlist creation, a “New” feature and a well-being view of time spent.",
+    cover: "assets/img/projects/youtube-redesign/wellbeing.webp", focus: "50% 50%", hero: "",
+    gallery: [
+      { src: "assets/img/projects/youtube-redesign/wellbeing.webp", natural: true, caption: "Well-being: time watched, by category" },
+      { src: "assets/img/projects/youtube-redesign/new-feature.webp", natural: true, caption: "The “New” feature" },
+      { src: "assets/img/projects/youtube-redesign/playlist.webp", natural: true, caption: "Creating a playlist, before and after" }
+    ] },
+
+  { id: "conversational-ux", title: "Conversational interfaces", year: "2022", sortYear: 2022, context: "PES University", chapter: "PES University", note: "Design for Conversational UX",
+    discipline: "UX", also: [], theme: "Everyday interfaces", depth: "Glimpse", status: "Coursework",
+    role: "", team: "", tools: "Figma",
+    summary: "Studying how Kuki, Replika and Google Assistant hold a conversation, then designing a voice assistant for a car that keeps the driver's eyes on the road.",
+    cover: "assets/img/projects/conversational-ux/dash.webp", focus: "50% 50%", hero: "",
+    gallery: [
+      { src: "assets/img/projects/conversational-ux/dash.webp", natural: true, caption: "The in-car assistant: “How can I help you?”" },
+      { src: "assets/img/projects/conversational-ux/journey.webp", natural: true, caption: "The driver's journey, from trip start to the last mile" },
+      { src: "assets/img/projects/conversational-ux/replika.webp", natural: true, caption: "Studying a companion bot's conversation" }
+    ] },
+
+  { id: "spatial-pod", title: "Two-pod lounge", year: "2023", sortYear: 2023, context: "PES University", chapter: "PES University", note: "Spatial Design",
+    discipline: "Physical", also: [], theme: "Moving image and space", depth: "Glimpse", status: "Coursework",
+    role: "", team: "", tools: "",
+    summary: "A 27-foot structure of two rounded pods joined by a short passage, one around a U-shaped table and one with a curved bench, wrapped in a ribbed timber shell.",
+    cover: "assets/img/projects/spatial-pod/concept.webp", focus: "50% 50%", hero: "",
+    gallery: [ { src: "assets/img/projects/spatial-pod/concept.webp", natural: true, caption: "Concept sketches, plan and sections" } ] }
 ];

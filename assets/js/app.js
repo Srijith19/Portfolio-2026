@@ -916,6 +916,35 @@
           <div class="fg-hud mono" aria-hidden="true"><span class="fg-lv">LEVEL 1</span><span class="fg-sc">0</span><span class="fg-mx">×1</span><span class="fg-hp">♥♥♥</span></div>
           <div class="fg-over"><img src="${esc(b.dir)}/title.webp" alt=""><button type="button" class="btn fg-go">Start the run</button><p class="mono fg-msg">Space, ↑ or tap to jump</p></div>
         </div></div></div>`;
+    // Rasta La Vista, playable on the real board
+    if (b.type === "rgame") return `<div class="blk wide rg-b"><div class="wrap">${head}
+      <div class="rg" data-rgame="${esc(b.dir)}">
+        <div class="rg-board"><img class="rg-map" src="${esc(b.dir)}/map.webp" alt="The Rasta La Vista board: hexagonal place tiles linked by roads, railways and rivers"><svg class="rg-svg" viewBox="220 57 1198 1038" aria-hidden="true"><g class="rg-hi"></g><g class="rg-pegs"></g><g class="rg-pawns"></g></svg>
+          <div class="rg-card" hidden></div><div class="rg-over"></div></div>
+        <aside class="rg-side"><div class="rg-rules"><span class="label">How it plays</span><ol>
+            <li><b>Tickets unlock as you travel.</b> Bus with your first place, rail with two, ferry with three, plane with five.</li>
+            <li><b>One ticket per tile</b>, along the printed roads, railways and rivers. Planes hop between airports.</li>
+            <li><b>End on a free place to claim it.</b> Destinations score 3, Hubs 6, Metros 9.</li>
+            <li><b>Pass a junction, draw an action card.</b> Hold up to three.</li>
+            <li><b>Chai time:</b> stop at a junction to even out your tickets.</li>
+            <li><b>Every round draws an event</b> that blocks, speeds up or rewards travel.</li></ol></div><span class="rg-round mono"></span><div class="rg-event"></div><ol class="rg-players"></ol>
+          <div class="rg-you"><span class="label">Your tickets</span><div class="rg-modes"></div><span class="label">Your action cards</span><div class="rg-hand"></div><div class="rg-prompt" aria-live="polite"></div><div class="rg-extra"></div></div>
+          <span class="label">Travel log</span><ol class="rg-log" aria-live="polite"></ol></aside>
+      </div>${b.text ? `<p class="blk-cap">${esc(b.text)}</p>` : ""}</div></div>`;
+    // An animal's sound in type: the o's drop in one by one and keep bouncing
+    if (b.type === "moo") { const w = b.word || "Moooo";
+      return `<div class="blk wide moo-b"><div class="wrap moo">
+        <div class="moo-copy"><span class="label">Motion</span><h3 class="wp-h">${esc(b.title || "")}</h3><p class="wp-p">${esc(b.text || "")}</p>
+          ${(b.stills || []).length ? `<div class="moo-stills">${b.stills.map((x) => `<figure><img src="${esc(x.src)}" alt="${esc(x.caption || "")}" loading="lazy"><figcaption class="mono">${esc(x.caption || "")}</figcaption></figure>`).join("")}</div>` : ""}</div>
+        <button type="button" class="moo-stage" data-moo aria-label="Play the animation of the word ${esc(w)}"><span class="moo-w" aria-hidden="true"><b class="moo-m">${esc(w[0])}</b>${w.slice(1).split("").map((_, i) => `<b class="moo-o" style="--i:${i}"></b>`).join("")}</span><span class="moo-hint mono">Tap to moo</span></button>
+      </div></div>`; }
+    // A Geometrica clue card you can solve: drag shape frames together on a textured board
+    if (b.type === "buildit") return `<div class="blk wide bi-b"><div class="wrap bi">
+        <div class="bi-copy"><span class="label">Play a card</span><h3 class="wp-h">${esc(b.title || "")}</h3><p class="wp-p">${esc(b.text || "")}</p>
+          <div class="bi-card"><span class="mono bi-q">Q.</span><p class="bi-clue"></p><p class="bi-ans mono" aria-live="polite"></p></div>
+          <div class="bi-ctl"><button type="button" class="btn ghost bi-next">Next card</button><span class="mono bi-time">0.0 s</span></div></div>
+        <div class="bi-board" data-buildit role="application" aria-label="A game board with shape frames to drag."><svg viewBox="0 0 600 400"><defs><pattern id="bi-dots" width="18" height="18" patternUnits="userSpaceOnUse"><circle cx="9" cy="9" r="2.2"/></pattern></defs><rect class="bi-bg" width="600" height="400" rx="18"/><rect class="bi-dot" width="600" height="400" rx="18" fill="url(#bi-dots)"/><g class="bi-pieces"></g></svg></div>
+      </div></div>`;
     // A shelf of the range: pick a product and its label wraps the tin
     if (b.type === "shelf") { const N = 30;
       return `<div class="blk wide"><div class="wrap">${head}<div class="shelf-b">
@@ -1680,6 +1709,380 @@
     });
   }
   /* ---- Fredrick Runs, playable in the page ---- */
+  // ---------- Rasta La Vista, playable: the real board, tickets, events and action cards ----------
+  const RLV = (() => {
+    const ROWS = [["Delhi", "Bhopal", "Khajuraho", "Ooty"], ["Jaisalmer", "RoadJn-N", "Hyderabad", "RailJn-NE", "Kolkata"], ["Rishikesh", "Munnar", "Guwahati", "Lucknow", "Nagpur", "Kochi"], ["Shimla", "RailJn-W", "Puri", "FerryJn", "Hampi", "RoadJn-E", "Goa"], ["Ahmedabad", "Chennai", "Amritsar", "Jaipur", "Pune", "Agra"], ["Tirupati", "RoadJn-S", "Pahalgam", "RailJn-SE", "Mumbai"], ["Visakhapatnam", "Bangalore", "Konark", "Varanasi"]];
+    const METRO = "Delhi Mumbai Chennai Kolkata Bangalore", HUB = "Nagpur Guwahati Visakhapatnam Hyderabad Pune Ahmedabad Jaipur Kochi Lucknow Bhopal";
+    const Y = "Delhi Ooty Hyderabad Munnar Nagpur Shimla Goa Chennai Pune Pahalgam Visakhapatnam Varanasi", G = "Bhopal Jaisalmer Guwahati Kochi Hampi Amritsar Agra Tirupati Bangalore";
+    const AIR = "Delhi Hyderabad Guwahati Kolkata Kochi Chennai Jaipur Pune Mumbai Bangalore";
+    const FACT = {
+      Guwahati: "Its ancient name, Pragjyotishpura, means City of Eastern Light.", Visakhapatnam: "INS Kursura, a retired submarine on RK Beach, became South Asia's first submarine museum.",
+      Hyderabad: "Once a centre of the diamond trade, it is also the City of Pearls.", Pune: "Badminton was invented here by British officers in the 19th century.",
+      Ahmedabad: "Every year its International Kite Festival fills the sky with colour.", Jaipur: "The Pink City: painted pink in 1876 to welcome the Prince of Wales.",
+      Nagpur: "The Zero Mile Stone marks the geographical centre of India. Famous for oranges.", Kochi: "Cochin International was the first airport in the world to run fully on solar power.",
+      Tirupati: "At Kalyanakatta, pilgrims offer their hair as a vow.", Konark: "The Sun Temple is a colossal stone chariot on 24 carved wheels.",
+      Jaisalmer: "A living fort: people still live and work inside its ancient walls.", Hampi: "The Vittala Temple's pillars ring with musical notes when tapped.",
+      Agra: "The Taj Mahal's calligraphy grows larger higher up, so it reads evenly from the ground.", Amritsar: "The Golden Temple's langar serves free meals to anyone, every day.",
+      Kolkata: "Home to the oldest operating electric tram network in Asia.", Chennai: "Marina Beach is one of the longest urban beaches on the planet.",
+      Bangalore: "The Garden City, for Lalbagh, Cubbon Park and its many green spaces.", Mumbai: "The dabbawalas deliver home-cooked lunches across the city, famously without mix-ups.",
+      Delhi: "Khari Baoli in Old Delhi is Asia's largest wholesale spice market.", Ooty: "Snooker's early rules were refined at the Ootacamund Club.",
+      Pahalgam: "Legend places the story of Ganesha's elephant head at its Mamaleshwar Temple.", Munnar: "India's first tea museum; its hills bloom with Neelakurinji once every 12 years.",
+      Goa: "It keeps a Portuguese-era civil code that applies to everyone who lives there.", Shimla: "From 1864, British India's summer capital; the whole government moved here each year.",
+      Varanasi: "One of the oldest continuously inhabited cities in the world.", Puri: "The flag atop the Jagannath Temple is changed every day by hereditary servitors.",
+      Khajuraho: "Its temples were built from interlocking stones, with no mortar.", Rishikesh: "The Yoga Capital of the World, where The Beatles came to learn meditation."
+    };
+    const N = {};
+    ROWS.forEach((row, r) => row.forEach((name, i) => {
+      const jn = /Jn/.test(name);
+      N[name] = { name, x: 820 + (i - (row.length - 1) / 2) * 153.5, y: 575 + (r - 3) * 138.5 + 18,
+        type: jn ? (name.startsWith("Road") ? "road-jn" : name.startsWith("Rail") ? "rail-jn" : "ferry-jn") : METRO.includes(name) ? "metro" : HUB.includes(name) ? "hub" : "dest",
+        color: jn ? null : Y.split(" ").includes(name) ? "Y" : G.split(" ").includes(name) ? "G" : "R", air: AIR.split(" ").includes(name), adj: { road: [], rail: [], ferry: [] } };
+    }));
+    const link = (mode, s) => s.split(", ").forEach((e) => { const [a, b] = e.split("–"); N[a].adj[mode].push(b); N[b].adj[mode].push(a); });
+    link("road", "Bhopal–Khajuraho, Khajuraho–Ooty, Bhopal–RoadJn-N, Jaisalmer–RoadJn-N, RoadJn-N–Hyderabad, RoadJn-N–Munnar, RoadJn-N–Guwahati, Delhi–RoadJn-N, Rishikesh–Munnar, Hyderabad–Lucknow, Guwahati–Puri, Lucknow–Hampi, Kolkata–Nagpur, Nagpur–RoadJn-E, Kochi–RoadJn-E, Hampi–RoadJn-E, RoadJn-E–Goa, RoadJn-E–Pune, RoadJn-E–Agra, Shimla–Ahmedabad, Puri–Chennai, Ahmedabad–Tirupati, Chennai–RoadJn-S, Amritsar–RoadJn-S, Tirupati–RoadJn-S, RoadJn-S–Pahalgam, RoadJn-S–Bangalore, RoadJn-S–Visakhapatnam, Amritsar–Jaipur, Jaipur–Pune, Agra–Mumbai, Mumbai–Varanasi, Pahalgam–Konark, Delhi–Bhopal, Bangalore–Konark, Konark–Varanasi, Visakhapatnam–Bangalore");
+    link("ferry", "Delhi–Bhopal, Khajuraho–Hyderabad, Hyderabad–Guwahati, Ooty–Kolkata, Jaisalmer–Munnar, Munnar–Puri, Rishikesh–Shimla, Lucknow–Nagpur, Nagpur–Kochi, Guwahati–FerryJn, Lucknow–FerryJn, Puri–FerryJn, FerryJn–Hampi, FerryJn–Jaipur, FerryJn–Amritsar, Hampi–Pune, Goa–Agra, Ahmedabad–Chennai, Chennai–Amritsar, Pune–Mumbai, Jaipur–Pahalgam, Tirupati–Visakhapatnam, Pahalgam–Bangalore, Konark–Varanasi");
+    link("rail", "Delhi–Jaisalmer, Jaisalmer–Rishikesh, Rishikesh–RailJn-W, Bhopal–Hyderabad, Hyderabad–RailJn-NE, Khajuraho–RailJn-NE, Ooty–RailJn-NE, Kolkata–RailJn-NE, Lucknow–RailJn-NE, Nagpur–RailJn-NE, Kolkata–Kochi, Kochi–Goa, Munnar–Guwahati, Guwahati–Lucknow, Munnar–RailJn-W, Nagpur–Hampi, Hampi–Jaipur, Jaipur–RailJn-SE, Shimla–RailJn-W, RailJn-W–Ahmedabad, RailJn-W–Chennai, RailJn-W–Puri, Ahmedabad–Tirupati, Chennai–Tirupati, Visakhapatnam–Bangalore, Bangalore–Konark, Konark–RailJn-SE, Amritsar–Pahalgam, Pahalgam–RailJn-SE, Pune–RailJn-SE, Pune–Agra, Mumbai–RailJn-SE, Varanasi–RailJn-SE");
+    const PLACES = Object.keys(N).filter((k) => !/Jn/.test(k));
+    const VP = { metro: 9, hub: 6, dest: 3 }, TAX = { metro: 3, hub: 2, dest: 1 }, UNLOCK = { road: 1, rail: 2, ferry: 3, plane: 5 };
+    const MODES = [{ k: "road", label: "Bus", img: "t-bus" }, { k: "rail", label: "Rail", img: "t-rail" }, { k: "ferry", label: "Ferry", img: "t-ferry" }, { k: "plane", label: "Plane", img: "t-plane" }];
+    const TNAME = { road: "bus", rail: "rail", ferry: "ferry", plane: "plane" };
+    const EVENTS = [
+      { kind: "neg", name: "Landslides in the Mountains", text: "Roads through Shimla, Ooty and Pahalgam are blocked.", r: 2, fx: { block: { mode: "road", nodes: ["Shimla", "Ooty", "Pahalgam"] } } },
+      { kind: "neg", name: "Railway Track Maintenance", text: "Rail travel through Yellow places is halted.", r: 1, fx: { block: { mode: "rail", colors: ["Y"] } } },
+      { kind: "neg", name: "Protests on the Golden Quadrilateral", text: "Roads through Delhi, Mumbai, Chennai and Kolkata are blocked.", r: 2, fx: { block: { mode: "road", nodes: ["Delhi", "Mumbai", "Chennai", "Kolkata"] } } },
+      { kind: "neg", name: "Heatwave in the North", text: "Travel through Green places costs one extra ticket.", r: 2, fx: { enterAdd: { colors: ["G"] } } },
+      { kind: "neg", name: "Union Dispute", text: "Travel through any Regional Hub costs one extra ticket.", r: 1, fx: { enterAdd: { types: ["hub"] } } },
+      { kind: "neg", name: "Cyclone on the East Coast", text: "Travel through Chennai, Visakhapatnam and Puri is blocked.", r: 1, fx: { block: { mode: "any", nodes: ["Chennai", "Visakhapatnam", "Puri"] } } },
+      { kind: "neg", name: "Widespread Signal Failure", text: "Rail moves go a single space only.", r: 2, fx: { maxSteps: { rail: 1 } } },
+      { kind: "neg", name: "Unexpected Fuel Price Hike", text: "Every bus move costs one extra ticket.", r: 1, fx: { moveAdd: { road: 1 } } },
+      { kind: "neg", name: "Poor Visibility on the Coasts", text: "Thick sea fog: all Air and Ferry travel is halted.", r: 1, fx: { halt: ["plane", "ferry"] } },
+      { kind: "neu", name: "Ticket Swap", text: "Everyone puts one ticket in a pile; it's shuffled and each takes one back.", r: 1, fx: { swap: true } },
+      { kind: "neu", name: "Infrastructure Priority", text: "Road and Rail moves get one free space.", r: 2, fx: { freeStep: ["road", "rail"] } },
+      { kind: "neu", name: "Major Detour", text: "Rail is blocked, but Road moves cost one ticket fewer.", r: 2, fx: { halt: ["rail"], moveAdd: { road: -1 } } },
+      { kind: "neu", name: "Rush Hour", text: "Road moves go two spaces at most.", r: 1, fx: { maxSteps: { road: 2 } } },
+      { kind: "neu", name: "Extreme Weather Alert", text: "Ferry junctions are blocked.", r: 1, fx: { block: { mode: "any", types: ["ferry-jn"] } } },
+      { kind: "neu", name: "Priority Boarding", text: "Player order is reversed for this round.", r: 1, fx: { reverse: true } },
+      { kind: "pos", name: "Peak Tourist Season in Rajasthan", text: "End in Jaipur or Jaisalmer: +1 Ferry, +2 Rail.", r: 2, fx: { endBonus: { nodes: ["Jaipur", "Jaisalmer"], give: { ferry: 1, rail: 2 } } } },
+      { kind: "pos", name: "Economic Boom", text: "Every player gets +1 Ferry and +1 Rail at the start of their turn.", r: 2, fx: { turnBonus: { ferry: 1, rail: 1 } } },
+      { kind: "pos", name: "Beach Carnival Season", text: "End in Goa or Kochi: +2 Ferry, +1 Rail.", r: 2, fx: { endBonus: { nodes: ["Goa", "Kochi"], give: { ferry: 2, rail: 1 } } } },
+      { kind: "pos", name: "Bollywood Film Awards in Mumbai", text: "Travel through any Metropolitan City is free.", r: 1, fx: { enterFree: { types: ["metro"] } } },
+      { kind: "pos", name: "Himalayan Summer Festival", text: "End in Shimla, Ooty or Pahalgam: +1 Road, +2 Rail.", r: 2, fx: { endBonus: { nodes: ["Shimla", "Ooty", "Pahalgam"], give: { road: 1, rail: 2 } } } },
+      { kind: "pos", name: "Open Rails Day", text: "All Rail travel is free.", r: 1, fx: { free: ["rail"] } },
+      { kind: "pos", name: "Off-Season Travel", text: "Movement through Red places is free.", r: 1, fx: { enterFree: { colors: ["R"] } } },
+      { kind: "pos", name: "South India Tech Summit", text: "End in Bangalore, Chennai or Hyderabad: +2 Road, +1 Rail.", r: 2, fx: { endBonus: { nodes: ["Bangalore", "Chennai", "Hyderabad"], give: { road: 2, rail: 1 } } } },
+      { kind: "pos", name: "Favourable Monsoon", text: "Ferry moves cost one ticket fewer.", r: 1, fx: { moveAdd: { ferry: -1 } } },
+      { kind: "pos", name: "Heritage Site Grants", text: "Visit Agra, Hampi, Konark, Khajuraho or Jaisalmer: +1 Ferry, +2 Road.", r: 2, fx: { endBonus: { nodes: ["Agra", "Hampi", "Konark", "Khajuraho", "Jaisalmer"], give: { ferry: 1, road: 2 } } } },
+      { kind: "pos", name: "Festival of Kites", text: "End on a Yellow place: +2 Road, +1 Rail.", r: 1, fx: { endBonus: { colors: ["Y"], give: { road: 2, rail: 1 } } } },
+      { kind: "pos", name: "New Express Highway", text: "Road travel through Green places is free.", r: 1, fx: { enterFree: { colors: ["G"], mode: "road" } } }
+    ];
+    const ACT = {
+      pickRoad: { name: "Pickpocket · Bus", text: "Steal a Bus ticket from an opponent.", target: true },
+      pickRail: { name: "Pickpocket · Train", text: "Steal a Train ticket from an opponent.", target: true },
+      pickFerry: { name: "Pickpocket · Ferry", text: "Steal a Ferry ticket from an opponent.", target: true },
+      black: { name: "Black Tickets", text: "Return one of your tickets and take two." },
+      chip: { name: "Chip In!", text: "An opponent gives you one ticket of their choice.", target: true },
+      hitch: { name: "Hitchhiker's Luck", text: "Move to any place next to you, for free." },
+      nmn: { name: "NO MEANS NO!", text: "Kept in hand: cancels an action played on you." },
+      quar: { name: "Quarantine", text: "Stop an opponent from moving next round.", target: true },
+      rival: { name: "Rivalry", text: "Take one Special Destination card from an opponent.", target: true },
+      dd: { name: "Double Decker", text: "Use two modes of transport this turn." }
+    };
+    const DECK = { pickRoad: 3, pickRail: 3, pickFerry: 3, black: 4, chip: 4, hitch: 5, nmn: 4, quar: 3, rival: 3, dd: 4 };
+    return { N, PLACES, VP, TAX, UNLOCK, MODES, TNAME, EVENTS, ACT, DECK, FACT };
+  })();
+
+  function rgames() {
+    $$("[data-rgame]").forEach((root) => {
+      const dir = root.dataset.rgame, { N, PLACES, VP, TAX, UNLOCK, MODES, TNAME, EVENTS, ACT, DECK, FACT } = RLV;
+      const svg = $(".rg-svg", root), hiG = $(".rg-hi", root), pegG = $(".rg-pegs", root), pawnG = $(".rg-pawns", root);
+      const side = $(".rg-side", root), over = $(".rg-over", root), card = $(".rg-card", root), logEl = $(".rg-log", root);
+      const COLORS = ["#E8553A", "#F2C230", "#3BB5E8", "#4CAF6A"], NAMES = ["You", "Asha", "Ravi", "Meera"];
+      const ROUNDS = 12;
+      const shuffle = (a) => { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+      const wait = (ms) => new Promise((r) => setTimeout(r, reduced ? Math.min(ms, 60) : ms));
+      let G = null, busy = false, pick = null;
+
+      const owned = (p) => PLACES.filter((k) => G.owner[k] === p.i);
+      const unlocked = (p, m) => owned(p).length >= UNLOCK[m];
+      const fxAll = () => G.active.map((e) => e.fx);
+      const isBlocked = (m, n) => fxAll().some((f) => f.block && (f.block.mode === "any" || f.block.mode === m) && ((f.block.nodes || []).includes(n) || (f.block.colors || []).includes(N[n].color) || (f.block.types || []).includes(N[n].type)));
+      const halted = (m) => fxAll().some((f) => (f.halt || []).includes(m));
+      const enterCost = (m, n) => {
+        let c = 1; const nd = N[n];
+        for (const f of fxAll()) {
+          if (f.free && f.free.includes(m)) return 0;
+          if (f.enterFree && (!f.enterFree.mode || f.enterFree.mode === m) && ((f.enterFree.types || []).includes(nd.type) || (f.enterFree.colors || []).includes(nd.color))) return 0;
+          if (f.enterAdd && ((f.enterAdd.types || []).includes(nd.type) || (f.enterAdd.colors || []).includes(nd.color))) c += 1;
+        }
+        return c;
+      };
+      const moveAdj = (m, steps) => { let a = 0; for (const f of fxAll()) { if (f.moveAdd && f.moveAdd[m]) a += f.moveAdd[m]; if (f.freeStep && f.freeStep.includes(m) && steps >= 2) a -= 1; } return a; };
+      const maxSteps = (m) => Math.min(99, ...fxAll().map((f) => (f.maxSteps && f.maxSteps[m]) || 99));
+      // Every node reachable with one mode: cheapest path within the player's tickets
+      function reach(p, m) {
+        const out = {}; if (!unlocked(p, m) || halted(m) || p.t[m] <= 0) return out;
+        if (m === "plane") { if (!N[p.pos].air) return out; Object.values(N).forEach((n) => { if (n.air && n.name !== p.pos && !isBlocked(m, n.name)) out[n.name] = { cost: 1, path: [p.pos, n.name] }; }); return out; }
+        const ms = maxSteps(m), best = { [p.pos]: { c: 0, s: 0, path: [p.pos] } }, q = [p.pos];
+        while (q.length) {
+          q.sort((a, b) => best[a].c - best[b].c); const u = q.shift(), bu = best[u];
+          if (bu.s >= ms) continue;
+          for (const v of N[u].adj[m]) {
+            if (isBlocked(m, v)) continue;
+            const c = bu.c + enterCost(m, v);
+            if (!best[v] || c < best[v].c || (c === best[v].c && bu.s + 1 < best[v].s)) { best[v] = { c, s: bu.s + 1, path: bu.path.concat(v) }; q.push(v); }
+          }
+        }
+        for (const [k, b] of Object.entries(best)) { if (k === p.pos) continue; const cost = Math.max(0, b.c + moveAdj(m, b.s)); if (cost <= p.t[m]) out[k] = { cost, path: b.path }; }
+        return out;
+      }
+      const score = (p) => { const o = owned(p); return o.reduce((s, k) => s + VP[N[k].type], 0) + p.t.road + p.t.rail + p.t.ferry + p.t.plane * 3; };
+      const log = (msg, who) => { const li = document.createElement("li"); li.innerHTML = (who ? `<i style="background:${who.col}"></i>` : "") + esc(msg); logEl.prepend(li); while (logEl.children.length > 7) logEl.lastChild.remove(); };
+
+      // ---------- drawing ----------
+      function drawPegs() {
+        pegG.innerHTML = PLACES.filter((k) => G.owner[k] != null).map((k) => { const n = N[k], c = G.players[G.owner[k]].col; return `<g transform="translate(${n.x + 34} ${n.y - 40})"><circle r="15" fill="${c}" stroke="#111" stroke-width="4"/><circle r="5" fill="#111" opacity=".35"/></g>`; }).join("");
+      }
+      function drawPawns() {
+        const at = {}; G.players.forEach((p) => { (at[p.pos] = at[p.pos] || []).push(p); });
+        if (pawnG.children.length !== G.players.length) pawnG.innerHTML = G.players.map((p) => `<g class="rg-pawn" data-p="${p.i}"><g class="rg-bob"><ellipse rx="22" ry="8" cy="26" fill="#000" opacity=".35"/><path d="M-16 22 C-16 0 -10 -8 0 -8 C10 -8 16 0 16 22 Z" fill="${p.col}" stroke="#111" stroke-width="4"/><circle cy="-20" r="14" fill="${p.col}" stroke="#111" stroke-width="4"/></g></g>`).join("");
+        G.players.forEach((p) => { const n = N[p.pos], list = at[p.pos], k = list.indexOf(p), off = (k - (list.length - 1) / 2) * 30, el = pawnG.children[p.i];
+          el.style.transform = `translate(${n.x + off}px,${n.y + 12}px)`; el.classList.toggle("cur", p.i === G.turn && !G.done); });
+      }
+      function drawHi(opts) {
+        hiG.innerHTML = Object.entries(opts || {}).map(([k, o]) => { const n = N[k], claim = !/Jn/.test(k) && G.owner[k] == null;
+          return `<g class="rg-opt${claim ? " claim" : ""}" data-n="${esc(k)}" transform="translate(${n.x} ${n.y})"><circle r="46" class="rg-ring"/><circle r="62" fill="transparent"/><g transform="translate(40 34)"><circle r="20" class="rg-cost"/><text y="7" text-anchor="middle">${o.cost}</text></g></g>`; }).join("");
+      }
+      const tk = (p) => MODES.map((m) => `<span class="rg-tk rg-${m.k}${unlocked(p, m.k) ? "" : " lock"}" title="${m.label}">${p.t[m.k]}</span>`).join("");
+      function drawSide() {
+        const me = G.players[0], ev = G.active.length ? G.active : [];
+        $(".rg-round", root).textContent = G.done ? "Final scores" : `Round ${G.round} of ${ROUNDS}`;
+        $(".rg-event", root).innerHTML = ev.map((e) => `<div class="rg-ev ${e.kind}"><b>${esc(e.name)}</b><p>${esc(e.text)}</p><span class="mono">${e.left} round${e.left > 1 ? "s" : ""} left</span></div>`).join("") || `<div class="rg-ev none"><p>No event in play.</p></div>`;
+        $(".rg-players", root).innerHTML = G.players.map((p) => `<li class="${p.i === G.turn && !G.done ? "on" : ""}${p.skip ? " q" : ""}"><span class="rg-pn"><i style="background:${p.col}"></i>${esc(p.name)}${p.skip ? " · quarantined" : ""}</span><span class="rg-pv mono">${score(p)} VP</span><span class="rg-pt">${tk(p)}</span><span class="rg-ph mono">${owned(p).length} places · ${p.hand.length} card${p.hand.length === 1 ? "" : "s"}</span></li>`).join("");
+        const mine = G.turn === 0 && !busy && !G.done && G.phase === "move";
+        $(".rg-modes", root).innerHTML = MODES.map((m) => { const ok = mine && Object.keys(reach(me, m.k)).length > 0 && !(G.ddUsed && G.ddUsed === m.k);
+          const why = !unlocked(me, m.k) ? `Own ${UNLOCK[m.k]} place${UNLOCK[m.k] > 1 ? "s" : ""}` : halted(m.k) ? "Halted" : me.t[m.k] <= 0 ? "No tickets" : m.k === "plane" && !N[me.pos].air ? "No airport here" : "";
+          return `<button type="button" class="rg-mode${G.mode === m.k ? " on" : ""}" data-mode="${m.k}"${ok ? "" : " disabled"}><img src="${dir}/${m.img}.webp" alt=""><span><b>${m.label}</b><small class="mono">${why || me.t[m.k] + " ticket" + (me.t[m.k] === 1 ? "" : "s")}</small></span></button>`; }).join("");
+        $(".rg-hand", root).innerHTML = me.hand.length ? me.hand.map((c, i) => `<button type="button" class="rg-act" data-act="${i}"${mine && !G.acted && c !== "nmn" ? "" : " disabled"}><b>${esc(ACT[c].name)}</b><small>${esc(ACT[c].text)}</small></button>`).join("") : `<p class="rg-empty">No action cards yet. Pass through a junction to draw one.</p>`;
+        const onJn = /Jn/.test(me.pos);
+        $(".rg-extra", root).innerHTML = mine ? `${onJn && !G.ddUsed ? `<button type="button" class="btn ghost rg-chai">Chai time</button>` : ""}<button type="button" class="btn ghost rg-pass">${G.ddUsed ? "End turn" : "Pass"}</button>` : "";
+      }
+      const say = (html) => { $(".rg-prompt", root).innerHTML = html || ""; };
+      async function postcard(k, p) {
+        const n = N[k]; card.innerHTML = `<div class="rg-pc rg-${n.type}"><img src="${dir}/postcard-front.webp" alt=""><div><span class="mono">${n.type === "metro" ? "Metropolitan" : n.type === "hub" ? "Regional Hub" : "Special Destination"} · +${VP[n.type]} VP</span><h4>${esc(k)}</h4><p>${esc(FACT[k] || "")}</p><small><i style="background:${p.col}"></i>${esc(p.name)} ${p.i ? "claims" : "claim"} it</small></div></div>`;
+        card.hidden = false; card.classList.remove("in"); void card.offsetWidth; card.classList.add("in");
+        await wait(p.i ? 1500 : 2100); card.hidden = true;
+      }
+
+      // ---------- rules ----------
+      const drawAction = (p) => { if (p.hand.length >= 3) return null; if (!G.adeck.length) G.adeck = shuffle(Object.entries(DECK).flatMap(([k, v]) => Array(v).fill(k))); const c = G.adeck.pop(); p.hand.push(c); return c; };
+      const give = (p, g) => Object.entries(g).forEach(([m, v]) => { p.t[m] = Math.max(0, p.t[m] + v); });
+      const gstr = (g) => Object.entries(g).map(([m, v]) => `+${v} ${TNAME[m]}`).join(", ");
+      async function walk(p, path) {
+        for (let i = 1; i < path.length; i++) { p.pos = path[i]; drawPawns(); await wait(230); }
+      }
+      async function doMove(p, m, dest, opt) {
+        busy = true; drawHi(null); drawSide();
+        p.t[m] -= opt.cost; await walk(p, opt.path);
+        log(`${p.name} took the ${TNAME[m]} to ${dest}${opt.cost ? ` (${opt.cost} ticket${opt.cost > 1 ? "s" : ""})` : " for free"}.`, p);
+        for (const k of opt.path.slice(1)) if (/Jn/.test(k)) { const c = drawAction(p); if (c) log(`${p.name} passed a junction and drew ${p.i ? "an action card" : ACT[c].name}.`, p); }
+        await arrive(p, dest);
+        busy = false;
+      }
+      async function arrive(p, k) {
+        if (!/Jn/.test(k) && G.owner[k] == null) { G.owner[k] = p.i; drawPegs(); log(`${p.name} claimed ${k}.`, p); haptic(p.i ? "tick" : "success"); await postcard(k, p); }
+        for (const f of fxAll()) if (f.endBonus && ((f.endBonus.nodes || []).includes(k) || (f.endBonus.colors || []).includes(N[k].color))) { give(p, f.endBonus.give); log(`${p.name} got ${gstr(f.endBonus.give)} in ${k}.`, p); }
+        drawSide();
+      }
+      // An action played on someone: NO MEANS NO cancels it
+      const blocked = (t, by) => { const i = t.hand.indexOf("nmn"); if (i < 0) return false; t.hand.splice(i, 1); log(`${t.name} played NO MEANS NO! on ${by.name}.`, t); return true; };
+      async function play(p, ci, target, choice) {
+        const c = p.hand.splice(ci, 1)[0]; G.acted = true; log(`${p.name} played ${ACT[c].name}${target ? ` on ${target.name}` : ""}.`, p);
+        if (target && blocked(target, p)) { drawSide(); return; }
+        if (c.startsWith("pick")) { const m = { pickRoad: "road", pickRail: "rail", pickFerry: "ferry" }[c]; if (target.t[m] > 0) { target.t[m]--; p.t[m]++; } else log(`${target.name} had no ${TNAME[m]} tickets.`, target); }
+        if (c === "chip") { const m = ["road", "rail", "ferry"].sort((a, b) => target.t[b] - target.t[a])[0]; if (target.t[m] > 0) { target.t[m]--; p.t[m]++; log(`${target.name} chipped in a ${TNAME[m]} ticket.`, target); } }
+        if (c === "black") { const m = choice || ["road", "rail", "ferry"].sort((a, b) => p.t[a] - p.t[b])[0], r = ["road", "rail", "ferry"].filter((x) => x !== m).sort((a, b) => p.t[b] - p.t[a])[0]; if (p.t[r] > 0) p.t[r]--; p.t[m] += 2; log(`${p.name} swapped a ${TNAME[r]} ticket for two ${TNAME[m]}.`, p); }
+        if (c === "quar") target.skip = true;
+        if (c === "rival") { const ds = PLACES.filter((k) => G.owner[k] === target.i && N[k].type === "dest"); if (ds.length) { const k = ds[Math.floor(Math.random() * ds.length)]; G.owner[k] = p.i; drawPegs(); log(`${p.name} took ${k} from ${target.name}.`, p); } }
+        if (c === "dd") G.dd = true;
+        if (c === "hitch") { G.hitch = true; }
+        drawSide();
+      }
+      const neighbours = (k) => [...new Set([...N[k].adj.road, ...N[k].adj.rail, ...N[k].adj.ferry])].filter((v) => !fxAll().some((f) => f.block && f.block.mode === "any" && ((f.block.nodes || []).includes(v) || (f.block.types || []).includes(N[v].type))));
+
+      // ---------- turns ----------
+      async function startRound() {
+        G.active.forEach((e) => e.left--); G.active = G.active.filter((e) => e.left > 0);
+        if (!G.edeck.length) G.edeck = shuffle(EVENTS.slice());
+        const e = Object.assign({}, G.edeck.pop()); e.left = e.r; G.active.push(e);
+        log(`Event: ${e.name}.`); drawSide();
+        if (e.fx.swap) { const pile = G.players.map((p) => { const m = ["road", "rail", "ferry"].filter((x) => p.t[x] > 0).sort((a, b) => p.t[b] - p.t[a])[0]; if (m) p.t[m]--; return m; }).filter(Boolean); shuffle(pile); G.players.forEach((p, i) => { if (pile[i]) p.t[pile[i]]++; }); log("Everyone swapped a ticket."); }
+        G.order = G.players.map((p) => p.i); if (e.fx.reverse || G.active.some((x) => x.fx.reverse)) G.order.reverse();
+        G.oi = 0; await nextTurn();
+      }
+      async function nextTurn() {
+        if (G.done) return;
+        if (PLACES.every((k) => G.owner[k] != null)) return finish("Every place on the map has been claimed.");
+        if (G.oi >= G.order.length) { G.round++; if (G.round > ROUNDS) return finish("The last round is over."); return startRound(); }
+        const p = G.players[G.order[G.oi++]]; G.turn = p.i; G.mode = null; G.acted = false; G.dd = false; G.ddUsed = null; G.hitch = false; G.phase = "move"; pick = null;
+        for (const f of fxAll()) if (f.turnBonus) give(p, f.turnBonus);
+        drawPawns(); drawSide();
+        if (p.skip) { p.skip = false; log(`${p.name} is quarantined and sits this one out.`, p); await wait(700); return nextTurn(); }
+        if (p.i === 0) { say(`<b>Your turn.</b> Pick a ticket to travel${p.hand.length ? ", or play an action card first" : ""}.`); return; }
+        say(`<b>${esc(p.name)}</b> is thinking…`); await wait(650); await aiTurn(p); await wait(300); return nextTurn();
+      }
+      async function endHuman() { G.phase = "wait"; G.mode = null; drawHi(null); say(""); drawSide(); await wait(250); await nextTurn(); }
+
+      // ---------- the computer travellers ----------
+      const valueAt = (p, k) => { let v = !/Jn/.test(k) && G.owner[k] == null ? VP[N[k].type] : 0; for (const f of fxAll()) if (f.endBonus && ((f.endBonus.nodes || []).includes(k) || (f.endBonus.colors || []).includes(N[k].color))) v += 2; return v; };
+      const distToFree = (k) => { const seen = { [k]: 0 }, q = [k]; while (q.length) { const u = q.shift(); if (u !== k && !/Jn/.test(u) && G.owner[u] == null) return seen[u]; for (const v of neighbours(u)) if (seen[v] == null) { seen[v] = seen[u] + 1; q.push(v); } } return 9; };
+      function bestMove(p, skip) {
+        let best = null;
+        for (const m of MODES.map((x) => x.k)) { if (m === skip) continue; const r = reach(p, m);
+          for (const [k, o] of Object.entries(r)) { const jn = o.path.slice(1).filter((x) => /Jn/.test(x)).length; const v = valueAt(p, k);
+            const s = v > 0 ? v * 1.4 - o.cost * (m === "plane" ? 2.4 : 1) + jn * 0.6 : -distToFree(k) * 1.2 - o.cost * 0.9 + jn * 0.6 - 2;
+            if (!best || s > best.s) best = { m, k, o, s }; } }
+        return best;
+      }
+      async function aiTurn(p) {
+        const others = G.players.filter((x) => x !== p), leader = others.slice().sort((a, b) => score(b) - score(a))[0];
+        const has = (c) => p.hand.indexOf(c);
+        if (has("hitch") >= 0) { const nb = neighbours(p.pos).filter((k) => !/Jn/.test(k) && G.owner[k] == null).sort((a, b) => VP[N[b].type] - VP[N[a].type])[0]; if (nb) { await play(p, has("hitch")); await wait(400); busy = true; await walk(p, [p.pos, nb]); log(`${p.name} hitched a ride to ${nb}.`, p); await arrive(p, nb); busy = false; return; } }
+        if (!G.acted) {
+          const pk = p.hand.findIndex((c) => c.startsWith("pick")); const rv = has("rival"), qu = has("quar"), ch = has("chip"), bl = has("black");
+          if (rv >= 0 && PLACES.some((k) => G.owner[k] === leader.i && N[k].type === "dest") && Math.random() < 0.7) { await play(p, rv, leader); await wait(500); }
+          else if (qu >= 0 && Math.random() < 0.5) { await play(p, qu, leader); await wait(500); }
+          else if (pk >= 0) { await play(p, pk, others.slice().sort((a, b) => (b.t.road + b.t.rail + b.t.ferry) - (a.t.road + a.t.rail + a.t.ferry))[0]); await wait(500); }
+          else if (ch >= 0 && Math.random() < 0.6) { await play(p, ch, leader); await wait(500); }
+          else if (bl >= 0 && ["road", "rail", "ferry"].some((m) => p.t[m] === 0)) { await play(p, bl); await wait(500); }
+          else if (has("dd") >= 0 && Math.random() < 0.5) { await play(p, has("dd")); await wait(400); }
+        }
+        let mv = bestMove(p);
+        if (/Jn/.test(p.pos) && (!mv || mv.s < -3) && (p.t.road + p.t.rail + p.t.ferry) > 0) { chai(p, true); log(`${p.name} stopped for chai and swapped tickets.`, p); drawSide(); return; }
+        if (!mv) { log(`${p.name} stayed put.`, p); return; }
+        await doMove(p, mv.m, mv.k, mv.o);
+        if (G.dd) { G.dd = false; const m2 = bestMove(p, mv.m); if (m2 && m2.s > 0) { await wait(400); await doMove(p, m2.m, m2.k, m2.o); } }
+      }
+      // Chai time: even out bus, rail and ferry tickets
+      function chai(p, auto) { const ks = ["road", "rail", "ferry"], tot = ks.reduce((s, m) => s + p.t[m], 0), base = Math.floor(tot / 3); let rem = tot - base * 3; ks.forEach((m) => { p.t[m] = base + (rem-- > 0 ? 1 : 0); }); }
+
+      // ---------- setup and the end ----------
+      function setup(n) {
+        G = { players: [], owner: {}, active: [], edeck: shuffle(EVENTS.slice()), adeck: shuffle(Object.entries(DECK).flatMap(([k, v]) => Array(v).fill(k))), round: 1, turn: 0, order: [], oi: 0, done: false };
+        const homes = shuffle(PLACES.slice());
+        for (let i = 0; i < n; i++) {
+          const p = { i, name: NAMES[i], col: COLORS[i], t: { road: 6, rail: 6, ferry: 6, plane: 2 }, hand: [], skip: false }, h = homes.pop(), tax = TAX[N[h].type];
+          p.pos = h; G.owner[h] = i; p.t.road -= tax; p.t.rail -= tax; p.t.ferry -= tax; G.players.push(p);
+          log(`${p.name} ${i ? "starts" : "start"} in ${h} and ${i ? "pays" : "pay"} the lifestyle tax.`, p);
+        }
+        pawnG.innerHTML = ""; drawPegs(); drawPawns(); over.hidden = true; root.classList.add("live");
+      }
+      function finish(why) {
+        G.done = true; G.phase = "over"; drawHi(null);
+        const rows = G.players.map((p) => { const o = owned(p); return { p, vp: score(p), places: o.reduce((s, k) => s + VP[N[k].type], 0), tickets: p.t.road + p.t.rail + p.t.ferry + p.t.plane * 3, metros: o.filter((k) => N[k].type === "metro").length, raw: p.t.road + p.t.rail + p.t.ferry + p.t.plane }; })
+          .sort((a, b) => b.vp - a.vp || b.metros - a.metros || b.raw - a.raw);
+        const win = rows[0].p;
+        over.innerHTML = `<div class="rg-end"><span class="label">${esc(why)}</span><h3>${win.i ? esc(win.name) + " wins the journey." : "You win the journey."}</h3>
+          <table><thead><tr><th></th><th>Places</th><th>Tickets</th><th>VP</th></tr></thead><tbody>${rows.map((r) => `<tr><td><i style="background:${r.p.col}"></i>${esc(r.p.name)}</td><td>${r.places}</td><td>${r.tickets}</td><td><b>${r.vp}</b></td></tr>`).join("")}</tbody></table>
+          <p class="mono">Places score 3, 6 or 9. Each leftover bus, rail or ferry ticket scores 1, each plane ticket 3. Ties go to most Metros, then most tickets.</p>
+          <button type="button" class="btn rg-again">Play again</button></div>`;
+        over.hidden = false; drawSide(); say("");
+      }
+      function intro() {
+        over.innerHTML = `<div class="rg-intro"><img src="${dir}/title-board.webp" alt="Rasta La Vista title board"><div><span class="label">Travel India, claim places</span><h3>Plan your route.</h3>
+          <p>Draw a hometown, pay its lifestyle tax, then spend bus, rail, ferry and plane tickets to travel the printed routes and claim places before anyone else. Events change the rules every round; junctions hand you action cards.</p>
+          <div class="rg-count"><span class="mono">Travellers</span>${[2, 3, 4].map((n) => `<button type="button" class="rg-n${n === 3 ? " on" : ""}" data-n="${n}">${n}</button>`).join("")}</div>
+          <button type="button" class="btn rg-start">Start the journey</button></div></div>`;
+        over.hidden = false;
+      }
+
+      // ---------- input ----------
+      root.addEventListener("click", async (e) => {
+        const t = e.target;
+        if (t.closest(".rg-n")) { $$(".rg-n", root).forEach((b) => b.classList.toggle("on", b === t.closest(".rg-n"))); return; }
+        if (t.closest(".rg-start")) { const n = +($(".rg-n.on", root) || {}).dataset?.n || 3; logEl.innerHTML = ""; setup(n); drawSide(); await startRound(); return; }
+        if (t.closest(".rg-again")) { intro(); root.classList.remove("live"); return; }
+        if (t.closest(".rg-card")) { card.hidden = true; return; }
+        if (!G || G.done || G.turn !== 0 || busy) return;
+        const me = G.players[0];
+        const mb = t.closest(".rg-mode"); if (mb && !mb.disabled) { const m = mb.dataset.mode; G.mode = m; G.hitch = false; pick = reach(me, m); drawHi(pick); drawSide(); say(`Tap a highlighted place. The number is what it costs in ${TNAME[m]} tickets.`); haptic("tick"); return; }
+        const ab = t.closest(".rg-act"); if (ab && !ab.disabled) {
+          const ci = +ab.dataset.act, c = me.hand[ci];
+          if (ACT[c].target) { say(`<b>${esc(ACT[c].name)}</b> on whom? ${G.players.slice(1).map((o) => `<button type="button" class="rg-tgt" data-t="${o.i}" data-c="${ci}"><i style="background:${o.col}"></i>${esc(o.name)}</button>`).join("")}`); return; }
+          if (c === "black") { say(`<b>Black Tickets:</b> take two of ${["road", "rail", "ferry"].map((m) => `<button type="button" class="rg-tgt" data-b="${m}" data-c="${ci}">${TNAME[m]}</button>`).join("")}`); return; }
+          await play(me, ci);
+          if (c === "hitch") { const nb = neighbours(me.pos); pick = Object.fromEntries(nb.map((k) => [k, { cost: 0, path: [me.pos, k] }])); G.mode = "hitch"; drawHi(pick); say("Hitchhiker's Luck: tap any place next to you."); }
+          if (c === "dd") say("Double Decker: make two moves this turn, each with a different ticket.");
+          return;
+        }
+        const tg = t.closest(".rg-tgt"); if (tg) { const ci = +tg.dataset.c; if (tg.dataset.b) await play(me, ci, null, tg.dataset.b); else await play(me, ci, G.players[+tg.dataset.t]); say("Now pick a ticket to travel."); drawSide(); return; }
+        if (t.closest(".rg-chai")) { chai(me); log("You stopped for chai and evened out your tickets.", me); await endHuman(); return; }
+        if (t.closest(".rg-pass")) { log(G.ddUsed ? "You ended your turn." : "You passed.", me); await endHuman(); return; }
+        const opt = t.closest(".rg-opt"); if (opt && pick) {
+          const k = opt.dataset.n, o = pick[k]; if (!o) return;
+          if (G.mode === "hitch") { busy = true; drawHi(null); await walk(me, o.path); log(`You hitched a ride to ${k}.`, me); await arrive(me, k); busy = false; return endHuman(); }
+          const m = G.mode; await doMove(me, m, k, o); pick = null;
+          if (G.dd && !G.ddUsed) { G.ddUsed = m; G.mode = null; drawSide(); say("Double Decker: make a second move with a different ticket, or end your turn."); return; }
+          return endHuman();
+        }
+      });
+      intro();
+    });
+  }
+
+  // Moo: plays once when it scrolls in, again on every tap
+  function moos() {
+    $$("[data-moo]").forEach((st) => {
+      const play = () => { st.classList.remove("go"); void st.offsetWidth; st.classList.add("go"); };
+      st.addEventListener("click", () => { play(); haptic("tick"); });
+      if (reduced) { st.classList.add("go", "still"); return; }
+      const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { play(); io.disconnect(); } }), { threshold: 0.5 });
+      io.observe(st);
+    });
+  }
+  // Geometrica: each card is a set of frames and where they sit relative to the first one
+  function buildits() {
+    const s = 120, h = s * Math.sqrt(3) / 2, P = (a) => a.map((q) => q.join(",")).join(" ");
+    const up = [[0, h], [s, h], [s / 2, 0]], down = [[0, 0], [s, 0], [s / 2, h]];
+    const CARDS = [
+      { q: "Build the shape that is made of two triangles placed next to each other.", a: "A. Rhombus", pieces: [{ pts: up, at: [0, 0] }, { pts: down, at: [s / 2, 0] }] },
+      { q: "Make a square from two right-angled triangles.", a: "A. Square", pieces: [{ pts: [[0, 0], [s, 0], [0, s]], at: [0, 0] }, { pts: [[s, 0], [s, s], [0, s]], at: [0, 0] }] },
+      { q: "Place three triangles side by side, alternating up and down. What do you get?", a: "A. Trapezium", pieces: [{ pts: up, at: [0, 0] }, { pts: down, at: [s / 2, 0] }, { pts: up, at: [s, 0] }] }
+    ];
+    const COL = ["#F08A24", "#2BA6A0", "#E8B526"];
+    $$("[data-buildit]").forEach((bd) => {
+      const root = bd.closest(".bi"), svg = $("svg", bd), g = $(".bi-pieces", bd), clue = $(".bi-clue", root), ans = $(".bi-ans", root), tm = $(".bi-time", root);
+      let ci = 0, pos = [], drag = null, t0 = 0, done = false, tick = 0;
+      const pt = (e) => { const m = svg.getScreenCTM().inverse(); return { x: e.clientX * m.a + e.clientY * m.c + m.e, y: e.clientX * m.b + e.clientY * m.d + m.f }; };
+      const draw = () => { const c = CARDS[ci]; g.innerHTML = c.pieces.map((p, i) => `<polygon class="bi-p" data-i="${i}" points="${P(p.pts)}" transform="translate(${pos[i].x.toFixed(1)} ${pos[i].y.toFixed(1)})" style="--c:${COL[i % 3]}"/>`).join(""); };
+      const load = () => {
+        const c = CARDS[ci]; done = false; t0 = 0; tm.textContent = "0.0 s"; clue.textContent = c.q; ans.textContent = ""; root.classList.remove("solved");
+        const slots = [[50, 240], [250, 60], [420, 230], [360, 40]];
+        pos = c.pieces.map((_, i) => ({ x: slots[(i + ci) % 4][0], y: slots[(i + ci) % 4][1] })); draw();
+      };
+      const check = () => {
+        const c = CARDS[ci], o = pos[0];
+        const ok = c.pieces.every((p, i) => Math.hypot(pos[i].x - o.x - p.at[0], pos[i].y - o.y - p.at[1]) < 16);
+        if (!ok) return;
+        c.pieces.forEach((p, i) => { pos[i] = { x: o.x + p.at[0], y: o.y + p.at[1] }; }); draw();
+        done = true; root.classList.add("solved"); ans.textContent = `${c.a} · built in ${((performance.now() - t0) / 1000).toFixed(1)} s`; haptic("success");
+      };
+      const timer = () => { tick = 0; if (!bd.isConnected || done || !t0) return; tm.textContent = ((performance.now() - t0) / 1000).toFixed(1) + " s"; tick = requestAnimationFrame(timer); };
+      bd.addEventListener("pointerdown", (e) => {
+        const el = e.target.closest(".bi-p"); if (!el || done) return;
+        const i = +el.dataset.i, p = pt(e); drag = { i, dx: p.x - pos[i].x, dy: p.y - pos[i].y }; bd.setPointerCapture(e.pointerId); e.preventDefault();
+        g.appendChild(el); if (!t0) { t0 = performance.now(); if (!tick) tick = requestAnimationFrame(timer); }
+      });
+      bd.addEventListener("pointermove", (e) => {
+        if (!drag) return; const p = pt(e), el = $(`.bi-p[data-i="${drag.i}"]`, g);
+        pos[drag.i] = { x: Math.max(-40, Math.min(560, p.x - drag.dx)), y: Math.max(-40, Math.min(380, p.y - drag.dy)) };
+        el.setAttribute("transform", `translate(${pos[drag.i].x.toFixed(1)} ${pos[drag.i].y.toFixed(1)})`);
+      });
+      const up2 = () => { if (!drag) return; drag = null; check(); };
+      bd.addEventListener("pointerup", up2); bd.addEventListener("pointercancel", up2);
+      $(".bi-next", root).addEventListener("click", () => { ci = (ci + 1) % CARDS.length; load(); });
+      load();
+    });
+  }
   function fgames() {
     $$("[data-fgame]").forEach((st) => {
       const dir = st.dataset.fgame, cv = $("canvas", st), ctx = cv.getContext("2d"), over = $(".fg-over", st), msg = $(".fg-msg", st), go = $(".fg-go", st);
@@ -2351,7 +2754,7 @@
     if (r.page === "work") { /* nothing extra */ }
     if (r.page === "films") { dvd(); mapSync(); scenes(); }
     footerFx(); howBoards(); xrRooms(); if (r.page === "xr-design") xrBoot(); reveal(); countUp(); splitHeads(); scrubs(); screenStates(); tilts(); gaze(); roiDials(); panos();
-    pins(); charts(); compares(); cbsims(); tins(); watches(); fgames(); reqmaps(); videos(); visualHero();
+    pins(); charts(); compares(); cbsims(); tins(); watches(); fgames(); rgames(); moos(); buildits(); reqmaps(); videos(); visualHero();
     if (r.page === "p") { const pr = S.projects.find((x) => x.id === r.id); if (pr) xrHero(pr); }
     if (r.page === "p") $$(LB, $("#main")).forEach((im) => { if (!im.closest("a")) { im.classList.add("lb-able"); im.setAttribute("tabindex", "0"); im.setAttribute("role", "button"); } });
     // XR area page: the frame leans toward the pointer

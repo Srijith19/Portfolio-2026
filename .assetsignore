@@ -1,0 +1,8 @@
+# Files that stay in the repository but are not published on the site
+.git
+.github
+wrangler.jsonc
+.assetsignore
+README.md
+node_modules
+.DS_Store

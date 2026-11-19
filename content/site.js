@@ -94,7 +94,7 @@ window.SITE = {
   // Home page tabs, and the three discipline pages. `projects` are the ones shown, in this order; `more` are named in one small line under them.
   // To add a video: put a muted .mp4 in assets/video/ and set video: "assets/video/area-ux.mp4".
   areas: [
-    { key: "ux", slug: "ux-design", label: "UX Design", short: "UX", disciplines: ["UX"], projects: ["texgenie", "dignity", "shoetime", "gpay-wrist", "internshala"], leadWide: true, more: ["kego-care", "dreambig", "jiosaavn", "cookr", "kalviexpert"],
+    { key: "ux", slug: "ux-design", label: "UX Design", short: "UX", disciplines: ["UX"], projects: ["texgenie", "dignity", "shoetime", "gpay-wrist", "internshala"], leadWide: true, more: ["kego-care", "dreambig", "jiosaavn", "cookr", "kalviexpert", "youtube-redesign", "conversational-ux"],
       line: "UX projects addressing uncommon, real-world problems through research-driven design.",
       // The board in the UX page's header: each step, one line, and where it happened in my projects
       how: [
@@ -110,10 +110,10 @@ window.SITE = {
           { p: "shoetime", t: "Validated with stakeholders, reviewed by faculty from IISc Bengaluru" }, { p: "internshala", t: "Benchmarked against LinkedIn and Glassdoor" }, { p: "texgenie", t: "Tested the spine with updates arriving out of order" } ] }
       ],
       video: "", poster: "assets/img/projects/gpay-wrist/cover.webp", pagePoster: "assets/img/projects/internshala/hero.webp" },
-    { key: "xr", slug: "xr-design", label: "XR Design", short: "XR", disciplines: ["XR"], tone: "deep", projects: ["atelier-xr", "immerse-editor-pro", "reven-vr", "who-vr"], more: ["vannavision"],
+    { key: "xr", slug: "xr-design", label: "XR Design", short: "XR", disciplines: ["XR"], tone: "deep", projects: ["atelier-xr", "immerse-editor-pro", "reven-vr", "who-vr", "uxplore"], more: ["vannavision"],
       line: "Immersive experiences exploring interaction, narrative, and presence through XR design.",
       video: "", poster: "assets/img/projects/immerse-editor-pro/cover.webp" },
-    { key: "gg", slug: "graphics-and-games", label: "Graphics and Games", short: "Graphics & Games", disciplines: ["Game", "Visual", "Physical"], tone: "night", projects: ["reven-vr", "akai-tsuki", "rasta-la-vista", "fredrick-runs", "native-packaging"], more: false,
+    { key: "gg", slug: "graphics-and-games", label: "Graphics and Games", short: "Graphics & Games", disciplines: ["Game", "Visual", "Physical"], tone: "night", projects: ["reven-vr", "akai-tsuki", "rasta-la-vista", "fredrick-runs", "native-packaging", "type-and-image", "geometrica"], more: ["green-grocer", "spatial-pod"],
       line: "Games, worldbuilding and visual media.",
       video: "", poster: "assets/img/projects/akai-tsuki/render-wall.webp" }
   ],

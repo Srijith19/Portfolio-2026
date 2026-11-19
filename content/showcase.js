@@ -170,13 +170,36 @@ SITE.showcase = {
   ],
 
   "rasta-la-vista": [
-    { type: "hscroll", title: "The game", items: [
-      { src: "assets/img/projects/rasta-la-vista/board.webp", caption: "The board", ar: "1 / 1" },
-      { src: "assets/img/projects/rasta-la-vista/cards.webp", caption: "The cards", ar: "4 / 3" },
-      { src: "assets/img/projects/rasta-la-vista/box.webp", caption: "The box", ar: "4 / 3" },
-      { src: "assets/img/projects/rasta-la-vista/playtest.webp", caption: "Playtesting", ar: "16 / 10" }
+    // Playable: the printed map, the routes traced from it, the real event and action cards
+    { type: "rgame", dir: "assets/img/projects/rasta-la-vista", title: "Play a journey.", text: "The printed board with its routes traced, the ticket, event and action cards from the game, and up to three computer travellers. Events that rotate the junction tiles are left out of this digital version." },
+    { type: "images", items: [
+      { src: "assets/img/projects/rasta-la-vista/concept.webp", caption: "How do you teach India's geography in a way that's fun?" }
     ] },
-    { type: "video", title: "A round, played", src: "assets/video/rasta-la-vista.mp4", caption: "A short muted loop of a playtest goes here." }
+    { type: "note", entry: 2, side: "right" },
+    { type: "images", items: [
+      { src: "assets/img/projects/rasta-la-vista/mechanics.webp", caption: "Ideation: rivers, roads and railways as coloured dots on hex edges" },
+      { src: "assets/img/projects/rasta-la-vista/proof.webp", caption: "Proof of concept: routes across swappable numbered tiles" }
+    ] },
+    { type: "note", entry: 3 },
+    { type: "images", items: [ { src: "assets/img/projects/rasta-la-vista/lofi.webp", caption: "Paper prototypes and the first playtests" } ] },
+    { type: "note", entry: 4, side: "right" },
+    { type: "images", items: [
+      { src: "assets/img/projects/rasta-la-vista/tiles.webp", caption: "Interlocking edges: a tile can't connect the wrong way" },
+      { src: "assets/img/projects/rasta-la-vista/pegs.webp", caption: "Pegs mark the places you've claimed" }
+    ] },
+    { type: "hscroll", title: "The pieces", items: [
+      { src: "assets/img/projects/rasta-la-vista/t-bus.webp", caption: "Bus ticket: own 1 place to unlock", ar: "570 / 253" },
+      { src: "assets/img/projects/rasta-la-vista/t-rail.webp", caption: "Rail ticket: own 2", ar: "570 / 253" },
+      { src: "assets/img/projects/rasta-la-vista/t-ferry.webp", caption: "Ferry ticket: own 3", ar: "570 / 253" },
+      { src: "assets/img/projects/rasta-la-vista/t-plane.webp", caption: "Plane ticket: own 5", ar: "570 / 253" },
+      { src: "assets/img/projects/rasta-la-vista/card-double-decker.webp", caption: "Action card", ar: "300 / 463" },
+      { src: "assets/img/projects/rasta-la-vista/card-pickpocket.webp", caption: "Action card", ar: "300 / 463" },
+      { src: "assets/img/projects/rasta-la-vista/events.webp", caption: "The event deck", ar: "300 / 463" },
+      { src: "assets/img/projects/rasta-la-vista/postcard-back.webp", caption: "A place card, with a fact on the back", ar: "600 / 389" },
+      { src: "assets/img/projects/rasta-la-vista/passport.webp", caption: "The rulebook, as a passport", ar: "900 / 652" }
+    ] },
+    { type: "note", entry: 5 },
+    { type: "images", items: [ { src: "assets/img/projects/rasta-la-vista/build.webp", caption: "Laser-cutting the acrylic tiles" } ] }
   ],
 
   "shape-chase": [
@@ -216,5 +239,111 @@ SITE.showcase = {
 
   "smart-device": [
     { type: "video", title: "It senses, then shows", src: "assets/video/smart-device.mp4", caption: "A short muted loop of the prototype working goes here." }
+  ]
+  ,
+  uxplore: [
+    { type: "compare", title: "Hick's Law, on your own wall", ar: "1194 / 834", before: { src: "assets/img/projects/uxplore/hick-ungrouped.webp", label: "Twenty tiny buttons" }, after: { src: "assets/img/projects/uxplore/hick-grouped.webp", label: "Five groups" } },
+    { type: "note", entry: 2 },
+    { type: "appframe", title: "One lesson, start to finish", app: "UXplore", items: [
+      { label: "Start", title: "Learn UX laws the interactive way.", text: "A calm teal opening, then a welcome that offers to explain more or to start learning straight away.", img: "assets/img/projects/uxplore/splash.webp" },
+      { label: "Mode", title: "Choose how you want to learn.", text: "Spatial mode learns through your real environment with the camera; 2D learning runs guided on-screen activities.", img: "assets/img/projects/uxplore/mode.webp" },
+      { label: "Journey", title: "Your learning journey.", text: "One law per tile. Finish a lesson and the next one opens.", img: "assets/img/projects/uxplore/journey.webp" },
+      { label: "Lesson", title: "Twenty tiny, or five grouped?", text: "Each lesson says what you are about to feel before you feel it, with a way to learn more and a button to set up AR.", img: "assets/img/projects/uxplore/hick.webp" },
+      { label: "Scan", title: "Your room becomes the lesson.", text: "Allow the camera, scan the space, and the buttons are placed on your own walls.", img: "assets/img/projects/uxplore/permission.webp" },
+      { label: "Fitts's Law", title: "Big and near, or small and far.", text: "Tap the targets as they float in the room. The timer shows which is faster, and why.", img: "assets/img/projects/uxplore/fitts.webp" },
+      { label: "Tesler's Law", title: "Where should the complexity live?", text: "In 2D, compare two flows for the same task and see who carries the complexity: you, or the system.", img: "assets/img/projects/uxplore/tesler.webp" },
+      { label: "Done", title: "Lesson complete.", text: "Time taken, grouped against ungrouped, points earned and progress, then back to the hub or try again.", img: "assets/img/projects/uxplore/complete.webp" },
+      { label: "Access", title: "Settings for every learner.", text: "High contrast, colour-blind friendly icons, larger targets, captions, narration, haptics and reduced motion.", img: "assets/img/projects/uxplore/access.webp" }
+    ] },
+    { type: "note", entry: 3, side: "right" },
+    { type: "hscroll", title: "The story, storyboarded", items: [
+      { src: "assets/img/projects/uxplore/story-1.webp", caption: "From the chaos of learning UX to the first AR lesson", ar: "1398 / 715" },
+      { src: "assets/img/projects/uxplore/story-2.webp", caption: "From Hick's Law in action to the learner's transformation", ar: "1469 / 715" }
+    ] },
+    { type: "note", entry: 5 }
+  ],
+
+  "type-and-image": [
+    // His animated "Moo", rebuilt in type: the o's arrive one by one and bounce
+    { type: "moo", title: "An animal's sound, in type", word: "Moooo", text: "Tap it to make it moo again.", stills: [ { src: "assets/img/projects/type-and-image/moo-1.webp", caption: "The first frame" }, { src: "assets/img/projects/type-and-image/moo-4.webp", caption: "The last frame" } ] },
+    { type: "note", entry: 5, side: "right" },
+    { type: "hscroll", title: "Shape, silhouette, sign", items: [
+      { src: "assets/img/projects/type-and-image/shapes.webp", caption: "Squares under tension: stable, chaotic, tension, peaceful", ar: "1600 / 1017" },
+      { src: "assets/img/projects/type-and-image/icons.webp", caption: "Everyday things as silhouettes", ar: "612 / 792" },
+      { src: "assets/img/projects/type-and-image/rhymes.webp", caption: "A nursery rhyme in six frames", ar: "1129 / 795" },
+      { src: "assets/img/projects/type-and-image/letter-abstract.webp", caption: "Letter abstraction", ar: "1 / 1" },
+      { src: "assets/img/projects/type-and-image/road-signs.webp", caption: "Signs for a gaming zone, a VR zone, kite flying and EV charging", ar: "607 / 599" }
+    ] },
+    { type: "note", entry: 1 },
+    { type: "images", items: [
+      { src: "assets/img/projects/type-and-image/pop-2.webp", caption: "Burst" },
+      { src: "assets/img/projects/type-and-image/pop-3.webp", caption: "Money" },
+      { src: "assets/img/projects/type-and-image/pop-4.webp", caption: "Icon" },
+      { src: "assets/img/projects/type-and-image/pop-6.webp", caption: "Pattern" }
+    ] },
+    { type: "note", entry: 2, side: "right" },
+    { type: "images", items: [
+      { src: "assets/img/projects/type-and-image/physical-a.webp", caption: "Physical type: letters from sticks" },
+      { src: "assets/img/projects/type-and-image/alphabet.webp", caption: "An alphabet of my own" },
+      { src: "assets/img/projects/type-and-image/typophile-2.webp", caption: "Type hierarchy: Typophile" }
+    ] },
+    { type: "note", entry: 3 },
+    { type: "compare", title: "The brown bag, both sides", ar: "16 / 9", before: { src: "assets/img/projects/type-and-image/bag-front.webp", label: "Front" }, after: { src: "assets/img/projects/type-and-image/bag-back.webp", label: "Back" } },
+    { type: "note", entry: 4, side: "right" },
+    { type: "hscroll", title: "Posters and pages", items: [
+      { src: "assets/img/projects/type-and-image/anil-poster.webp", caption: "A fireworks poster", ar: "753 / 1066" },
+      { src: "assets/img/projects/type-and-image/poster-krrish.webp", caption: "Film poster: one mask", ar: "843 / 1191" },
+      { src: "assets/img/projects/type-and-image/poster-schindler.webp", caption: "Film poster: one fist", ar: "843 / 1192" },
+      { src: "assets/img/projects/type-and-image/editorial.webp", caption: "An editorial spread", ar: "1114 / 1576" },
+      { src: "assets/img/projects/type-and-image/cracker-box.webp", caption: "The fireworks box", ar: "1064 / 508" }
+    ] }
+  ],
+
+  geometrica: [
+    // A clue card you can actually solve: drag the frames together
+    { type: "buildit", title: "Read the card. Build the shape.", text: "Drag the shape frames on the board until they make the answer." },
+    { type: "note", entry: 3 },
+    { type: "images", items: [
+      { src: "assets/img/projects/geometrica/card-1.webp", caption: "Clue card: fractions" },
+      { src: "assets/img/projects/geometrica/card-2.webp", caption: "Clue card: shapes" },
+      { src: "assets/img/projects/geometrica/logo.webp", caption: "Geometry made fun" }
+    ] },
+    { type: "note", entry: 4, side: "right" },
+    { type: "images", items: [
+      { src: "assets/img/projects/geometrica/board.webp", caption: "The textured board" },
+      { src: "assets/img/projects/geometrica/sketch.webp", caption: "Early sketches" }
+    ] },
+    { type: "note", entry: 1 }
+  ],
+
+  "green-grocer": [
+    { type: "note", entry: 1 },
+    { type: "hscroll", title: "A market on three wheels", items: [
+      { src: "assets/img/projects/green-grocer/rickshaw.webp", caption: "The modified auto-rickshaw", ar: "16 / 9" },
+      { src: "assets/img/projects/green-grocer/rickshaw-road.webp", caption: "Produce on the shelves", ar: "1600 / 938" },
+      { src: "assets/img/projects/green-grocer/rickshaw-road-2.webp", caption: "Ad space on the side", ar: "1600 / 938" },
+      { src: "assets/img/projects/green-grocer/rickshaw-ad.webp", caption: "Advertising as it goes", ar: "16 / 9" }
+    ] },
+    { type: "note", entry: 2, side: "right" },
+    { type: "images", items: [
+      { src: "assets/img/projects/green-grocer/logo-dark.webp", caption: "The badge" },
+      { src: "assets/img/projects/green-grocer/logo.webp", caption: "From farmers to you" }
+    ] },
+    { type: "note", entry: 3 },
+    { type: "images", items: [
+      { src: "assets/img/projects/green-grocer/journeys.webp", caption: "The journeys of small farmers and of intermediaries" }
+    ] },
+    { type: "note", entry: 5, side: "right" },
+    { type: "images", layout: "phones", items: [
+      { src: "assets/img/projects/green-grocer/app-1.webp", caption: "Farmers or advertisers" },
+      { src: "assets/img/projects/green-grocer/app-2.webp", caption: "Sign up" },
+      { src: "assets/img/projects/green-grocer/app-3.webp", caption: "Orders and earnings" },
+      { src: "assets/img/projects/green-grocer/app-4.webp", caption: "Tracking" },
+      { src: "assets/img/projects/green-grocer/app-6.webp", caption: "Marketing services" },
+      { src: "assets/img/projects/green-grocer/app-7.webp", caption: "About us" }
+    ] },
+    { type: "images", items: [
+      { src: "assets/img/projects/green-grocer/gtm.webp", caption: "Going to market" }
+    ] }
   ]
 };
