@@ -119,6 +119,16 @@ SITE.showcase = {
       { src: "assets/img/projects/akai-tsuki/concept-3.webp", caption: "Concept", ar: "377 / 350" },
       { src: "assets/img/projects/akai-tsuki/still-2.webp", caption: "Still", ar: "1191 / 706" },
       { src: "assets/img/projects/akai-tsuki/still-3.webp", caption: "Still", ar: "1191 / 680" }
+    ] },
+    { type: "hscroll", title: "Inside the city, from the build", items: [
+      { src: "assets/img/projects/akai-tsuki/shot-01.webp", caption: "Under the red moon", ar: "16 / 9" },
+      { src: "assets/img/projects/akai-tsuki/shot-05.webp", caption: "The street of pagodas", ar: "16 / 9" },
+      { src: "assets/img/projects/akai-tsuki/shot-08.webp", caption: "Dusk over the rooftops", ar: "16 / 9" },
+      { src: "assets/img/projects/akai-tsuki/shot-11.webp", caption: "The throne hall", ar: "16 / 9" },
+      { src: "assets/img/projects/akai-tsuki/shot-14.webp", caption: "Lanterns and pillars", ar: "16 / 9" },
+      { src: "assets/img/projects/akai-tsuki/shot-17.webp", caption: "Looking up into the eaves", ar: "16 / 9" },
+      { src: "assets/img/projects/akai-tsuki/shot-20.webp", caption: "The moon behind the gate", ar: "16 / 9" },
+      { src: "assets/img/projects/akai-tsuki/shot-22.webp", caption: "The palace, far away", ar: "16 / 9" }
     ] }
   ],
 
@@ -187,17 +197,47 @@ SITE.showcase = {
       { src: "assets/img/projects/rasta-la-vista/tiles.webp", caption: "Interlocking edges: a tile can't connect the wrong way" },
       { src: "assets/img/projects/rasta-la-vista/pegs.webp", caption: "Pegs mark the places you've claimed" }
     ] },
-    { type: "hscroll", title: "The pieces", items: [
-      { src: "assets/img/projects/rasta-la-vista/t-bus.webp", caption: "Bus ticket: own 1 place to unlock", ar: "570 / 253" },
-      { src: "assets/img/projects/rasta-la-vista/t-rail.webp", caption: "Rail ticket: own 2", ar: "570 / 253" },
-      { src: "assets/img/projects/rasta-la-vista/t-ferry.webp", caption: "Ferry ticket: own 3", ar: "570 / 253" },
-      { src: "assets/img/projects/rasta-la-vista/t-plane.webp", caption: "Plane ticket: own 5", ar: "570 / 253" },
-      { src: "assets/img/projects/rasta-la-vista/card-double-decker.webp", caption: "Action card", ar: "300 / 463" },
-      { src: "assets/img/projects/rasta-la-vista/card-pickpocket.webp", caption: "Action card", ar: "300 / 463" },
-      { src: "assets/img/projects/rasta-la-vista/events.webp", caption: "The event deck", ar: "300 / 463" },
-      { src: "assets/img/projects/rasta-la-vista/postcard-back.webp", caption: "A place card, with a fact on the back", ar: "600 / 389" },
-      { src: "assets/img/projects/rasta-la-vista/passport.webp", caption: "The rulebook, as a passport", ar: "900 / 652" }
+    { type: "deck", kind: "tickets", title: "Four tickets, unlocked as you travel", hint: "Tap a ticket", items: [
+      { src: "assets/img/projects/rasta-la-vista/t-bus.webp", caption: "Bus: unlocks with your first place" },
+      { src: "assets/img/projects/rasta-la-vista/t-rail.webp", caption: "Rail: unlocks with two places" },
+      { src: "assets/img/projects/rasta-la-vista/t-ferry.webp", caption: "Ferry: unlocks with three places" },
+      { src: "assets/img/projects/rasta-la-vista/t-plane.webp", caption: "Plane: unlocks with five places, and scores 3 if you keep it" }
     ] },
+    { type: "deck", title: "Action cards: drawn at every junction", hint: "Tap a card to read it", items: [
+      { src: "assets/img/projects/rasta-la-vista/deck/act-1.webp", caption: "Chip In! Ask an opponent for one ticket of their choice" },
+      { src: "assets/img/projects/rasta-la-vista/deck/act-2.webp", caption: "Hitchhiker's Luck: move to the next place for free" },
+      { src: "assets/img/projects/rasta-la-vista/deck/act-3.webp", caption: "NO MEANS NO! Cancel an action played on you" },
+      { src: "assets/img/projects/rasta-la-vista/deck/act-4.webp", caption: "Pickpocket: steal a bus ticket" },
+      { src: "assets/img/projects/rasta-la-vista/deck/act-10.webp", caption: "Pickpocket: steal a train ticket" },
+      { src: "assets/img/projects/rasta-la-vista/deck/act-5.webp", caption: "Pickpocket: steal a ferry ticket" },
+      { src: "assets/img/projects/rasta-la-vista/deck/act-6.webp", caption: "Quarantine: stop an opponent for a round" },
+      { src: "assets/img/projects/rasta-la-vista/deck/act-7.webp", caption: "Rivalry: take one of their destination cards" },
+      { src: "assets/img/projects/rasta-la-vista/deck/act-8.webp", caption: "Black Tickets: return one, take two" },
+      { src: "assets/img/projects/rasta-la-vista/deck/act-9.webp", caption: "Double Decker: two modes of transport this turn" }
+    ] },
+    { type: "deck", title: "Events: one every round, good, bad or neither", hint: "Tap a card to read it", items: [
+      { src: "assets/img/projects/rasta-la-vista/deck/ev-negative-events-2.webp", caption: "Negative: Protests on the Golden Quadrilateral" },
+      { src: "assets/img/projects/rasta-la-vista/deck/ev-negative-events-6.webp", caption: "Negative: Widespread signal failure" },
+      { src: "assets/img/projects/rasta-la-vista/deck/ev-negative-events-3.webp", caption: "Negative: Heatwave in the North" },
+      { src: "assets/img/projects/rasta-la-vista/deck/events-cover.webp", caption: "The event deck" },
+      { src: "assets/img/projects/rasta-la-vista/deck/ev-neutral-events-2.webp", caption: "Neutral: Major detour" },
+      { src: "assets/img/projects/rasta-la-vista/deck/ev-neutral-events-7.webp", caption: "Neutral: Priority boarding" },
+      { src: "assets/img/projects/rasta-la-vista/deck/ev-neutral-events-3.webp", caption: "Neutral: Rush hour" },
+      { src: "assets/img/projects/rasta-la-vista/deck/ev-positive-events-1.webp", caption: "Positive: Economic boom" },
+      { src: "assets/img/projects/rasta-la-vista/deck/ev-positive-events-10.webp", caption: "Positive: Festival of Kites" },
+      { src: "assets/img/projects/rasta-la-vista/deck/ev-positive-events-3.webp", caption: "Positive: Bollywood Film Awards in Mumbai" }
+    ] },
+    { type: "postcards", title: "Claim a place, keep its postcard", caption: "The landmark on the front, the place and a fact on the back. Hover or tap to turn one over.", items: [
+      { name: "Hampi", front: "assets/img/projects/rasta-la-vista/pc/f-hampi.webp", back: "assets/img/projects/rasta-la-vista/pc/b-hampi.webp" },
+      { name: "Jaipur", front: "assets/img/projects/rasta-la-vista/pc/f-jaipur.webp", back: "assets/img/projects/rasta-la-vista/pc/b-jaipur.webp" },
+      { name: "Kolkata", front: "assets/img/projects/rasta-la-vista/pc/f-kolkata.webp", back: "assets/img/projects/rasta-la-vista/pc/b-kolkata.webp" },
+      { name: "Goa", front: "assets/img/projects/rasta-la-vista/pc/f-goa.webp", back: "assets/img/projects/rasta-la-vista/pc/b-goa.webp" },
+      { name: "Konark", front: "assets/img/projects/rasta-la-vista/pc/f-konark.webp", back: "assets/img/projects/rasta-la-vista/pc/b-konark.webp" },
+      { name: "Guwahati", front: "assets/img/projects/rasta-la-vista/pc/f-guwahati.webp", back: "assets/img/projects/rasta-la-vista/pc/b-guwahati.webp" },
+      { name: "Mumbai", front: "assets/img/projects/rasta-la-vista/pc/f-mumbai.webp", back: "assets/img/projects/rasta-la-vista/pc/b-mumbai.webp" },
+      { name: "Jaisalmer", front: "assets/img/projects/rasta-la-vista/pc/f-jaisalmer.webp", back: "assets/img/projects/rasta-la-vista/pc/b-jaisalmer.webp" }
+    ] },
+    { type: "images", items: [ { src: "assets/img/projects/rasta-la-vista/passport.webp", caption: "The rulebook, printed as a passport" } ] },
     { type: "note", entry: 5 },
     { type: "images", items: [ { src: "assets/img/projects/rasta-la-vista/build.webp", caption: "Laser-cutting the acrylic tiles" } ] }
   ],
@@ -212,8 +252,8 @@ SITE.showcase = {
   ],
 
   "native-packaging": [
-    // Pick a label and it wraps the tin; the grandmother sits on the lid
-    { type: "shelf", title: "The range, on the tin", pick: "Pick a label", lid: "assets/img/projects/packaging/lid.webp", caption: "Drag the tin to turn it. The labels' contact details are left out here.", items: [
+    // Pick a label and it goes on the front of the box; the grandmother sits on the lid
+    { type: "boxshelf", dir: "assets/img/projects/packaging", title: "The range, boxed", pick: "Pick a label", lid: "assets/img/projects/packaging/lid.webp", caption: "Drag the box to turn it. The labels' contact details are left out here.", items: [
       { src: "assets/img/projects/packaging/label-kongu.webp", name: "Kongu masala mundhiri" },
       { src: "assets/img/projects/packaging/label-murungai.webp", name: "Murungai masala mundhiri" },
       { src: "assets/img/projects/packaging/label-uppu-kari.webp", name: "Uppu kari masala" },
@@ -223,7 +263,7 @@ SITE.showcase = {
       { src: "assets/img/projects/packaging/sticker-day-today.webp", name: "Day today snacks" },
       { src: "assets/img/projects/packaging/sticker-kids.webp", name: "Kids snack pack" }
     ] },
-    { type: "hscroll", title: "Beyond the tin", items: [
+    { type: "hscroll", title: "Beyond the box", items: [
       { src: "assets/img/projects/packaging/lid.webp", caption: "The lid: the grandmother, and the village at work", ar: "1025 / 721" },
       { src: "assets/img/projects/packaging/box-dieline.webp", caption: "The box, flat", ar: "1449 / 655" },
       { src: "assets/img/projects/packaging/poster-murungai.webp", caption: "A launch post", ar: "1 / 1" },
@@ -242,8 +282,28 @@ SITE.showcase = {
   ]
   ,
   uxplore: [
-    { type: "compare", title: "Hick's Law, on your own wall", ar: "1194 / 834", before: { src: "assets/img/projects/uxplore/hick-ungrouped.webp", label: "Twenty tiny buttons" }, after: { src: "assets/img/projects/uxplore/hick-grouped.webp", label: "Five groups" } },
+    { type: "note", entry: 0 },
+    { type: "table", title: "Learning objectives, written as ABCD and placed on Bloom's ladder", hl: -1, cols: ["", "Behaviour", "Condition", "Degree", "Bloom's level"], rows: [
+      ["Hick's Law", "Identify the faster menu variant, and justify it", "Using AR overlays on real walls", "Four in five correct", "Analyse"],
+      ["Fitts's Law", "Tap targets and reposition calls to action", "In a scanned, real-world room", "Interaction gets a fifth faster", "Apply"],
+      ["Tesler's Law", "Compare two flows and justify the simpler one", "In a 2D image-based simulation", "Three of four correct", "Evaluate"],
+      ["All together", "Apply at least two laws to redesign a real app scenario", "Using what the AR and 2D lessons taught", "One working redesign prototype", "Create"]
+    ] },
+    { type: "note", entry: 1, side: "right" },
+    { type: "process", title: "The instructional model, and the theories under it", items: [
+      { title: "Iterative", notes: ["SAM: build a lesson, test it, refine it, quickly."] },
+      { title: "Feedback-driven", notes: ["Learners see the result of every choice straight away."] },
+      { title: "Hands-on", notes: ["Every lesson is something you do, not something you read."] },
+      { title: "Constructivism", notes: ["Learners build knowledge by experimenting."] },
+      { title: "Situated learning", notes: ["AR lessons are anchored in the room you're actually in."] }
+    ] },
     { type: "note", entry: 2 },
+    { type: "table", title: "Cognitive design principles, and where they show up", hl: -1, cols: ["Principle", "In UXplore"], rows: [
+      ["Chunking", "A micro-lesson per law, with a few mini-challenges each"],
+      ["Dual coding", "Visual AR overlays and explanatory text, together, in real time"],
+      ["Immediate feedback", "Live timers, points and badges after every step"],
+      ["Progressive disclosure", "AR instructions revealed one step at a time, so nothing overloads"]
+    ] },
     { type: "appframe", title: "One lesson, start to finish", app: "UXplore", items: [
       { label: "Start", title: "Learn UX laws the interactive way.", text: "A calm teal opening, then a welcome that offers to explain more or to start learning straight away.", img: "assets/img/projects/uxplore/splash.webp" },
       { label: "Mode", title: "Choose how you want to learn.", text: "Spatial mode learns through your real environment with the camera; 2D learning runs guided on-screen activities.", img: "assets/img/projects/uxplore/mode.webp" },
@@ -255,7 +315,15 @@ SITE.showcase = {
       { label: "Done", title: "Lesson complete.", text: "Time taken, grouped against ungrouped, points earned and progress, then back to the hub or try again.", img: "assets/img/projects/uxplore/complete.webp" },
       { label: "Access", title: "Settings for every learner.", text: "High contrast, colour-blind friendly icons, larger targets, captions, narration, haptics and reduced motion.", img: "assets/img/projects/uxplore/access.webp" }
     ] },
-    { type: "note", entry: 3, side: "right" },
+    { type: "table", title: "Learning in AR: the CAMIL factors", hl: -1, cols: ["Factor", "How UXplore addresses it"], rows: [
+      ["Presence", "Overlays anchored in the learner's real environment"],
+      ["Agency", "Learners choose buttons, move calls to action and retry tasks"],
+      ["Motivation", "Badges, points and bonus challenges"],
+      ["Embodiment", "Learners reach out and touch floating AR elements"],
+      ["Load", "Chunked tasks and step-by-step guidance"],
+      ["Self-regulation", "Learners set the pace, retry lessons and can switch to 2D"]
+    ] },
+    { type: "note", entry: 4, side: "right" },
     { type: "hscroll", title: "The story, storyboarded", items: [
       { src: "assets/img/projects/uxplore/story-1.webp", caption: "From the chaos of learning UX to the first AR lesson", ar: "1398 / 715" },
       { src: "assets/img/projects/uxplore/story-2.webp", caption: "From Hick's Law in action to the learner's transformation", ar: "1469 / 715" }
@@ -263,57 +331,52 @@ SITE.showcase = {
     { type: "note", entry: 5 }
   ],
 
-  "type-and-image": [
-    // His animated "Moo", rebuilt in type: the o's arrive one by one and bounce
-    { type: "moo", title: "An animal's sound, in type", word: "Moooo", text: "Tap it to make it moo again.", stills: [ { src: "assets/img/projects/type-and-image/moo-1.webp", caption: "The first frame" }, { src: "assets/img/projects/type-and-image/moo-4.webp", caption: "The last frame" } ] },
-    { type: "note", entry: 5, side: "right" },
-    { type: "hscroll", title: "Shape, silhouette, sign", items: [
-      { src: "assets/img/projects/type-and-image/shapes.webp", caption: "Squares under tension: stable, chaotic, tension, peaceful", ar: "1600 / 1017" },
-      { src: "assets/img/projects/type-and-image/icons.webp", caption: "Everyday things as silhouettes", ar: "612 / 792" },
-      { src: "assets/img/projects/type-and-image/rhymes.webp", caption: "A nursery rhyme in six frames", ar: "1129 / 795" },
-      { src: "assets/img/projects/type-and-image/letter-abstract.webp", caption: "Letter abstraction", ar: "1 / 1" },
-      { src: "assets/img/projects/type-and-image/road-signs.webp", caption: "Signs for a gaming zone, a VR zone, kite flying and EV charging", ar: "607 / 599" }
+  "graphic-design-days": [
+    // A small graphic designer's folio: filter by medium, switch between grid and index, open any piece
+    { type: "gdsite", intro: "College, 2021–22. Two semesters of graphic design: composition and silhouettes first, then type, posters, packaging and motion.", works: [
+      { t: "Anil Fireworks", m: "Poster", s: "Sem 3", img: ["assets/img/projects/graphic-design-days/anil-poster.webp"], d: "A poster for a Sivakasi fireworks maker: the name set big, a whole shop of crackers stacked under it, and a sky going off above." },
+      { t: "Krrish, in one mask", m: "Poster", s: "Sem 4", img: ["assets/img/projects/graphic-design-days/poster-krrish.webp"], d: "A film poster reduced to a single strong image: the hero's mask, cut from black against a blue sky." },
+      { t: "Schindler's List, in one fist", m: "Poster", s: "Sem 4", img: ["assets/img/projects/graphic-design-days/poster-schindler.webp"], d: "The same brief, opposite mood: a raised fist breaking the symbol it stands against, in black and white." },
+      { t: "Hey you! Stop using plastic bags", m: "Packaging", s: "Sem 4", img: ["assets/img/projects/graphic-design-days/bag-front.webp", "assets/img/projects/graphic-design-days/bag-back.webp"], d: "The brown-bag project: a paper bag that argues against plastic, with an alien who'd rather you reused it, front and back." },
+      { t: "Life as a Typophile", m: "Typography", s: "Sem 4", img: ["assets/img/projects/graphic-design-days/typophile-8.webp", "assets/img/projects/graphic-design-days/typophile-11.webp", "assets/img/projects/graphic-design-days/typophile-12.webp", "assets/img/projects/graphic-design-days/typophile-13.webp"], d: "One page of text about typophiles, set again and again to explore hierarchy: size, weight, direction and colour doing the work." },
+      { t: "Lakshmi style", m: "Typography", s: "Sem 3", img: ["assets/img/projects/graphic-design-days/alphabet.webp"], d: "An alphabet, numerals and symbols built from a style of my own." },
+      { t: "Letters from crackers", m: "Typography", s: "Sem 3", img: ["assets/img/projects/graphic-design-days/physical-1.webp", "assets/img/projects/graphic-design-days/physical-2.webp"], d: "Physical type: numerals laid out with firecrackers and photographed." },
+      { t: "Found letters", m: "Typography", s: "Sem 3", img: ["assets/img/projects/graphic-design-days/found-1.webp", "assets/img/projects/graphic-design-days/found-2.webp"], d: "Letters hiding in the world: the corners of a football pitch and a goalpost." },
+      { t: "Letter abstraction", m: "Typography", s: "Sem 4", img: ["assets/img/projects/graphic-design-days/letter-abstract.webp"], d: "Letterforms cut, rotated and recombined until they become pattern." },
+      { t: "Signs for new places", m: "Signage", s: "Sem 4", img: ["assets/img/projects/graphic-design-days/road-signs.webp"], d: "Road signs for places that don't have them yet: a gaming zone, a VR zone, kite flying and EV charging." },
+      { t: "A cube of pop art", m: "Illustration", s: "Sem 3", img: ["assets/img/projects/graphic-design-days/pop-1.webp", "assets/img/projects/graphic-design-days/pop-3.webp", "assets/img/projects/graphic-design-days/pop-5.webp", "assets/img/projects/graphic-design-days/pop-6.webp"], d: "Faces for a graphic cube in the spirit of pop art: halftone dots, flat colour, bursts and patterns." },
+      { t: "Squares under tension", m: "Composition", s: "Sem 3", img: ["assets/img/projects/graphic-design-days/shapes.webp"], d: "Squares turned, stacked and broken to show stability, chaos, tension and peace." },
+      { t: "Silhouettes", m: "Illustration", s: "Sem 3", img: ["assets/img/projects/graphic-design-days/icons.webp"], d: "Everyday things cut down to black silhouettes." },
+      { t: "A rhyme in six frames", m: "Illustration", s: "Sem 3", img: ["assets/img/projects/graphic-design-days/rhymes.webp"], d: "A nursery rhyme told in six small black-and-white frames." },
+      { t: "Editorial spread", m: "Editorial", s: "Sem 3", img: ["assets/img/projects/graphic-design-days/editorial.webp"], d: "A two-page magazine spread: headline, standfirst, columns and pictures, set on a grid." },
+      { t: "The fireworks box", m: "Packaging", s: "Sem 3", img: ["assets/img/projects/graphic-design-days/cracker-box.webp"], d: "Packaging for the same fireworks maker, as a box you'd find on a shop shelf." }
     ] },
-    { type: "note", entry: 1 },
-    { type: "images", items: [
-      { src: "assets/img/projects/type-and-image/pop-2.webp", caption: "Burst" },
-      { src: "assets/img/projects/type-and-image/pop-3.webp", caption: "Money" },
-      { src: "assets/img/projects/type-and-image/pop-4.webp", caption: "Icon" },
-      { src: "assets/img/projects/type-and-image/pop-6.webp", caption: "Pattern" }
-    ] },
-    { type: "note", entry: 2, side: "right" },
-    { type: "images", items: [
-      { src: "assets/img/projects/type-and-image/physical-a.webp", caption: "Physical type: letters from sticks" },
-      { src: "assets/img/projects/type-and-image/alphabet.webp", caption: "An alphabet of my own" },
-      { src: "assets/img/projects/type-and-image/typophile-2.webp", caption: "Type hierarchy: Typophile" }
-    ] },
-    { type: "note", entry: 3 },
-    { type: "compare", title: "The brown bag, both sides", ar: "16 / 9", before: { src: "assets/img/projects/type-and-image/bag-front.webp", label: "Front" }, after: { src: "assets/img/projects/type-and-image/bag-back.webp", label: "Back" } },
-    { type: "note", entry: 4, side: "right" },
-    { type: "hscroll", title: "Posters and pages", items: [
-      { src: "assets/img/projects/type-and-image/anil-poster.webp", caption: "A fireworks poster", ar: "753 / 1066" },
-      { src: "assets/img/projects/type-and-image/poster-krrish.webp", caption: "Film poster: one mask", ar: "843 / 1191" },
-      { src: "assets/img/projects/type-and-image/poster-schindler.webp", caption: "Film poster: one fist", ar: "843 / 1192" },
-      { src: "assets/img/projects/type-and-image/editorial.webp", caption: "An editorial spread", ar: "1114 / 1576" },
-      { src: "assets/img/projects/type-and-image/cracker-box.webp", caption: "The fireworks box", ar: "1064 / 508" }
-    ] }
+    { type: "moo", title: "An animal's sound, in type", word: "Moooo", text: "Motion, Sem 4: a sound turned into type that grows and bounces. Tap it to make it moo again.", stills: [ { src: "assets/img/projects/graphic-design-days/moo-1.webp", caption: "The first frame" }, { src: "assets/img/projects/graphic-design-days/moo-4.webp", caption: "The last frame" } ] }
   ],
 
   geometrica: [
-    // A clue card you can actually solve: drag the frames together
-    { type: "buildit", title: "Read the card. Build the shape.", text: "Drag the shape frames on the board until they make the answer." },
+    { type: "note", entry: 0 },
+    { type: "images", items: [ { src: "assets/img/projects/geometrica/board-art.webp", caption: "The textured board: shape frames sit in its rows of holes" } ] },
+    { type: "note", entry: 2, side: "right" },
+    { type: "braille", title: "Every clue, in ink and in braille", cards: [
+      { kind: "Shapes", q: "Build the shape made of two triangles placed next to each other", a: "A rhombus" },
+      { kind: "Fractions", q: "Make two fifths of a regular shape with five sides", a: "Two of the pentagon's five parts" },
+      { kind: "Shapes", q: "Make a regular shape with four equilateral triangles", a: "A larger equilateral triangle" }
+    ] },
     { type: "note", entry: 3 },
     { type: "images", items: [
-      { src: "assets/img/projects/geometrica/card-1.webp", caption: "Clue card: fractions" },
-      { src: "assets/img/projects/geometrica/card-2.webp", caption: "Clue card: shapes" },
-      { src: "assets/img/projects/geometrica/logo.webp", caption: "Geometry made fun" }
+      { src: "assets/img/projects/geometrica/contents.webp", caption: "What's in the box" },
+      { src: "assets/img/projects/geometrica/rules-1.webp", caption: "The rules" },
+      { src: "assets/img/projects/geometrica/rules-2.webp", caption: "How points are won" }
     ] },
-    { type: "note", entry: 4, side: "right" },
+    { type: "note", entry: 1, side: "right" },
     { type: "images", items: [
-      { src: "assets/img/projects/geometrica/board.webp", caption: "The textured board" },
-      { src: "assets/img/projects/geometrica/sketch.webp", caption: "Early sketches" }
+      { src: "assets/img/projects/geometrica/answers-shapes.webp", caption: "Answer key: shapes" },
+      { src: "assets/img/projects/geometrica/answers-fractions.webp", caption: "Answer key: fractions" },
+      { src: "assets/img/projects/geometrica/card-front.webp", caption: "A clue card" }
     ] },
-    { type: "note", entry: 1 }
+    { type: "note", entry: 4 },
+    { type: "images", items: [ { src: "assets/img/projects/geometrica/board-flat.webp", caption: "The board, flat" } ] }
   ],
 
   "green-grocer": [
@@ -345,5 +408,21 @@ SITE.showcase = {
     { type: "images", items: [
       { src: "assets/img/projects/green-grocer/gtm.webp", caption: "Going to market" }
     ] }
+  ],
+  evoke: [
+    { type: "note", entry: 0 },
+    { type: "images", items: [ { src: "assets/img/projects/evoke/study.webp", caption: "Study of the groundnut: pod, seed coat, hull, kernel and skin" } ] },
+    { type: "note", entry: 1, side: "right" },
+    { type: "causes", title: "Four things to borrow from a shell", items: [
+      { title: "Lightweight", text: "A thin shell that is still strong, so the structure stays easy to build and move." },
+      { title: "A closed pod", text: "Two halves that fit snugly make a protective enclosure, and a sense of privacy." },
+      { title: "Texture", text: "Ridged and bumpy outside, soft and smooth inside, which feels like comfort." },
+      { title: "Insulation", text: "Air pockets within the walls: a double layer that keeps sound out." }
+    ] },
+    { type: "images", items: [ { src: "assets/img/projects/evoke/ideations.webp", caption: "Concepts and ideations, with the mood board" }, { src: "assets/img/projects/evoke/moodboard.webp", caption: "Shells, domes and timber" } ] },
+    { type: "note", entry: 2 },
+    { type: "images", items: [ { src: "assets/img/projects/evoke/concept.webp", caption: "Concept sketches: the full structure, a single pod and the tables" } ] },
+    { type: "note", entry: 3, side: "right" },
+    { type: "images", items: [ { src: "assets/img/projects/evoke/branding.webp", caption: "Logo, type, colour and mood" }, { src: "assets/img/projects/evoke/model.webp", caption: "The final model" } ] }
   ]
 };

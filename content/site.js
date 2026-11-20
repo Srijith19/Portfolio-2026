@@ -92,30 +92,33 @@ window.SITE = {
   ],
 
   // Home page tabs, and the three discipline pages. `projects` are the ones shown, in this order; `more` are named in one small line under them.
-  // To add a video: put a muted .mp4 in assets/video/ and set video: "assets/video/area-ux.mp4".
+  // homeVideo plays behind the area on the home page; video (optional) would also play on the area page.
   areas: [
     { key: "ux", slug: "ux-design", label: "UX Design", short: "UX", disciplines: ["UX"], projects: ["texgenie", "dignity", "shoetime", "gpay-wrist", "internshala"], leadWide: true, more: ["kego-care", "dreambig", "jiosaavn", "cookr", "kalviexpert", "youtube-redesign", "conversational-ux"],
       line: "UX projects addressing uncommon, real-world problems through research-driven design.",
       // The board in the UX page's header: each step, one line, and where it happened in my projects
       how: [
         { step: "Research", line: "Go where the work happens, and listen.", ev: [
-          { p: "texgenie", t: "Interviewed five business owners" }, { p: "dignity", t: "A field visit and interviews at AIIMS Jodhpur" }, { p: "shoetime", t: "A survey of 220+ people and 15+ interviews" } ] },
+          { p: "texgenie", t: "Interviewed owners of large home-textile firms" }, { p: "dignity", t: "A field visit and interviews at AIIMS Jodhpur" }, { p: "shoetime", t: "A survey of 220+ people and 15+ interviews" } ] },
         { step: "Define", line: "Name the one problem worth solving.", ev: [
           { p: "dignity", t: "Six insights, an action priority matrix and a persona" }, { p: "shoetime", t: "Eight requirements, four that mattered most" }, { p: "internshala", t: "Paid internships first, then fraud protection" } ] },
         { step: "Ideate", line: "Go wide before going deep.", ev: [
           { p: "dignity", t: "Brain dumping, then SCAMPER" }, { p: "shoetime", t: "A morphological matrix to weigh concepts" }, { p: "internshala", t: "A new information architecture, with a branch for fraud" } ] },
         { step: "Prototype", line: "Make it real enough to argue with.", ev: [
-          { p: "dignity", t: "Five iterations, tested and refined" }, { p: "gpay-wrist", t: "A watch prototype you can tap through" }, { p: "texgenie", t: "Rebuilt in React in 2026" } ] },
+          { p: "dignity", t: "Five iterations, tested and refined" }, { p: "gpay-wrist", t: "A watch prototype you can tap through" }, { p: "texgenie", t: "A desktop for the office, a phone app for the floor" } ] },
         { step: "Test", line: "Put it in front of people, then go round again.", ev: [
-          { p: "shoetime", t: "Validated with stakeholders, reviewed by faculty from IISc Bengaluru" }, { p: "internshala", t: "Benchmarked against LinkedIn and Glassdoor" }, { p: "texgenie", t: "Tested the spine with updates arriving out of order" } ] }
+          { p: "shoetime", t: "Validated with stakeholders, reviewed by faculty from IISc Bengaluru" }, { p: "internshala", t: "Benchmarked against LinkedIn and Glassdoor" }, { p: "texgenie", t: "Think-aloud tests with business owners" } ] }
       ],
-      video: "", poster: "assets/img/projects/gpay-wrist/cover.webp", pagePoster: "assets/img/projects/internshala/hero.webp" },
+      video: "", poster: "assets/img/projects/gpay-wrist/cover.webp", pagePoster: "assets/img/projects/internshala/hero.webp",
+      homeVideo: "assets/video/area-ux.mp4", homePoster: "assets/img/home/area-ux.webp" },
     { key: "xr", slug: "xr-design", label: "XR Design", short: "XR", disciplines: ["XR"], tone: "deep", projects: ["atelier-xr", "immerse-editor-pro", "reven-vr", "who-vr", "uxplore"], more: ["vannavision"],
       line: "Immersive experiences exploring interaction, narrative, and presence through XR design.",
-      video: "", poster: "assets/img/projects/immerse-editor-pro/cover.webp" },
-    { key: "gg", slug: "graphics-and-games", label: "Graphics and Games", short: "Graphics & Games", disciplines: ["Game", "Visual", "Physical"], tone: "night", projects: ["reven-vr", "akai-tsuki", "rasta-la-vista", "fredrick-runs", "native-packaging", "type-and-image", "geometrica"], more: ["green-grocer", "spatial-pod"],
+      video: "", poster: "assets/img/projects/immerse-editor-pro/cover.webp",
+      homeVideo: "assets/video/area-xr.mp4", homePoster: "assets/img/home/area-xr.webp" },
+    { key: "gg", slug: "graphics-and-games", label: "Graphics and Games", short: "Graphics & Games", disciplines: ["Game", "Visual", "Physical"], tone: "night", projects: ["reven-vr", "akai-tsuki", "rasta-la-vista", "fredrick-runs", "native-packaging", "graphic-design-days", "geometrica"], more: ["green-grocer", "evoke", "classhour"],
       line: "Games, worldbuilding and visual media.",
-      video: "", poster: "assets/img/projects/akai-tsuki/render-wall.webp" }
+      video: "", poster: "assets/img/projects/akai-tsuki/render-wall.webp",
+      homeVideo: "assets/video/area-gg.mp4", homePoster: "assets/img/home/area-gg.webp" }
   ],
 
 

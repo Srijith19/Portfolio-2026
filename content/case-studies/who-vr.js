@@ -13,7 +13,7 @@ SITE.caseStudies["who-vr"] = {
   tldr: [
     { label: "Problem", text: "Most VR films rely on minimal editing, often a single shot. We wanted to know whether montage, one of cinema's basic tools, survives in 360°." },
     { label: "Approach", text: "We listed effects first (match cuts, dolly zooms, time-lapse, reverse motion), kept the feasible ones and built a story around them. Then a script, a 360° wireframe for every scene, test shoots and a 12-day production." },
-    { label: "Outcome", text: "A 9:34 film screened at Immersive Realities, IIT Jodhpur, to more than 30 viewers, with 15+ written reviews. Most of the rapid cuts worked." }
+    { label: "Outcome", text: "A 360° film screened in headsets at Immersive Realities, IIT Jodhpur, with written reviews from viewers. Most of the rapid cuts worked." }
   ],
   highlights: [
     "We started with the edits, then wrote a story to fit them.",
@@ -160,8 +160,8 @@ SITE.caseStudies["who-vr"] = {
     { key: "showcase", show: [
         { type: "video", title: "Watch the film", file: "YouTube link to come", caption: "The film opens here in a player once its YouTube link is added (set yt to the video id)." }
       ],
-      kicker: "Showcase and reviews", title: "Thirty viewers, fifteen reviews.", paras: [
-      "We screened the film at Immersive Realities, a VR film show organised by the School of Design at IIT Jodhpur on 27 March 2025. More than 30 people watched it in headsets and told us how much they enjoyed it. We collected over 15 written reviews."
+      kicker: "Showcase and reviews", title: "Screened in headsets, reviewed in writing.", paras: [
+      "We screened the film at Immersive Realities, a VR film show organised by the School of Design at IIT Jodhpur in March 2025. People watched it in headsets, told us how much they enjoyed it, and left written reviews."
     ], quote: "",
       blocks: [
         { type: "images", items: [ { src: "assets/img/projects/who-vr/showcase.webp", caption: "Viewers at Immersive Realities" } ] },

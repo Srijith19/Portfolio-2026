@@ -63,7 +63,15 @@ SITE.caseStudies["immerse-editor-pro"] = {
       "Mapping the current workflow showed the real cost: footage sorting in Insta360 Studio, editing in Premiere or Resolve, effects in Photoshop and After Effects, grading, then spatial audio in Reaper. Find an error at the end, and you start again."
     ], quote: "",
       blocks: [
-        { type: "images", items: [ { src: "assets/img/projects/immerse-editor-pro/workflow.webp", caption: "The current immersive media workflow. 30–50% of production time goes to managing it. Not creating. Managing." } ] },
+        { type: "pipeline", title: "The current immersive media workflow", idle: "Footage moves left to right, one tool at a time.",
+          caption: "30–50% of total production time is spent managing this pipeline.", sub: "Not creating. Managing.",
+          stages: [
+            { name: "Footage sorting", tools: ["Insta360 Studio"], tasks: ["Resolution, bitrate, format"] },
+            { name: "Editing", tools: ["Premiere", "Resolve"], tasks: ["Cut, crop, sequence", "Position and transform", "Speed, stability, reverse"] },
+            { name: "Visual effects", tools: ["Photoshop", "After Effects"], tasks: ["Hide equipment, overlays", "Titles and text", "Masks and transitions"] },
+            { name: "Colour grading", tools: ["Premiere", "Resolve"], tasks: ["Colour correction"] },
+            { name: "Spatial audio", tools: ["Reaper", "Resolve"], tasks: ["Sound mixing, spatial audio"] }
+          ] },
         { type: "table", title: "What every professional tool gets wrong about immersive media", hl: -1, cols: ["", "Premiere Pro", "DaVinci Resolve", "Final Cut Pro", "After Effects", "Insta360 Studio", "Reaper"], rows: [
           ["360° native editing", "~", "~", "~", "✕", "✓", "✕"],
           ["Spherical preview mode", "~", "~", "~", "✕", "✓", "✕"],
@@ -94,7 +102,41 @@ SITE.caseStudies["immerse-editor-pro"] = {
           { title: "P5 · Unified pipeline", text: "One environment. Zero switching." },
           { title: "P6 · Universal accessibility", text: "Depth without gatekeeping." }
         ] },
-        { type: "images", items: [ { src: "assets/img/projects/immerse-editor-pro/userflow.webp", zoom: "assets/img/projects/immerse-editor-pro/userflow-full.webp", caption: "One complete flow, from launch to final output, across desktop and VR" } ] }
+        { type: "flowmap", title: "One complete flow, from launch to final output", caption: "Rebuilt from the user flow. Pick any step to see what it holds.", cols: [
+          { title: "Start", nodes: [
+            { t: "Launch", kind: "start", d: "The app opens on the home dashboard." },
+            { t: "Home dashboard", d: "Recent projects, a new project, open a file, or pick up from the cloud." },
+            { t: "Open existing project", d: "Reopens a project file exactly as it was left, on desktop or in the headset." } ] },
+          { title: "Set up", nodes: [
+            { t: "New project setup", d: "Four short panels before anything is cut, so the project knows it's spatial from the start." },
+            { t: "Video settings", d: "Resolution from 4K to 11K, 24 to 120 fps, equirectangular 360°, VR180 or cubemap, mono or stereo (top-bottom, side-by-side), colour space, bit depth and HDR." },
+            { t: "Audio settings", d: "Stereo, 5.1 or 7.1, ambisonics (first or higher order) or Atmos; sample rate and bit depth; binaural, HRTF or object renderer." },
+            { t: "Timeline settings", d: "Resolution, aspect ratio, frame rate, track structure, snapping and how time is shown." },
+            { t: "Spatial calibration", d: "North lock and the global forward direction, horizon levelling, a stabilisation check and a proxy playback test. Calibrate before you cut." } ] },
+          { title: "Bring in footage", nodes: [
+            { t: "Import media", d: "Local files, storage, a camera or the cloud. Projection, frame rate, codec and gyro data are read automatically." },
+            { t: "Stitching for 360° cameras", d: "AI and optical-flow stitching, chromatic and lens calibration, horizon lock, stabilisation and colour matched across lenses. Output equirectangular 2:1 or cubemap." },
+            { t: "Accessories", d: "Lens guards, an invisible selfie stick, dive cases above and below water." },
+            { t: "Media processing", d: "Colour optimisation, clarity, motion ND and colour restoration, before the clip reaches the timeline." },
+            { t: "Audio clean-up", d: "Voice focus, noise reduction and close-mic modes." } ] },
+          { title: "The editor", nodes: [
+            { t: "Main editor hub", kind: "vr", d: "One project file. Every workspace opens from here, on desktop or in the headset." },
+            { t: "Enter VR mode", kind: "vr", d: "A hand-off bridge over local Wi-Fi. Only the changes sync, in real time: edit in the headset and the desktop updates, and back again." },
+            { t: "Top bar, always visible", d: "Save state and auto-save, cloud sync, who else is in the project, viewer quality and the VR mode button." },
+            { t: "Collaboration", d: "Roles for owner, editor, colourist, audio designer and reviewer, with comments on the timeline." } ] },
+          { title: "Workspaces", nodes: [
+            { t: "Media", kind: "page", d: "Bins, filters and a metadata inspector; a source monitor with a flat or sphere preview." },
+            { t: "Edit", kind: "page", d: "A 360° sphere view with the region-of-interest overlay. The timeline marks every cut as safe, caution or unsafe by how far the viewer must turn, and flags vestibular risks." },
+            { t: "Graphics and effects", kind: "page", d: "Standard effects alongside 360°-aware ones: sphere blur, seam blend, pole correction, region grades; titles locked to the world or to the head; masks, tracking, chroma key." },
+            { t: "Colour", kind: "page", d: "Waveform, parade, vectorscope and histogram; wheels for lift, gamma and gain; a LUT library, a node editor and HDR grading." },
+            { t: "Audio", kind: "page", d: "A mixer and effects chain, plus a top-down spatial map: drag a sound into the scene and pin it to the thing that makes it." },
+            { t: "VR headset mode", kind: "vr", d: "The scene as a sphere around you, the timeline as an arc at waist height, the audio console and colour desk within reach, and the asset library behind you." } ] },
+          { title: "Out", nodes: [
+            { t: "Export", kind: "page", d: "Presets for YouTube VR, VR180, Meta Quest, Apple Vision Pro and Vimeo 360; container, codec and bitrate; 360° metadata injected." },
+            { t: "Audio output", d: "Stereo, ambisonics, binaural for headphones or Dolby Atmos, with the final rotation locked to north." },
+            { t: "Render queue", d: "Progress, time left and file size for every job." },
+            { t: "Final output", kind: "start", d: "Spatially correct immersive content, with platform metadata embedded, ready to publish." } ] }
+        ] }
       ] },
 
     { key: "desktop", kicker: "The desktop environment", title: "Six workspaces. One project file. Zero tool switching.", paras: [

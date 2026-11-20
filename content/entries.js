@@ -62,28 +62,21 @@ SITE.entries = {
   ]
   ,
   uxplore: [
-    { title: "What it is", text: "UXplore is a tablet app for people starting out in UX/UI. UX laws are the foundation of good digital design, but beginners struggle to apply them in real projects. So instead of reading about a law, you do the task it describes and feel the difference." },
-    { title: "Two modes", text: "Spatial mode uses the camera and puts the lesson on the walls of the room you're in, for the laws you learn with your body: Hick's Law and Fitts's Law. 2D mode runs guided on-screen simulations for the more analytical ones, like Tesler's Law. If scanning fails, the lesson falls back to 2D on its own." },
-    { title: "Hick's Law, felt", text: "Your room fills with tiny buttons. Find and select the right one. Then the same buttons come back in a handful of groups, and the timer shows how much faster you are. Fitts's Law works the same way with large and small targets; Tesler's Law has you compare two flows and decide where the complexity should live." },
-    { title: "How it teaches", text: "Built on the SAM model, so lessons could be built, tested and refined quickly, and on constructivism and situated learning. Each law is a micro-lesson with a few short challenges; visual overlays come with explanatory text; timers, points and badges give feedback straight away; and instructions arrive one step at a time." },
-    { title: "Made for everyone", text: "Narration and captions for the AR tasks, colour-safe teal and grey icons, gentle haptics and sound cues, and the 2D fallback. Learners set their own pace and can retry any lesson." },
+    { title: "The brief", text: "An Instructional Design course: choose something people find hard to learn, then design how it should be taught. We chose the laws of UX. They are the foundation of good digital design, yet beginners struggle to apply them, because they read about them instead of experiencing them." },
+    { title: "Who it teaches, and how", text: "Beginner UX and UI learners, on a tablet. Spatial mode uses the camera and puts the lesson in the room you're in, for the laws you learn with your body. 2D mode runs guided on-screen simulations for the analytical ones. Every lesson is guided, hands-on and gamified." },
+    { title: "Three laws to begin with", text: "Hick's Law: fewer choices, faster decisions. Fitts's Law: larger and closer targets, faster actions. Tesler's Law: complexity is constant, it only shifts. Jakob's and Miller's laws were next in line." },
+    { title: "Why SAM", text: "The Successive Approximation Model suited an interactive course: build a lesson, test it, refine it, fast. It is feedback-driven, so learners see results straight away, and hands-on, so every lesson is something you do." },
+    { title: "Made for everyone", text: "Narration and captions for the AR tasks, colour-safe teal and grey icons, gentle haptics and sound cues, and a 2D fallback if scanning fails. Learners set their own pace and can retry any lesson." },
     { title: "Against the alternatives", text: "We compared UXplore with a YouTube playlist and a textbook. Videos are quick and easy to share but passive; a textbook is reliable offline but static. The AR and 2D mix needs a tablet, but it is the only one of the three where learners practise, get feedback, and can be measured." }
   ],
-  "type-and-image": [
-    { title: "What it was", text: "Two semesters of graphic design at PES: the basics of shape, silhouette and composition in the first, then type, posters, packaging and motion in the second." },
-    { title: "Shapes and silhouettes", text: "Squares turned, stacked and broken to show tension and balance; everyday things cut down to black silhouettes; and a nursery rhyme told in six small black-and-white frames." },
-    { title: "A cube of pop art", text: "Six faces in the spirit of pop art, halftone dots, flat colour and bursts, made to fold into one graphic cube." },
-    { title: "Type you can touch", text: "Letters built from sticks and photographed, a whole alphabet drawn in a style of my own, and a hierarchy study that sets one word, Typophile, in many sizes and weights." },
-    { title: "Problems to solve", text: "A road sign set for places that don't have one yet, a paper bag that argues against plastic, and film posters reduced to one strong image each." },
-    { title: "Motion", text: "Two short animations: an animal's sound turned into type that grows and bounces, and a lyric video where every word gets its own colour and movement." }
-  ],
+
   geometrica: [
-    { title: "The brief", text: "Design a new tabletop game in the serious-games category: a game whose first purpose is learning, here to make the school curriculum fun." },
-    { title: "Who it was for", text: "A fifth grader learning online, who loves board games and finds geometry too theoretical on a screen. He wants to learn in a practical way and to mix play time with study time." },
-    { title: "What I looked at", text: "Three Sticks, where players build shapes from sticks of three lengths and score by perimeter and shape, and Pizza Fraction Fun, where you build a whole pizza from fraction slices." },
-    { title: "How it plays", text: "A game conductor reads out a clue card, about shapes or about fractions, and everyone races the clock to build the answer from shape frames on a textured board: construct two-fifths of a regular pentagon, or a rhombus from two equilateral triangles. Questions start easy and get tougher; points depend on how hard the question is and how fast you finish, and the most points at the end of the deck wins." },
-    { title: "For every child", text: "The cards carry braille and the board is textured, so students with visual impairments can play too." },
-    { title: "Beyond the game", text: "The box, the logo, the rule sheets, the answer keys and a poster, so it could sit on a shelf like any other game." }
+    { title: "The brief", text: "Design a new tabletop game in the serious-games category: a game whose first purpose is learning, here to make the school curriculum fun. We chose geometry, the part of maths children find most abstract on a screen." },
+    { title: "Who it was for", text: "A fifth grader learning online, who loves board games but finds geometry too theoretical. He learns quickly by doing, and wants to mix play time with study time." },
+    { title: "A game you can feel", text: "Geometry is usually taught by looking. So we made every part of the game something you can touch: shape frames you pick up and place, a textured board that holds them, and clue cards printed in braille as well as in ink. A child who can't see the board can play at the same table as friends who can." },
+    { title: "How it plays", text: "A game conductor reads out a clue card, about shapes or fractions, and everyone races to build the answer on the board: two-fifths of a regular pentagon, or a four-sided figure from two isosceles triangles. Questions start easy and get tougher; points depend on how hard the question is and how quickly you finish, and the most points at the end of the deck wins." },
+    { title: "What we looked at", text: "Three Sticks, where players build shapes from sticks of three lengths and score by perimeter and type of shape, and Pizza Fraction Fun, where you build whole pizzas from fraction slices." },
+    { title: "In the box", text: "The board, shape frames in five kinds, shape and fraction clue cards, answer keys, the rules and a poster, designed to sit on a shelf like any other game for children eight and up." }
   ],
   "green-grocer": [
     { title: "The problem", text: "Small farmers don't know how demand moves prices, and find transport hard, so they sell through middlemen and lose out." },
@@ -101,5 +94,11 @@ SITE.entries = {
     { title: "Playtesting", text: "Paper prototypes first, then a second version where any numbered hexagon could swap with another of the same colour. New players found it engaging and easy to learn, and loved the rearrangeable map. They also found too little conflict early on, kept making mistakes when rearranging, and couldn't spot unvisited places at a glance." },
     { title: "What changed", text: "Action cards for more player-to-player conflict. Puzzle-like interlocking edges, one shape per route type, so a tile physically can't connect the wrong way. And a tray of pegs to mark the places you've claimed." },
     { title: "Built and shown", text: "Illustrated digitally, printed, and stuck onto laser-cut acrylic tiles that sit in a board with colour-coded hexagonal holes. We showed it at a public exhibition, where children picked up the rules quickly and stayed for full games." }
+  ],
+  evoke: [
+    { title: "The brief", text: "A spatial design studio: design a space from a natural form. We chose the groundnut, and asked what a place to work would feel like if it were built the way a peanut shell is." },
+    { title: "What the shell taught us", text: "A dome on one half and a bowl on the other, elongated and curved, with two halves that fit snugly together. The surface is rough and ridged for grip, the walls are thin, and the air pockets inside insulate what they hold." },
+    { title: "The pod", text: "Two rounded pods joined by a short passage, about twenty-seven feet end to end and ten feet high: one around a U-shaped table for working together, one with a curved bench for working alone. The shell is ribbed timber outside and soft inside." },
+    { title: "Evoke", text: "We named it Evoke and gave it an identity from the same source: a ribbed arch for a logo, Eina for type, and a palette taken straight from the shell, skin and kernel." }
   ]
 };
