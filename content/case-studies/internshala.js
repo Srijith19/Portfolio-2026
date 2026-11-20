@@ -137,8 +137,10 @@ SITE.caseStudies["internshala"] = {
       "Ideas were sketched on paper first, then worked into low-fidelity wireframes for every key screen: home, internships, skill-based browsing, the calendar, the help centre, sign-up and the menu."
     ], quote: "",
       blocks: [
-        { type: "images", items: [ { src: "assets/img/projects/internshala/sketches.webp", caption: "Paper sketches" } ] },
-        { type: "images", items: [ { src: "assets/img/projects/internshala/wireframes.webp", caption: "Low-fidelity wireframes" } ] }
+        { type: "collage", bg: "cream", items: [
+          { src: "assets/img/projects/internshala/sketches.webp", caption: "Paper sketches", wide: true },
+          { src: "assets/img/projects/internshala/wireframes.webp", caption: "Low-fidelity wireframes", wide: true }
+        ] }
       ] },
 
     { key: "system", phase: 4, nav: "Design system", kicker: "Design system", title: "One typeface, a cyan accent, rounded everything.", paras: [
@@ -150,63 +152,32 @@ SITE.caseStudies["internshala"] = {
           colours: ["#4CC9EE", "#F2F2F2", "#FFFFFF", "#6A93C9", "#D6D0CF", "#00B4D8", "#000000", "#2E8BFF"] }
       ] },
 
-    { key: "prototype", phase: 4, show: [
-        { type: "story", device: "phone", title: "The redesign, screen by screen", steps: [
-          { label: "Home", title: "Start from what you're looking for.", img: "assets/img/projects/internshala/s-home.webp" },
-          { label: "Internships", title: "Browse internships.", img: "assets/img/projects/internshala/s-internships.webp" },
-          { label: "Details", title: "Everything about one internship.", img: "assets/img/projects/internshala/s-details.webp" },
-          { label: "Companies", title: "Look at the companies.", img: "assets/img/projects/internshala/s-companies.webp" },
-          { label: "Training", title: "Learn the skills it asks for.", img: "assets/img/projects/internshala/s-training.webp" },
-          { label: "Calendar", title: "Keep track of dates.", img: "assets/img/projects/internshala/s-calendar.webp" },
-          { label: "Profile", title: "Your profile, in one place.", img: "assets/img/projects/internshala/s-profile.webp" }
-        ] }
-      ],
-      nav: "Prototype", kicker: "Prototype", title: "The redesign.", paras: [
-      "Home greets you with internships, training and the leaderboard, your next interview from the calendar, and the progress of your current internship. Internships open by category. Every listing shows type, pay, location and duration as tags, so paid, part-time and remote roles are visible at a glance.",
-      "The calendar keeps interviews and deadlines with reminders. Star companies have a page of their own. The profile holds the résumé, achievements, a job wishlist and certificates."
+    { key: "prototype", phase: 4, nav: "Prototype", kicker: "Prototype", title: "The redesign.", paras: [
+      "Home greets you with your next interview from the calendar, the progress of your current internship, and roles picked for you. Internships open nine ways: by category, skill, qualification, location, pay, remote, part-time, star companies or what's new. Every listing shows pay, place and length as tags, so paid, part-time and remote roles are visible at a glance.",
+      "I've brought the screens up to today's standards, with the same structure and the same cyan: bigger type, one action per screen, a small floating tab bar, and fraud protection you can see, with a verified badge on every company and a report button on every listing."
     ], quote: "",
       blocks: [
-        { type: "images", layout: "phones", items: [
-          { src: "assets/img/projects/internshala/s-home.webp", caption: "Home" },
-          { src: "assets/img/projects/internshala/s-menu.webp", caption: "Menu" },
-          { src: "assets/img/projects/internshala/s-training.webp", caption: "Training" },
-          { src: "assets/img/projects/internshala/s-masterclass.webp", caption: "A course" }
-        ] },
-        { type: "images", layout: "phones", items: [
-          { src: "assets/img/projects/internshala/s-internships.webp", caption: "Internships by category" },
-          { src: "assets/img/projects/internshala/s-skill.webp", caption: "Skill based" },
-          { src: "assets/img/projects/internshala/s-qualification.webp", caption: "Qualification based" },
-          { src: "assets/img/projects/internshala/s-companies.webp", caption: "Star companies" }
-        ] },
-        { type: "images", layout: "phones", items: [
-          { src: "assets/img/projects/internshala/s-skill-list.webp", caption: "Listings tagged by type, pay, place and length" },
-          { src: "assets/img/projects/internshala/s-details.webp", caption: "Company and internship details" },
-          { src: "assets/img/projects/internshala/s-calendar.webp", caption: "Internship calendar" },
-          { src: "assets/img/projects/internshala/s-profile.webp", caption: "Profile" }
-        ] },
-        { type: "images", items: [ { src: "assets/img/projects/internshala/collage.webp", caption: "The redesign, screen by screen" } ] }
+        { type: "story", layout: "center", device: "phone", title: "The redesign, screen by screen", steps: [
+          { label: "Home", title: "Start from what you're looking for.", points: ["Next interview, with a reminder", "Progress of your internship"], text: "Home opens on the student's own plans: the next interview, how far the current internship has got, and roles picked for them. Promotions are gone.", img: "assets/img/projects/internshala/n-home.webp" },
+          { label: "Internships", title: "Nine ways to browse.", points: ["Skill, qualification, pay, remote…", "Pay and place as tags"], text: "One long list became nine ways in, because students search differently: by what they know, what they're studying, or whether it pays. Paid ranked first in our matrix, so pay is always the first tag.", img: "assets/img/projects/internshala/n-browse.webp" },
+          { label: "Details", title: "Everything about one internship.", points: ["Verified company badge", "Report in one tap"], text: "Fraud protection ranked second. Every company shows whether it's verified, and every listing has a report button next to Apply.", img: "assets/img/projects/internshala/n-detail.webp" },
+          { label: "Calendar", title: "Keep track of dates.", points: ["Interviews and deadlines", "Reminders on each"], text: "The internship calendar keeps interviews, deadlines and end dates in one place, with a reminder on each.", img: "assets/img/projects/internshala/n-cal.webp" },
+          { label: "Companies", title: "Companies worth your time.", points: ["Rated by past interns", "Open roles at a glance"], text: "Star companies have a page of their own: verified, rated by past interns, and showing how many roles are open now.", img: "assets/img/projects/internshala/n-comp.webp" },
+          { label: "Training", title: "Learn what the roles ask for.", points: ["Courses tied to listings"], text: "Training is matched to the skills internships ask for, so a course is a step towards a role, not a detour.", img: "assets/img/projects/internshala/n-train.webp" },
+          { label: "Profile", title: "Your profile, in one place.", points: ["Résumé, achievements, wishlist, certificates"], text: "The profile holds the résumé, achievements, a job wishlist and certificates, with a professional and a personal side.", img: "assets/img/projects/internshala/n-profile.webp" }
+        ] }
       ] },
 
-  { key: "compare", phase: 5, show: [
-        { type: "compare", title: "Drag to compare: home", ar: "9 / 16", before: { src: "assets/img/projects/internshala/b-home.webp", label: "Before", kind: "screen" }, after: { src: "assets/img/projects/internshala/s-home.webp", label: "After", kind: "screen" } }
-      ],
-      nav: "Before and after", kicker: "Before and after", title: "Less noise, more choice.", paras: [
-      "The original app opens on promotions and a single search box. The redesign opens on what the student came for, and turns one long list into categories they can choose from."
+    { key: "outcome", phase: 5, nav: "Outcome", kicker: "Outcome", title: "Less noise, more choice.", paras: [
+      "The original app opened on promotions and one search box. The redesign opens on what the student came for, turns one long list into nine ways to browse, puts pay first, and makes trust visible on every listing."
     ], quote: "",
       blocks: [
-        { type: "images", layout: "phones", items: [
-          { src: "assets/img/projects/internshala/b-home.webp", caption: "Before: home" },
-          { src: "assets/img/projects/internshala/s-home.webp", caption: "After: home" },
-          { src: "assets/img/projects/internshala/b-list.webp", caption: "Before: internships" },
-          { src: "assets/img/projects/internshala/s-internships.webp", caption: "After: internships" }
-        ] },
-        { type: "images", layout: "phones", items: [
-          { src: "assets/img/projects/internshala/b-menu.webp", caption: "Before: menu" },
-          { src: "assets/img/projects/internshala/s-menu.webp", caption: "After: menu" },
-          { src: "assets/img/projects/internshala/b-details.webp", caption: "Before: internship details" },
-          { src: "assets/img/projects/internshala/s-details.webp", caption: "After: internship details" }
-        ] }
+        { type: "split", items: [ { title: "Before and after", text: "Left, the 2021 home screen. Right, the redesign: the student's own plans first, then roles that fit them.", img: "assets/img/projects/internshala/before-after.webp" } ] }
       ] }
   ],
-  finale: { title: "A clearer path from search to internship", text: "Research first, then a structure built around what students said they needed: pay they can see, roles they can find by skill or qualification, and companies they can trust.", image: "assets/img/projects/internshala/collage-2.webp" }
+  conclusion: {
+    why: "Internshala is where most Indian students look for internships, but finding one that fits your skills was hard, unpaid listings crowded the feed, and students didn't know which companies to trust.",
+    how: "Research first, then a structure built around what students said they needed: pay they can see, roles they can find by skill or qualification, companies they can trust, and the dates that matter in one calendar.",
+    ended: "As a high-fidelity prototype with nine ways to browse internships, an internship calendar and fraud reporting, benchmarked against LinkedIn and Glassdoor."
+  }
 };

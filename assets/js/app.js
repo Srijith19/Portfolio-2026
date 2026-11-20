@@ -116,7 +116,7 @@
 
   /* ---------- shell ---------- */
   function shell(route) {
-    const top = route.page === "p" ? "work" : route.page;
+    const top = route.page === "p" || areaOf(route.page) ? "work" : route.page;
     return `<a class="skip" href="#main" data-skip>Skip to content</a>
     <header class="nav"><div class="wrap">
       <a class="wordmark" href="#home" aria-label="${esc(S.owner.name)}, home"><i aria-hidden="true"></i>${esc(S.owner.name)}</a>
@@ -203,22 +203,15 @@
     ${contactBlock()}
     </main>`;
   }
-  /* Areas of work: a stage with three pills. Each area shows its video (or a still), its line and three projects. */
+  /* Areas of work: the Work page's three rooms, in one box on Home. The area names sit on top; the rooms change on their own. */
   function areasStage() {
-    const A2 = S.areas;
-    const projs = (a) => (a.projects || []).map((id) => byId[id]).filter((p) => p && !p.hidden);
+    const A2 = S.areas || [];
     return `<section class="section areas" aria-labelledby="ar-h" style="padding-top:0">
-      <div class="wrap"><div class="section-head"><div><span class="dot-label">.areas of work</span><h2 id="ar-h">Areas of work.</h2></div></div></div>
-      <div class="stage-wrap"><div class="stage" id="stage">
-        <div class="stage-media" aria-hidden="true">${A2.map((a, i) => `<div class="sm${i === 0 ? " on" : ""}">${a.homeVideo || a.video ? `<video src="${esc(a.homeVideo || a.video)}" poster="${esc(a.homePoster || a.poster)}" muted loop playsinline preload="${i === 0 ? "auto" : "metadata"}"></video>` : `<img src="${esc(a.poster)}" alt="">`}</div>`).join("")}</div>
-        <div class="stage-shade" aria-hidden="true"></div>
-        ${A2.map((a, i) => `<div class="stage-panel" role="tabpanel" id="panel-${a.key}" aria-labelledby="tab-${a.key}"${i ? " hidden" : ""}>
-          <h3>${esc(a.label)}</h3><p>${esc(a.line)}</p>
-          <div class="stage-projects">${projs(a).slice(0, 3).map((p) => `<a class="sp" href="${href(p)}"><span class="sp-img">${p.cover ? `<img src="${esc(p.cover)}" alt="" loading="lazy" style="object-position:${esc(p.focus || "50% 50%")}">` : ""}</span><span>${esc(p.title)}</span></a>`).join("")}</div>
-          <a class="more stage-all" href="#${esc(a.slug)}">Explore ${esc(a.label)}</a>
-        </div>`).join("")}
-        <div class="seg" role="tablist" aria-label="Areas of work"><span class="seg-ind" aria-hidden="true"></span>${A2.map((a, i) => `<button type="button" role="tab" id="tab-${a.key}" aria-controls="panel-${a.key}" aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}" data-area="${i}"><span class="l-long">${esc(a.label)}</span><span class="l-short">${esc(a.short || a.label)}</span><i class="tab-bar" aria-hidden="true"></i></button>`).join("")}</div>
-      </div></div>
+      <div class="wrap"><div class="section-head"><div><span class="dot-label">.areas of work</span><h2 id="ar-h">Areas of work.</h2></div><a class="more" href="#work">All work</a></div>
+        <div class="wk wk-mini" data-wkm style="--n:${A2.length}">
+          <div class="wkm-top" role="tablist" aria-label="Areas of work">${A2.map((a, i) => `<button type="button" role="tab" data-wkm-go="${i}" aria-selected="${!i}"><span class="mono">${pad2(i + 1)}</span>${esc(a.label)}<i class="wkm-bar" aria-hidden="true"></i></button>`).join("")}</div>
+          <div class="wkm-stage">${A2.map((a, i) => wkPanel(a, i, A2.length)).join("")}</div>
+        </div></div>
     </section>`;
   }
   /* The current role. Becomes a case-study row once that project is public. */
@@ -255,31 +248,50 @@
       </span></a></div></section>`;
   }
   /* The hero orbit: a figure with everything I work on circling around it. */
-  function orbit() {
-    const fig = `<svg class="figure" viewBox="0 0 200 320" aria-hidden="true">
-      <ellipse cx="100" cy="306" rx="58" ry="8" class="f-shadow"/>
-      <path d="M80 182 L76 288 M120 182 L124 288" class="f-limb" stroke-width="22"/>
-      <path d="M62 298 H86 M114 298 H138" class="f-limb" stroke-width="10"/>
-      <path d="M60 98 Q46 140 50 186" class="f-limb" stroke-width="17"/>
-      <path class="f-arm f-limb" d="M140 98 Q166 118 176 86" stroke-width="17"/>
-      <path d="M60 94 Q100 80 140 94 L148 182 Q100 192 52 182 Z" class="f-body"/>
-      <rect x="92" y="70" width="16" height="16" class="f-body"/>
-      <circle cx="100" cy="46" r="27" class="f-body"/>
-      <rect x="73" y="35" width="54" height="22" rx="10" class="f-visor"/>
-      <path d="M80 41 h18" class="f-glint"/>
+  /* The hero: me, standing, faceless, with everything I work on circling my head. Drawn from my photo:
+     swept-up hair, a beard line, a dark polo and backpack straps. Tap him and he waves. */
+  function standingMe() {
+    return `<svg class="me-fig" viewBox="0 0 240 500" role="img" aria-label="${esc(S.owner.name)}, drawn standing">
+      <defs><linearGradient id="mf-shirt" x1="0" x2="1"><stop offset="0" class="mf-s1"/><stop offset="1" class="mf-s2"/></linearGradient></defs>
+      <ellipse cx="120" cy="486" rx="76" ry="9" class="mf-shadow"/>
+      <g class="mf-legs">
+        <path d="M78 292 L164 292 L162 326 L156 466 L132 466 L124 344 L116 344 L108 466 L84 466 L78 326 Z" class="mf-jeans"/>
+        <path d="M120 296 V340" class="mf-seam"/><path d="M95 330 L95 462 M145 330 L145 462" class="mf-crease"/>
+        <path d="M84 462 h26 c9 0 15 7 15 15 H78 c-1-8 1-15 6-15z M130 462 h26 c5 0 8 7 7 15 H116 c0-8 5-15 14-15z" class="mf-shoe"/>
+        <path d="M79 477 h46 M116 477 h46" class="mf-sole"/>
+      </g>
+      <g class="mf-arm mf-arm-l"><path d="M58 198 C52 228 54 258 66 284" class="mf-limb"/><circle cx="68" cy="290" r="10.5" class="mf-skin"/></g>
+      <g class="mf-torso">
+        <path d="M62 142 C82 128 102 126 120 128 C138 126 158 128 178 142 L192 200 L170 209 L168 298 C142 307 98 307 72 298 L70 209 L48 200 Z" fill="url(#mf-shirt)"/>
+        <path d="M70 209 L72 197 M170 209 L168 197" class="mf-hem"/>
+        <path d="M101 127 L120 152 L139 127 L132 124 L120 139 L108 124 Z" class="mf-collar"/>
+        <path d="M120 152 V186" class="mf-placket"/><circle cx="120" cy="165" r="1.9" class="mf-btn"/><circle cx="120" cy="178" r="1.9" class="mf-btn"/>
+        <path d="M90 131 C85 170 85 214 89 254 M150 131 C155 170 155 214 151 254" class="mf-strap"/>
+        <rect x="80" y="196" width="16" height="10" rx="2" class="mf-buckle"/><rect x="144" y="196" width="16" height="10" rx="2" class="mf-buckle"/>
+      </g>
+      <g class="mf-arm mf-arm-r"><path d="M182 198 C188 228 186 258 174 284" class="mf-limb"/><circle cx="172" cy="290" r="10.5" class="mf-skin"/></g>
+      <g class="mf-head">
+        <path d="M105 104 h30 v28 c-8 5-22 5-30 0z" class="mf-neck"/>
+        <ellipse cx="83" cy="84" rx="6.5" ry="11" class="mf-skin"/><ellipse cx="157" cy="84" rx="6.5" ry="11" class="mf-skin"/>
+        <ellipse cx="120" cy="78" rx="37" ry="43" class="mf-skin"/>
+        <path d="M84 80 C85 108 102 123 120 124 C138 123 155 108 156 80 C152 95 143 104 133 105 C127 99 113 99 107 105 C97 104 88 95 84 80 Z" class="mf-beard"/>
+        <path d="M106 98 C113 93 127 93 134 98 C127 100 113 100 106 98 Z" class="mf-beard"/>
+        <path d="M80 76 C73 46 88 20 112 15 C121 4 142 3 152 14 C165 18 171 36 166 54 C168 61 164 69 160 75 C158 64 153 56 147 52 C140 58 127 58 119 52 C110 58 98 60 92 64 C87 68 83 72 80 76 Z" class="mf-hair"/>
+        <path d="M100 30 C110 21 124 19 136 23 M114 38 C124 31 138 31 150 38 M146 22 C152 24 157 30 158 38" class="mf-tuft"/>
     </svg>`;
+  }
+  function orbit() {
     const nodes = S.orbit.map((o, i) => {
       const attrs = o.facet ? ` href="#archive" data-facet="${o.facet}" data-value="${esc(o.value)}"` : o.href ? ` href="${o.href}"` : "";
       const tag = attrs ? "a" : "span";
       return `<li><${tag} class="node r${o.ring}${o.icon ? "" : " tool"}"${attrs} data-ring="${o.ring}" data-i="${i}">${o.icon ? `<span class="nd-ic">${pxIcon(o.icon)}</span>` : ""}<span>${esc(o.label)}</span></${tag}></li>`;
     }).join("");
-    const me = S.owner.orbitPhoto ? `<canvas class="me pix-me" data-pix="${esc(S.owner.orbitPhoto)}" role="img" aria-label="${esc(S.owner.name)}, drawn in pixels"></canvas>` : fig;
-    return `<div class="orbit${S.owner.orbitPhoto ? " has-me" : ""}" id="orbit">
-      <svg class="rings" viewBox="0 0 600 600" aria-hidden="true"><g transform="rotate(-10 300 410)">
-        <ellipse cx="300" cy="410" rx="282" ry="80"/><ellipse cx="300" cy="410" rx="214" ry="60"/><ellipse cx="300" cy="410" rx="146" ry="40"/></g></svg>
+    return `<div class="orbit has-fig" id="orbit">
+      <svg class="rings" viewBox="0 0 600 760" aria-hidden="true"><g transform="rotate(-8 300 167)">
+        <ellipse cx="300" cy="167" rx="282" ry="62"/><ellipse cx="300" cy="167" rx="208" ry="46"/><ellipse cx="300" cy="167" rx="140" ry="31"/></g></svg>
       <div class="glow" aria-hidden="true"></div>
-      ${me}
-      ${S.owner.orbitPhoto ? `<span class="me-bub mono" aria-live="polite"></span><span class="orb-hint mono" aria-hidden="true">Tap me · drag the ring</span>` : ""}
+      <button type="button" class="me-btn" aria-label="Say hello">${standingMe()}</button>
+      <span class="me-bub mono" aria-live="polite"></span><span class="orb-hint mono" aria-hidden="true">Tap me · drag the ring</span>
       <ul class="nodes" aria-label="What I work on">${nodes}</ul>
     </div>`;
   }
@@ -436,21 +448,143 @@
     </main>`;
   }
 
-  /* ---------- WORK ---------- */
-  function work() {
-    const ux = S.uxFeatured.map((id) => byId[id]).filter((p) => p && !p.hidden);
-    const used = new Set(ux.map((p) => p.id));
-    const groups = [["XR", "Extended reality"], ["Game", "Games"], ["Film", "Film"], ["Visual", "Visual media"], ["Physical", "Physical play"]].map(([d, label]) => {
-      const list = ordered.filter((p) => p.discipline === d && !used.has(p.id)); list.forEach((p) => used.add(p.id)); return [label, d, list];
-    }).filter(([, , l]) => l.length);
-    const moreUx = ordered.filter((p) => !used.has(p.id));
-    return `<main id="main">
-      <div class="wrap page-head"><span class="label">Work</span><h1>Work.</h1><p class="lead">UX case studies first, then one shelf for every other kind of work.</p></div>
-      <div class="wrap"><div class="section-head" data-reveal><div><span class="dot-label">.ux design · case studies</span><h2>UX design.</h2></div></div>${ux.map(featureRow).join("")}</div>
-      ${groups.map(([label, d, list]) => `<section class="wrap section" style="padding-bottom:0"><div class="section-head" data-reveal><div><span class="dot-label">.${esc(label.toLowerCase())}</span><h2>${esc(label)}.</h2></div><a class="more" href="#archive" data-facet="discipline" data-value="${d}">In the archive</a></div>
-        <div class="grid">${list.map(card).join("")}</div></section>`).join("")}
-      ${moreUx.length ? `<section class="wrap section" style="padding-bottom:0"><div class="section-head" data-reveal><div><span class="dot-label">.more ux</span><h2>More UX.</h2></div></div><div class="grid">${moreUx.map(card).join("")}</div></section>` : ""}
+  /* ---------- WORK: three rooms, one scroll each. UX on a design canvas, XR in a headset room,
+     Graphics and Games as a hand of cards. Four projects in each; the rest live in the archive. ---------- */
+  const workList = (a) => (a.work || a.projects || []).map((id) => byId[id]).filter((p) => p && !p.hidden).slice(0, 4);
+  function wkKind(p) { return { UX: "Case study", XR: "XR", Game: "Game", Film: "360° film", Visual: "Worldbuilding", Physical: "Board game" }[p.discipline] || p.discipline; }
+  function wkUx(a, ps) {
+    return `<div class="wk-canvas" data-wk-canvas>
+      <div class="wkc-bar mono" aria-hidden="true"><span><i></i><i></i><i></i></span><span>ux-design.fig</span><span>100%</span></div>
+      <div class="wkc-board">${ps.map((p, i) => `<a class="wkc-f f${i}" href="${href(p)}" data-wkf="${i}">
+          <span class="wkc-lab mono">Frame · ${esc(p.title)}</span>
+          <span class="wkc-img">${p.cover ? `<img src="${esc(p.cover)}" alt="" loading="lazy" style="object-position:${esc(p.focus || "50% 50%")}">` : ""}</span>
+          <span class="wkc-cap"><b>${esc(p.title)}</b><em>${esc(p.summary)}</em></span>
+          <i class="hb-h tl"></i><i class="hb-h tr"></i><i class="hb-h bl"></i><i class="hb-h br"></i></a>`).join("")}
+        <span class="wkc-cur" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M2 1l11 6.5-5 1.2L5.6 14z"/></svg><em>${esc(S.owner.name.split(" ")[0])}</em></span>
+        <span class="wkc-note n2" aria-hidden="true">real problems</span>
+      </div></div>`;
+  }
+  function wkXr(a, ps) {
+    const n = ps.length;
+    return `<div class="wk-room" data-wk-room style="--n:${n}">
+      <div class="wkr-floor" aria-hidden="true"></div><div class="wkr-guard" aria-hidden="true"></div>
+      <div class="wkr-ring">${ps.map((p, i) => `<a class="wkr-pan" href="${href(p)}" style="--i:${i};--o:${(i - (n - 1) / 2).toFixed(1)};--d:${(Math.abs(i - (n - 1) / 2) * 90).toFixed(0)}px">
+        <span class="wkr-m">${p.cover ? `<img src="${esc(p.cover)}" alt="" loading="lazy" style="object-position:${esc(p.focus || "50% 50%")}">` : ""}</span>
+        <span class="wkr-l"><b>${esc(p.title)}</b><em class="mono">${esc(wkKind(p))} · ${esc(yearLabel(p))}</em></span></a>`).join("")}</div>
+      <span class="wkr-ret" aria-hidden="true"></span>
+      <span class="wkr-hud mono" aria-hidden="true"><i></i>Tracking · move to look around</span>
+    </div>`;
+  }
+  function wkGg(a, ps) {
+    const n = ps.length;
+    return `<div class="wk-hand" data-wk-hand style="--n:${n}">${ps.map((p, i) => `<a class="wkh-c" href="${href(p)}" style="--i:${i};--o:${(i - (n - 1) / 2).toFixed(1)};--y:${(Math.abs(i - (n - 1) / 2) * 22).toFixed(0)}px">
+        <span class="wkh-in"><span class="wkh-img">${p.cover ? `<img src="${esc(p.cover)}" alt="" loading="lazy" style="object-position:${esc(p.focus || "50% 50%")}">` : ""}</span>
+        <span class="wkh-k mono">${pad2(i + 1)} · ${esc(wkKind(p))}</span><b>${esc(p.title)}</b><span class="wkh-s">${esc(p.summary)}</span><i class="wkh-shine" aria-hidden="true"></i></span></a>`).join("")}</div>`;
+  }
+  // One area as a room: its name and four projects on the left, its scene on the right. Used on Work and, smaller, on Home.
+  function wkPanel(a, i, n) { const ps = workList(a);
+      return `<section class="wk-p wk-${esc(a.key)}${i ? "" : " on"}" data-wk-p="${i}" id="wk-${esc(a.slug)}" aria-label="${esc(a.label)}">
+        <div class="wk-copy"><span class="wk-no mono">${pad2(i + 1)} / ${pad2(n)}</span><h2>${esc(a.label)}.</h2><p class="lead">${esc(a.line)}</p>
+          <ul class="wk-list">${ps.map((p) => `<li><a href="${href(p)}"><span>${esc(p.title)}</span><em class="mono">${esc(yearLabel(p))}</em></a></li>`).join("")}</ul>
+          <a class="more" href="#archive" data-facet="discipline" data-value="${esc(a.disciplines[0])}">More ${esc(a.short || a.label)} in the archive</a></div>
+        <div class="wk-stage">${a.key === "ux" ? wkUx(a, ps) : a.key === "xr" ? wkXr(a, ps) : wkGg(a, ps)}</div>
+      </section>`; }
+  function work(focus) {
+    const A3 = S.areas || [];
+    const panel = (a, i) => wkPanel(a, i, A3.length);
+    return `<main id="main" class="wk-page">
+      <div class="wk" data-wk data-focus="${esc(focus || "")}" style="--n:${A3.length}">
+        <div class="wk-pin">
+          ${A3.map(panel).join("")}
+          <span class="wk-hint mono" aria-hidden="true">Scroll</span>
+        </div>
+      </div>
+      <section class="wrap wk-end" data-reveal><div><span class="dot-label">.everything else</span><h2>Want the whole list?</h2><p class="muted">Every project, newest first, with filters and search.</p></div>
+        <div class="area-next-links"><a class="btn" href="#archive">Browse the archive</a><a class="btn ghost" href="#films"><i class="rec" aria-hidden="true"></i>Films</a></div></section>
     </main>`;
+  }
+  /* One scroll, one room. On wide screens the rooms are pinned and the wheel moves a whole room at a time. */
+  function workPage() {
+    const wk = $("[data-wk]"); if (!wk) return;
+    const ps = $$("[data-wk-p]", wk), rail = $$("[data-wk-go]", wk), prog = $(".wk-prog", wk), n = ps.length;
+    const pinned = () => matchMedia("(min-width: 900px) and (min-height: 600px)").matches && !reduced;
+    let cur = 0, locked = false, unl = 0;
+    const set = (i) => { if (i === cur && ps[i].classList.contains("on")) return; cur = i;
+      ps.forEach((p, k) => { p.classList.toggle("on", k === i); p.classList.toggle("past", k < i); });
+      rail.forEach((r, k) => { r.classList.toggle("on", k === i); r.setAttribute("aria-current", k === i ? "true" : "false"); });
+      if (prog) prog.style.setProperty("--p", n > 1 ? i / (n - 1) : 0); };
+    const navH = () => parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--nav-h")) || 64;
+    const top = () => wk.getBoundingClientRect().top + (lenis ? lenis.scroll : scrollY);
+    const target = (i) => top() - navH() + i * innerHeight;
+    const go = (i, now) => { i = Math.max(0, Math.min(n - 1, i)); if (pinned()) goTo(target(i), now); else goTo(ps[i], now); set(i); };
+    const onS = () => { if (!pinned()) { let k = 0; ps.forEach((p, j) => { if (p.getBoundingClientRect().top < innerHeight * 0.5) k = j; }); set(k); return; }
+      const y = navH() - wk.getBoundingClientRect().top; set(Math.max(0, Math.min(n - 1, Math.round(y / innerHeight)))); };
+    onScroll(onS);
+    const wheel = (e) => { if (!pinned()) return; const r = wk.getBoundingClientRect(); const inside = r.top <= navH() + 2 && r.bottom >= innerHeight - 2; if (!inside) return;
+      const dir = e.deltaY > 0 ? 1 : e.deltaY < 0 ? -1 : 0; if (!dir) return;
+      const nx = cur + dir; if (!locked && (nx < 0 || nx > n - 1)) return;
+      e.preventDefault(); e.stopImmediatePropagation();
+      clearTimeout(unl); unl = setTimeout(() => { locked = false; }, locked ? 260 : 950);
+      if (locked) return; locked = true; go(nx); };
+    addEventListener("wheel", wheel, { passive: false, capture: true });
+    const key = (e) => { if (!pinned() || /input|textarea|select/i.test((e.target.tagName || ""))) return; const r = wk.getBoundingClientRect(); if (r.top > navH() + 2 || r.bottom < innerHeight - 2) return;
+      const d = ["ArrowDown", "PageDown", " "].includes(e.key) ? 1 : ["ArrowUp", "PageUp"].includes(e.key) ? -1 : 0; if (!d) return; const nx = cur + d; if (nx < 0 || nx > n - 1) return; e.preventDefault(); go(nx); };
+    addEventListener("keydown", key);
+    rail.forEach((b, i) => b.addEventListener("click", () => { go(i); haptic("tick"); }));
+    cleanup.push(() => { removeEventListener("wheel", wheel, { capture: true }); removeEventListener("keydown", key); clearTimeout(unl); });
+    const fk = wk.dataset.focus, fi = fk ? (S.areas || []).findIndex((a) => a.key === fk) : -1;
+    if (fi > 0) requestAnimationFrame(() => go(fi, true)); else onS();
+    wkCanvas(); wkRoom(); wkHand();
+  }
+  // Home's small Work box: the rooms change every few seconds while it's on screen; picking one waits a while before moving on
+  function wkMini() {
+    const w = $("[data-wkm]"); if (!w) return;
+    const ps = $$("[data-wk-p]", w), bs = $$("[data-wkm-go]", w), n = ps.length, DUR = 5500;
+    let cur = 0, t, resume, seen = false, auto = !reduced;
+    const show = (i) => { cur = (i + n) % n;
+      ps.forEach((p, k) => { p.classList.toggle("on", k === cur); p.classList.toggle("past", k < cur); });
+      bs.forEach((b, k) => { b.setAttribute("aria-selected", k === cur); b.classList.toggle("run", k === cur && auto && seen); });
+      w.dataset.on = (S.areas[cur] || {}).key || ""; };
+    const loop = () => { clearTimeout(t); if (auto && seen) t = setTimeout(() => { if (!w.isConnected) return; show(cur + 1); loop(); }, DUR); };
+    bs.forEach((b, k) => b.addEventListener("click", () => { auto = false; clearTimeout(t); clearTimeout(resume); show(k); haptic("tick");
+      resume = setTimeout(() => { auto = !reduced; show(cur); loop(); }, 12000); }));
+    const io = new IntersectionObserver((es) => es.forEach((e) => { seen = e.isIntersecting; show(cur); if (seen) loop(); else clearTimeout(t); }), { threshold: 0.3 });
+    io.observe(w); cleanup.push(() => { io.disconnect(); clearTimeout(t); clearTimeout(resume); });
+    show(0); wkCanvas(); wkRoom(); wkHand();
+  }
+  // UX canvas: the cursor walks the frames until you take over
+  function wkCanvas() {
+    const c = $("[data-wk-canvas]"); if (!c) return;
+    const fs = $$("[data-wkf]", c), cur = $(".wkc-cur", c), board = $(".wkc-board", c); let i = 0, auto = !reduced, t;
+    const sel = (k) => { i = (k + fs.length) % fs.length; fs.forEach((f, j) => f.classList.toggle("sel", j === i));
+      const r = fs[i].getBoundingClientRect(), b = board.getBoundingClientRect(); cur.style.transform = `translate(${(r.left - b.left + r.width * 0.62).toFixed(0)}px, ${(r.top - b.top + r.height * 0.55).toFixed(0)}px)`;
+      if (auto) { clearTimeout(t); t = setTimeout(() => sel(i + 1), 2600); } };
+    fs.forEach((f, k) => { f.addEventListener("pointerenter", () => { auto = false; clearTimeout(t); sel(k); }); f.addEventListener("focus", () => { auto = false; clearTimeout(t); sel(k); }); });
+    c.addEventListener("pointerleave", () => { if (!reduced) { auto = true; clearTimeout(t); t = setTimeout(() => sel(i + 1), 1400); } });
+    const rs = () => sel(i); addEventListener("resize", rs); cleanup.push(() => { clearTimeout(t); removeEventListener("resize", rs); });
+    setTimeout(() => sel(0), 60);
+  }
+  // XR room: the pointer turns your head; idle, it looks around slowly
+  function wkRoom() {
+    const r = $("[data-wk-room]"); if (!r || reduced) return;
+    const ret = $(".wkr-ret", r); let yaw = 0, pitch = 0, ty = 0, tp = 0, track = false, raf, t0 = performance.now(), vis = true;
+    const mv = (e) => { const b = r.getBoundingClientRect(); ty = ((e.clientX - b.left) / b.width - 0.5) * 30; tp = ((e.clientY - b.top) / b.height - 0.5) * -10; ret.style.transform = `translate(${e.clientX - b.left}px, ${e.clientY - b.top}px)`; track = true; r.classList.add("tracking"); };
+    const lv = () => { track = false; r.classList.remove("tracking"); };
+    r.addEventListener("pointermove", mv); r.addEventListener("pointerleave", lv);
+    const loop = (now) => { raf = requestAnimationFrame(loop); if (!vis) return; const idle = Math.sin((now - t0) / 3000) * 8; yaw += ((track ? ty : idle) - yaw) * 0.06; pitch += ((track ? tp : 0) - pitch) * 0.06; r.style.setProperty("--yaw", yaw.toFixed(2) + "deg"); r.style.setProperty("--pitch", pitch.toFixed(2) + "deg"); };
+    const io = new IntersectionObserver(([en]) => { vis = en.isIntersecting; }); io.observe(r);
+    raf = requestAnimationFrame(loop);
+    cleanup.push(() => { cancelAnimationFrame(raf); io.disconnect(); });
+  }
+  // A hand of cards: hover one and it lifts; the cards tilt toward the pointer
+  function wkHand() {
+    const h = $("[data-wk-hand]"); if (!h || reduced || !matchMedia("(pointer: fine)").matches) return;
+    $$(".wkh-c", h).forEach((c) => {
+      const inn = $(".wkh-in", c);
+      c.addEventListener("pointermove", (e) => { const b = c.getBoundingClientRect(), x = (e.clientX - b.left) / b.width - 0.5, y = (e.clientY - b.top) / b.height - 0.5;
+        inn.style.transform = `rotateY(${(x * 16).toFixed(1)}deg) rotateX(${(-y * 14).toFixed(1)}deg)`; inn.style.setProperty("--sx", ((x + 0.5) * 100).toFixed(0) + "%"); inn.style.setProperty("--sy", ((y + 0.5) * 100).toFixed(0) + "%"); });
+      c.addEventListener("pointerleave", () => { inn.style.transform = ""; });
+    });
   }
 
   /* ---------- ARCHIVE ---------- */
@@ -518,8 +652,8 @@
   }
 
   /* ---------- ASK: type what you need, get the projects that fit ---------- */
-  const ASK_EXAMPLES = ["an XR designer for a training app", "UX research in healthcare", "someone to edit a 360° film", "game and world design", "branding for a food startup", "a designer for an e-commerce app"];
-  const ASK_CHIPS = [["UX for healthcare", "ux healthcare"], ["VR and spatial", "vr spatial"], ["Games", "game design"], ["Film", "film video editing"], ["Branding", "branding visual"]];
+  const ASK_EXAMPLES = ["UX design", "VR design", "spatial interfaces", "UX research", "game design", "360° film"];
+  const ASK_CHIPS = [["UX", "ux design"], ["VR", "vr"], ["Spatial", "spatial"], ["UX research", "ux research"], ["Games", "game design"], ["Film", "film"]];
   function askBox(value = "", compact = false) {
     return `<form class="ask${compact ? " compact" : ""}" role="search" data-ask>
       <label class="ask-l" for="ask-q"><span class="dot-label">.ask</span><span>${compact ? "Try something else" : `Tell me what you need from ${esc(S.owner.name.split(" ")[0])}`}</span></label>
@@ -584,7 +718,7 @@
   }
   function askHero() {
     return `<form class="ask ask-hero ask-mini" role="search" data-ask>
-      <label for="ask-q" class="am-l mono"><i class="ah-dot" aria-hidden="true"></i>Looking for something specific?</label>
+      <label for="ask-q" class="am-l mono"><i class="ah-dot" aria-hidden="true"></i>What are you looking for? Name the kind of work.</label>
       <div class="ask-box"><input id="ask-q" name="q" type="text" placeholder="e.g. ${esc(ASK_EXAMPLES[0])}" autocomplete="off" enterkeyhint="go"><button class="btn" type="submit">Show me</button></div>
       <div class="ask-chips">${ASK_CHIPS.map(([l, q]) => `<button type="button" class="pill" data-ask-chip="${esc(q)}">${esc(l)}</button>`).join("")}</div>
     </form>`;
@@ -704,16 +838,20 @@
     cleanup.push(() => { cancelAnimationFrame(raf); io2 && io2.disconnect(); });
   }
   function pixelMe() {
-    const cv = $("canvas[data-pix]"); if (!cv) return;
-    let fx = null; const orb = $("#orbit");
-    const im = new Image(); im.onload = () => { fx = pixelField(cv, im, { cols: 76, radius: 58, crop: [60, 0, 640, 570], host: orb || cv }); }; im.src = cv.dataset.pix;
-    // Tap the portrait: the pixels scatter and reassemble, and it says something
-    const LINES = ["Hello!", "Poke me again", "Pixels, reassembling…", "Drag the ring to spin it", "Made of a few thousand squares", "Okay, that tickles"];
-    let li = 0; const bub = $(".me-bub", orb);
-    cv.addEventListener("click", (e) => { const r = cv.getBoundingClientRect(); fx && fx.burst(e.clientX - r.left, e.clientY - r.top); haptic("tick");
+    const orb = $("#orbit"); if (!orb) return;
+    const btn = $(".me-btn", orb), fig = $(".me-fig", orb), bub = $(".me-bub", orb);
+    const LINES = ["Hello!", "Hi, I'm Srijith", "Drag the ring to spin it", "UX, XR, games and films", "Thanks for stopping by", "Okay, that tickles"];
+    let li = 0, wt;
+    btn && btn.addEventListener("click", () => { haptic("tick");
+      fig.classList.remove("wave"); void fig.getBoundingClientRect(); fig.classList.add("wave"); clearTimeout(wt); wt = setTimeout(() => fig.classList.remove("wave"), 1600);
       if (bub) { bub.textContent = LINES[li++ % LINES.length]; bub.classList.remove("on"); void bub.offsetWidth; bub.classList.add("on"); } });
+    cleanup.push(() => clearTimeout(wt));
     const hero = $(".hero"); if (!hero || reduced || !matchMedia("(pointer: fine)").matches) return;
-    const mv = (e) => { const r = hero.getBoundingClientRect(); hero.style.setProperty("--mx", ((e.clientX - r.left) / r.width - 0.5).toFixed(3)); hero.style.setProperty("--my", ((e.clientY - r.top) / r.height - 0.5).toFixed(3)); };
+    // The head turns a little toward the pointer
+    const head = $(".mf-head", orb);
+    const mv = (e) => { const r = hero.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - 0.5, y = (e.clientY - r.top) / r.height - 0.5;
+      hero.style.setProperty("--mx", x.toFixed(3)); hero.style.setProperty("--my", y.toFixed(3));
+      if (head) head.style.transform = `rotate(${(x * 10).toFixed(2)}deg) translateY(${(y * 3).toFixed(1)}px)`; };
     hero.addEventListener("pointermove", mv);
   }
   function askCycle() {
@@ -756,7 +894,7 @@
     const fig = (f, cls = "") => `<figure class="bfig${cls}" data-reveal>${f.zoom ? `<a class="zoom" href="${esc(f.zoom)}" target="_blank" rel="noopener">${img(f)}</a>` : img(f)}${f.caption || f.zoom ? `<figcaption>${esc(f.caption || "")}${f.zoom ? ` <a class="more" href="${esc(f.zoom)}" target="_blank" rel="noopener">Open full size</a>` : ""}</figcaption>` : ""}</figure>`;
     const head = b.title ? `<h3 class="blk-h">${esc(b.title)}</h3>` : "";
     if (b.type === "text") return `<div class="blk blk-text">${head}${b.paras.map((t) => `<p>${esc(t)}</p>`).join("")}</div>`;
-    if (b.type === "images") return `<div class="blk wide"><div class="wrap"><div class="figs ${b.layout === "masonry" || b.layout === "phones" ? b.layout : "n" + Math.min(b.items.length, 4)}">${b.items.map((f) => fig(f)).join("")}</div></div></div>`;
+    if (b.type === "images") return `<div class="blk wide"><div class="wrap"><div class="figs ${b.layout === "masonry" || b.layout === "phones" || b.layout === "wraps" ? b.layout : "n" + Math.min(b.items.length, 4)}">${b.items.map((f) => fig(f)).join("")}</div></div></div>`;
     if (b.type === "chips") return `<div class="blk blk-text">${head}<div class="theme-chips">${b.items.map((x) => `<span>${esc(x)}</span>`).join("")}</div></div>`;
     if (b.type === "causes") return `<div class="blk wide"><div class="wrap">${head}<div class="causes">${b.items.map((x, i) => `<div data-reveal><span class="mono">${pad2(i + 1)}</span><h4>${esc(x.title)}</h4><p>${esc(x.text)}</p></div>`).join("")}</div></div></div>`;
     if (b.type === "voices") return `<div class="blk wide band voices-band"><div class="wrap">${head}<div class="voices">${b.items.map((v) => `<figure data-reveal><blockquote>${esc(v.text)}</blockquote><figcaption>${esc(v.who)}</figcaption></figure>`).join("")}</div></div></div>`;
@@ -803,7 +941,29 @@
     }
     // Image beside text, alternating sides
     if (b.type === "split") return `<div class="blk wide"><div class="wrap pairs">${b.items.map((x) => `<article class="pair" data-reveal><figure>${x.img ? `<img src="${esc(x.img)}" alt="${esc(x.title)}" loading="lazy">` : ""}</figure><div class="pair-t"><h4>${esc(x.title)}</h4><p>${esc(x.text)}</p></div></article>`).join("")}</div></div>`;
+    // Geometrica, playable: a clue card, a shape cut into parts, tap the parts to build the answer
+    if (b.type === "geoplay") return `<div class="blk wide"><div class="wrap">${head}<div class="geo-play" data-geoplay='${esc(JSON.stringify(b.clues))}'>
+        <div class="geo-card"><span class="mono geo-kind">Clue card</span><p class="geo-q"></p><span class="geo-br" aria-hidden="true"></span><div class="geo-acts"><button type="button" class="geo-btn" data-geo="next">Next clue</button><button type="button" class="geo-btn ghost" data-geo="clear">Clear</button></div><p class="geo-say mono" aria-live="polite"></p></div>
+        <div class="geo-board"><svg viewBox="-120 -120 240 240" role="group" aria-label="Tap the parts of the shape to fill them"></svg><span class="geo-dots" aria-hidden="true"></span></div>
+      </div>${b.caption ? `<p class="blk-cap">${esc(b.caption)}</p>` : ""}</div></div>`;
+    // Conclusion cards for pages that aren't case studies
+    if (b.type === "concl") { const rows = [["Why it was done", b.why], ["How it was solved", b.how], ["How it ended", b.ended]].filter(([, v]) => v);
+      return `<div class="blk wide"><div class="wrap"><h3 class="blk-h">${esc(b.title || "Conclusion")}</h3><div class="concl">${rows.map(([l, v], j) => `<article class="concl-c" data-reveal style="--i:${j}"><span class="mono">${pad2(j + 1)}</span><h4>${esc(l)}</h4><p>${esc(v)}</p></article>`).join("")}</div>${b.hard ? `<div class="concl-hard" data-reveal><span class="label">What was hard</span><ul>${b.hard.map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div>` : ""}</div></div>`; }
+    // A small collage: sketches, papers or wireframes laid on a coloured board, overlapping. Tap one to see it full size.
+    if (b.type === "collage") { const n = b.items.length;
+      return `<div class="blk wide"><div class="wrap">${head}<div class="clg clg-${esc(b.bg || "blue")}" data-reveal style="--n:${n}">${b.items.map((x, i) => { const o = n > 1 ? i / (n - 1) : .5;
+        return `<figure class="clg-i${x.wide ? " w" : ""}" style="--i:${i};--x:${(6 + o * 70).toFixed(1)}%;--y:${(i % 2 ? 16 : 6) + (i % 3) * 4}%;--r:${((i % 2 ? 1 : -1) * (3 + (i % 3) * 2.5)).toFixed(1)}deg"><img src="${esc(x.src)}" alt="${esc(x.caption || "")}" loading="lazy">${x.caption ? `<figcaption class="mono">${esc(x.caption)}</figcaption>` : ""}</figure>`; }).join("")}</div>${b.caption ? `<p class="blk-cap">${esc(b.caption)}</p>` : ""}</div></div>`; }
     // Device walkthrough: the phone (or laptop, watch, tablet) stays put while each scroll brings the next screen
+    if (b.type === "story" && b.layout === "center") {
+      // The device sits big in the middle; what you're looking at is named on the left and explained on the right
+      const n = b.steps.length, dev = b.device || "phone";
+      const rail = `<div class="sb-rail" role="group" aria-label="Steps">${b.steps.map((x, i) => `<button type="button" class="${i ? "" : "on"}" data-sb="${i}" aria-label="Step ${i + 1}: ${esc(x.title)}"><i></i></button>`).join("")}</div>`;
+      return `<div class="blk wide pin story-b sb-c sb-${dev}" data-pin="story" style="--n:${n}"><div class="pin-in"><div class="wrap sb-stage">
+        <div class="sb-text sb-l">${b.title ? `<span class="label sb-k">${esc(b.title)}</span>` : ""}<div class="sb-steps">${b.steps.map((x, i) => `<div class="sb-step${i ? "" : " on"}" data-i="${i}"><span class="mono">${pad2(i + 1)}${x.label ? ` · ${esc(x.label)}` : ""}</span><h4>${esc(x.title)}</h4>${x.points ? `<ul class="sb-pts">${x.points.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>` : ""}</div>`).join("")}</div></div>
+        <div class="sb-devwrap"><div class="dev dev-${dev}"><div class="dev-screen">${b.steps.map((x, i) => `<div class="sb-scr${i ? "" : " on"}" data-i="${i}">${pic(x.img, x.title, "screen")}</div>`).join("")}</div></div>${rail}</div>
+        <div class="sb-text sb-r"><div class="sb-steps">${b.steps.map((x, i) => `<div class="sb-step sb-desc${i ? "" : " on"}" data-i="${i}">${x.text ? `<p>${esc(x.text)}</p>` : ""}</div>`).join("")}</div></div>
+      </div></div></div>`;
+    }
     if (b.type === "story") {
       const n = b.steps.length, dev = b.device || "phone";
       return `<div class="blk wide pin story-b" data-pin="story" style="--n:${n}"><div class="pin-in"><div class="wrap sb-stage">
@@ -897,7 +1057,7 @@
       </div></div></div>`;
     // An information architecture, drawn as a tree you can read on a phone
     if (b.type === "iatree") return `<div class="blk wide"><div class="wrap">${head}<div class="iat" data-chart><div class="iat-root"><span>${esc(b.root)}</span></div>
-        <div class="iat-br">${b.branches.map((br, i) => `<section class="iat-b${br.hl ? " hl" : ""}" style="--i:${i}"><h4>${esc(br.name)}</h4><ul>${br.items.map((it) => typeof it === "string" ? `<li>${esc(it)}</li>` : `<li class="sub"><span>${esc(it.name)}</span><ul>${it.items.map((t) => `<li>${esc(t)}</li>`).join("")}</ul></li>`).join("")}</ul></section>`).join("")}</div></div>${b.caption ? `<p class="blk-cap">${esc(b.caption)}</p>` : ""}</div></div>`;
+        <div class="iat-br" style="--nb:${b.branches.length}">${b.branches.map((br, i) => `<section class="iat-b${br.hl ? " hl" : ""}${br.ai ? " ai" : ""}" style="--i:${i}"><h4>${esc(br.name)}</h4><ul>${br.items.map((it) => typeof it === "string" ? `<li>${esc(it)}</li>` : `<li class="sub"><span>${esc(it.name)}</span><ul>${it.items.map((t) => `<li>${esc(t)}</li>`).join("")}</ul></li>`).join("")}</ul></section>`).join("")}</div></div>${b.caption ? `<p class="blk-cap">${esc(b.caption)}</p>` : ""}</div></div>`;
     // A design system board: type scale, colour, buttons and icons
     if (b.type === "dsys") return `<div class="blk wide"><div class="wrap">${head}<div class="dsy" style="--ds-font:${esc(b.font || "inherit")}">
         <section class="dsy-t"><span class="label">Type · ${esc(b.typeface || "")}</span>${b.scale.map(([l, s]) => `<div><span style="font-size:${Math.min(56, Math.max(9, s))}px">${esc(l)}</span><i></i><em class="mono">${s} pt</em></div>`).join("")}</section>
@@ -923,11 +1083,10 @@
           <div class="fg-over"><img src="${esc(b.dir)}/title.webp" alt=""><button type="button" class="btn fg-go">Start the run</button><p class="mono fg-msg">Space, ↑ or tap to jump</p></div>
         </div></div></div>`;
     // Rasta La Vista, playable on the real board
-    if (b.type === "rgame") return `<div class="blk wide rg-b"><div class="wrap">${head}
-      <div class="rg" data-rgame="${esc(b.dir)}">
+    if (b.type === "rgame") { const rgHtml = `<div class="rg" data-rgame="${esc(b.dir)}">
         <div class="rg-board"><img class="rg-map" src="${esc(b.dir)}/map.webp" alt="The Rasta La Vista board: hexagonal place tiles linked by roads, railways and rivers"><svg class="rg-svg" viewBox="220 57 1198 1038" aria-hidden="true"><g class="rg-hi"></g><g class="rg-pegs"></g><g class="rg-pawns"></g></svg>
           <div class="rg-card" hidden></div><div class="rg-ribbon" aria-hidden="true"></div><div class="rg-over"></div></div>
-        <aside class="rg-side"><div class="rg-rules"><span class="label">How it plays</span><ol>
+        <aside class="rg-side"><div class="rg-rules" hidden><ol>
             <li><b>Tickets unlock as you travel.</b> Bus with your first place, rail with two, ferry with three, plane with five.</li>
             <li><b>One ticket per tile</b>, along the printed roads, railways and rivers. Planes hop between airports.</li>
             <li><b>End on a free place to claim it.</b> Destinations score 3, Hubs 6, Metros 9.</li>
@@ -936,7 +1095,34 @@
             <li><b>Every round draws an event</b> that blocks, speeds up or rewards travel.</li></ol></div><span class="rg-round mono"></span><div class="rg-event"></div><ol class="rg-players"></ol>
           <div class="rg-you"><span class="label">Your tickets</span><div class="rg-modes"></div><span class="label">Your action cards</span><div class="rg-hand"></div><div class="rg-prompt" aria-live="polite"></div><div class="rg-extra"></div></div>
           <span class="label">Travel log</span><ol class="rg-log" aria-live="polite"></ol></aside>
-      </div>${b.text ? `<p class="blk-cap">${esc(b.text)}</p>` : ""}</div></div>`;
+      </div>`;
+      return `<div class="blk wide rg-b"><div class="wrap"><div class="rgx" data-rgx>
+        <header class="rgx-top"><nav class="rgx-crumb mono" aria-label="Where you are">Arcade <i>/</i> Board games <i>/</i> <b>Rasta La Vista</b></nav>
+          <div class="rgx-title"><span class="rgx-icon"><img src="${esc(b.dir)}/render.webp" alt=""></span><div><h3>${esc(b.title || "Rasta La Vista")}</h3><p>By Edwin, Mariya, Nidhin and Srijith</p></div>
+          <ul class="rgx-tags">${(b.tags || ["Strategy", "Travel", "Family", "You and up to three computer travellers"]).map((t) => `<li>${esc(t)}</li>`).join("")}</ul></div></header>
+        <div class="rgx-screen">
+          <div class="rgx-splash"><img class="rgx-bg" src="${esc(b.dir)}/map-final.webp" alt=""><div class="rgx-sp-in"><img class="rgx-box" src="${esc(b.dir)}/render.webp" alt="The Rasta La Vista box, board and cards">
+            <span class="mono rgx-k">Board game · travel India</span><h4>Buy a ticket. Claim the country.</h4>
+            <div class="rgx-cta"><button type="button" class="rgx-play" data-rgx-act="play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l12-7.5z"/></svg>Play now</button><button type="button" class="rgx-ghost" data-rgx-act="how">How to play</button></div></div></div>
+          ${rgHtml}
+        </div>
+        <div class="rgx-bar"><span class="rgx-live mono"><i></i><span>Ready to play</span></span><div class="rgx-btns">
+          <button type="button" data-rgx-act="how"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6V14M12 17.5v.5"/></svg>How to play</button>
+          <button type="button" data-rgx-act="restart"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.4-5.7M4 4v4h4"/></svg>Restart</button>
+          <button type="button" data-rgx-act="full"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>Full screen</button></div></div>
+        <div class="rgx-info" id="rgx-how">
+          <section><span class="label">How to play</span><ol>
+            <li><b>Tickets unlock as you travel.</b> Bus with your first place, rail with two, ferry with three, plane with five.</li>
+            <li><b>One ticket per tile</b>, along the printed roads, railways and rivers. Planes hop between airports.</li>
+            <li><b>End on a free place to claim it.</b> Destinations score 3, Hubs 6, Metros 9.</li>
+            <li><b>Pass a junction, draw an action card.</b> Hold up to three.</li>
+            <li><b>Chai time:</b> stop at a junction to even out your tickets.</li>
+            <li><b>Every round draws an event</b> that blocks, speeds up or rewards travel.</li></ol></section>
+          <section><span class="label">Controls</span><ul class="rgx-keys"><li><kbd>Click</kbd> a ticket to choose how you travel</li><li><kbd>Click</kbd> a lit place on the board to go there</li><li><kbd>Click</kbd> an action card to play it</li><li><kbd>Esc</kbd> leaves full screen</li></ul></section>
+          <section><span class="label">About this game</span><p>${esc(b.text || "")}</p></section>
+        </div>
+        <template class="rgx-tpl">${rgHtml}</template>
+      </div></div></div>`; }
     // The current pipeline, drawn: stages left to right, the tool each needs, and the loop back when an error shows up
     if (b.type === "pipeline") return `<div class="blk wide"><div class="wrap">${head}<div class="pl" data-pipeline>
         <ol class="pl-row">${b.stages.map((st, i) => `<li class="pl-st" style="--i:${i}"><span class="pl-name">${esc(st.name)}</span><span class="pl-tools mono">${st.tools.map((t) => `<i>${esc(t)}</i>`).join("")}</span><ul class="pl-tasks">${st.tasks.map((t) => `<li><span>${esc(t)}</span></li>`).join("")}</ul></li>`).join("")}</ol>
@@ -978,6 +1164,77 @@
         <div class="brl-v" role="group" aria-label="Read the cards in"><button type="button" class="on" data-r="both">Ink and braille</button><button type="button" data-r="ink">Ink</button><button type="button" data-r="dots">Braille</button></div>
         <div class="brl-row">${b.cards.map((c, i) => `<button type="button" class="brl-c" style="--i:${i}" aria-label="${esc(c.kind)} card: ${esc(c.q)}. Tap for the answer."><span class="brl-in"><span class="brl-f"><span class="mono brl-k">Q · ${esc(c.kind)}</span><span class="brl-ink">${esc(c.q)}</span><span class="brl-dots" aria-hidden="true">${toB(c.q)}</span></span><span class="brl-b"><span class="mono brl-k">Answer</span><span class="brl-ink">${esc(c.a)}</span><span class="brl-dots" aria-hidden="true">${toB(c.a)}</span></span></span></button>`).join("")}</div>
       </div></div></div>`; }
+    // Rasta La Vista, told the way the project board tells it
+    if (b.type === "rlv") {
+      const H = head, K = b.kind;
+      if (K === "strategy") return `<div class="blk wide"><div class="wrap">${H}<div class="rlv-strat">${b.items.map((x, i) => `<article class="rlv-sc c${i}" data-reveal style="--i:${i}"><h4>${esc(x.t)}</h4><p>${esc(x.d)}</p><span>${esc(x.k)}</span></article>`).join("")}</div></div></div>`;
+      if (K === "process") return `<div class="blk wide"><div class="wrap">${H}<div class="rlv-hex" data-rlv-hex>${b.items.map((x, i) => `<button type="button" class="rlv-hx h${i}${i ? "" : " on"}" data-i="${i}" aria-pressed="${!i}"><span>${esc(x.t)}</span></button>`).join("")}
+        <div class="rlv-hx-d" aria-live="polite">${b.items.map((x, i) => `<p data-i="${i}"${i ? " hidden" : ""}><b>${esc(x.t)}.</b> ${esc(x.d)}</p>`).join("")}</div></div></div></div>`;
+      if (K === "timeline") { const D = b.days;
+        return `<div class="blk wide"><div class="wrap">${H}<div class="rlv-tl" style="--d:${D.length}"><div class="rlv-tl-days mono">${D.map((d) => `<span>${esc(d)}</span>`).join("")}</div>
+          <div class="rlv-tl-rows">${b.items.map((x, i) => `<div class="rlv-tl-b c-${esc(x.c)}" style="--s:${x.s};--e:${x.e};--i:${i}" data-reveal><span>${esc(x.t)}</span></div>`).join("")}</div></div>${b.caption ? `<p class="blk-cap">${esc(b.caption)}</p>` : ""}</div></div>`; }
+      if (K === "cases") return `<div class="blk wide"><div class="wrap">${H}<div class="rlv-cases"><i class="rlv-cl" aria-hidden="true"></i>${b.items.map((x, i) => `<article class="rlv-cs c${i % 4}${i % 2 ? " dn" : ""}" data-reveal style="--i:${i}"><span class="rlv-tag">${esc(x.t)}</span><p>${esc(x.d)}</p><span class="rlv-took mono">We took: ${esc(x.k)}</span></article>`).join("")}</div>${b.caption ? `<p class="blk-cap">${esc(b.caption)}</p>` : ""}</div></div>`;
+      if (K === "boards") return `<div class="blk wide"><div class="wrap">${H}<div class="rlv-boards">
+          <figure class="rlv-bd"><div class="rlv-tiles" data-rlv-tiles><svg viewBox="-230 -220 460 440" role="img" aria-label="A modular board of hexagonal tiles; tap to rearrange it"></svg></div>
+            <figcaption><span class="mono">01 · Ideation</span><b>Dots on hex edges</b>Yellow rivers, blue roads, red railways. Tiles connect where colours meet. <button type="button" class="rlv-shuf" data-rlv-shuf>Rearrange the tiles</button></figcaption></figure>
+          <figure class="rlv-bd"><div class="rlv-bdimg"><img src="${esc(b.proof)}" alt="The proof-of-concept board: numbered pastel hex tiles with routes drawn across them" loading="lazy"></div><figcaption><span class="mono">02 · Proof of concept</span><b>Routes across numbered tiles</b>The second prototype: each tile numbered so the map could be rebuilt, and the routes drawn through.</figcaption></figure>
+          <figure class="rlv-bd"><div class="rlv-bdimg"><img src="${esc(b.final)}" alt="The final printed board: illustrated hex tiles with roads, railways and rivers in a black hexagonal frame" loading="lazy"></div><figcaption><span class="mono">03 · Final board</span><b>Illustrated and framed</b>Printed tiles in a hexagonal frame, with interlocking edges so a tile can't go in the wrong way.</figcaption></figure>
+        </div></div></div>`;
+      if (K === "feedback") return `<div class="blk wide"><div class="wrap">${H}<div class="rlv-fb">${b.good.map((x) => `<p class="ok"><i aria-hidden="true">✓</i><span>${esc(x)}</span></p>`).join("")}${b.bad.map((x) => `<p class="no"><i aria-hidden="true">–</i><span>${esc(x)}</span></p>`).join("")}</div></div></div>`;
+      if (K === "iterations") return `<div class="blk wide"><div class="wrap">${H}<div class="rlv-it">${b.items.map((x, i) => `<article class="rlv-itc" data-reveal style="--i:${i}">${x.img ? `<img src="${esc(x.img)}" alt="" loading="lazy">` : ""}<div><span class="mono">${pad2(i + 1)}</span><h4>${esc(x.t)}</h4><p>${esc(x.d)}</p></div></article>`).join("")}</div></div></div>`;
+      if (K === "passport") return `<div class="blk wide"><div class="wrap">${H}<div class="rlv-pp" data-rlv-pp>
+          <div class="rlv-pp-st">${b.pages.map((x, i) => `<img src="${esc(x.src)}" alt="${esc(x.cap)}" class="${i ? "" : "on"}" data-i="${i}" loading="lazy">`).join("")}</div>
+          <div class="rlv-pp-nav"><button type="button" data-pp="-1" aria-label="Previous page">←</button><span class="mono rlv-pp-cap" aria-live="polite">${esc(b.pages[0].cap)}</span><button type="button" data-pp="1" aria-label="Next page">→</button></div>
+          <div class="rlv-pp-dots" aria-hidden="true">${b.pages.map((x, i) => `<i class="${i ? "" : "on"}"></i>`).join("")}</div></div>${b.caption ? `<p class="blk-cap">${esc(b.caption)}</p>` : ""}</div></div>`;
+      if (K === "learnings") return `<div class="blk wide"><div class="wrap">${H}<div class="rlv-learn">${b.items.map((x, i) => `<article class="rlv-ln c${i}" data-reveal style="--i:${i}"><p>${esc(x.d)}</p><b>${esc(x.t)}</b></article>`).join("")}</div></div></div>`;
+      if (K === "future") return `<div class="blk wide"><div class="wrap">${H}<div class="rlv-fut">${b.items.map((x, i) => `<article data-reveal style="--i:${i}"><span class="rlv-shape s${i}" aria-hidden="true"></span><h4>${esc(x.t)}</h4><p>${esc(x.d)}</p></article>`).join("")}</div></div></div>`;
+      return "";
+    }
+    // Green Grocer: the business, drawn in code (a course track, the hand-offs, journeys, the route, two loops, voices, money, launch)
+    if (b.type === "ggx") {
+      const H = head, K = b.kind, W = (inner, cls = "") => `<div class="blk wide gg-b${cls}"><div class="wrap">${H}${inner}${b.caption ? `<p class="blk-cap">${esc(b.caption)}</p>` : ""}</div></div>`;
+      const tog = (opts, def) => `<div class="gg-tog" role="group" aria-label="Switch view">${opts.map(([v, l]) => `<button type="button" data-v="${v}" aria-pressed="${v === def}">${esc(l)}</button>`).join("")}</div>`;
+      const ICON = {
+        farm: '<path d="M4 20V11l8-6 8 6v9"/><path d="M9 20v-5h6v5"/>', truck: '<path d="M3 16V8a1 1 0 0 1 1-1h10v9"/><path d="M14 10h4l3 3v3h-7"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/>',
+        hand: '<path d="M7 11V6a2 2 0 0 1 4 0v5M11 10V4a2 2 0 0 1 4 0v6M15 10V6a2 2 0 0 1 4 0v7a7 7 0 0 1-7 7h-1a7 7 0 0 1-6-3l-2-4a2 2 0 0 1 3-2l2 2"/>',
+        store: '<path d="M4 9l2-5h12l2 5"/><path d="M4 9h16v11H4z"/><path d="M9 20v-6h6v6"/>', box: '<path d="M3 7l9-4 9 4v10l-9 4-9-4z"/><path d="M3 7l9 4 9-4M12 11v10"/>',
+        you: '<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>', pin: '<path d="M12 21s-7-6.2-7-11a7 7 0 1 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/>',
+        cart: '<path d="M3 4h2l2 11h11l2-8H6"/><circle cx="9" cy="19" r="1.5"/><circle cx="17" cy="19" r="1.5"/>'
+      };
+      const ic = (k) => `<svg viewBox="0 0 24 24" aria-hidden="true">${ICON[k] || ICON.box}</svg>`;
+      if (K === "course") return W(`<div class="gg-course" data-reveal><div class="gg-co-h"><span class="mono">${esc(b.code)}</span><b>${esc(b.name)}</b><p>${esc(b.text)}</p></div>
+        <ol class="gg-co-t">${b.steps.map((x, i) => `<li style="--i:${i}"${x.us ? ' class="us"' : ""}><i aria-hidden="true">${pad2(i + 1)}</i><b>${esc(x.t)}</b><span>${esc(x.d)}</span></li>`).join("")}</ol></div>`);
+      if (K === "chain") { const row = (m, list) => `<ol class="gg-ch-row" data-m="${m}">${list.map((x, i) => `<li class="${x.mid ? "mid" : ""}${x.end ? " end" : ""}" style="--i:${i}"><span class="gg-ch-n">${ic(x.i)}</span><b>${esc(x.t)}</b>${x.mid ? `<em class="mono">takes a cut</em>` : ""}</li>`).join("")}</ol>`;
+        return W(`<div class="gg-ch" data-gg-tog data-mode="now">${tog([["now", b.labels[0]], ["gg", b.labels[1]]], "now")}<div class="gg-ch-stage">${row("now", b.now)}${row("gg", b.gg)}</div>
+          <p class="gg-ch-cap" aria-live="polite"><span data-m="now">${esc(b.capNow)}</span><span data-m="gg">${esc(b.capGg)}</span></p></div>`); }
+      if (K === "journey") { const lane = (m, list, endCls) => `<ol class="gg-jn-row" data-m="${m}">${list.map((x, i) => `<li class="${i >= b.shared ? "new" : ""}${i === list.length - 1 ? " last " + endCls : ""}" style="--i:${i}"><span class="mono">${pad2(i + 1)}</span>${esc(x)}</li>`).join("")}</ol>`;
+        return W(`<div class="gg-jn" data-gg-tog data-mode="before">${tog([["before", b.labels[0]], ["after", b.labels[1]]], "before")}<div class="gg-jn-stage">${lane("before", b.before, "loss")}${lane("after", b.after, "gain")}</div>
+          <p class="gg-jn-key mono"><span><i class="k1"></i>The same up to harvest</span><span><i class="k2"></i>Where it changes</span></p></div>`); }
+      if (K === "route") { const P = "M70 262 C160 250 200 190 280 160 S420 96 470 84";
+        return W(`<div class="gg-rt" data-reveal><svg class="gg-rt-map" viewBox="0 0 640 320" role="img" aria-label="${esc(b.alt)}">
+            <rect width="640" height="320" rx="24" class="land"/><circle cx="520" cy="110" r="78" class="city"/><circle cx="90" cy="250" r="44" class="town"/>
+            <path d="M0 210 L640 280M300 0 L330 320M0 70 Q200 40 360 90 T640 40" class="road"/>
+            <path d="${P}" class="route"/><path d="${P}" class="route-dash"/><path d="M470 84 C500 96 520 124 540 150" class="route-last"/>
+            <text x="250" y="200" class="hw" transform="rotate(-24 250 200)">NH44</text>
+            <g class="node"><circle cx="70" cy="262" r="8"/><text x="70" y="294" text-anchor="middle">${esc(b.from)}</text></g>
+            <g class="node"><circle cx="470" cy="84" r="8"/><text x="470" y="62" text-anchor="middle">${esc(b.to)}</text></g>
+            <g class="node end"><circle cx="540" cy="150" r="8"/><text x="600" y="190" text-anchor="end">${esc(b.last)}</text></g>
+            <g class="veh"><circle r="17"/><path d="M-8 4v-6a1 1 0 0 1 1-1h7l4 4h2a1 1 0 0 1 1 1v2M-4 6h6" /><circle cx="-5" cy="6" r="2.2"/><circle cx="5" cy="6" r="2.2"/><animateMotion dur="8s" repeatCount="indefinite" rotate="0" path="${P}"/></g>
+          </svg><div class="gg-rt-notes">${b.notes.map((x, i) => `<div style="--i:${i}"><span class="mono">${esc(x.k)}</span><b>${esc(x.t)}</b><p>${esc(x.d)}</p></div>`).join("")}</div></div>`); }
+      if (K === "loops") return W(`<div class="gg-lp">${b.loops.map((L, li) => `<article class="gg-loop l${li}" data-reveal style="--i:${li}"><h4>${esc(L.t)}</h4><div class="gg-ring" style="--n:${L.steps.length}"><i class="gg-ring-o" aria-hidden="true"></i><i class="gg-ring-dot" aria-hidden="true"></i>
+          <span class="gg-ring-c"><b>${esc(L.c)}</b><em>${esc(L.cs)}</em></span>${L.steps.map((s, i) => `<span class="gg-ring-s" style="--k:${i}"><i class="mono">${pad2(i + 1)}</i>${esc(s)}</span>`).join("")}</div><p>${esc(L.d)}</p></article>`).join(`<div class="gg-lp-plus" aria-hidden="true"><img src="${esc(b.img)}" alt="" loading="lazy"><span class="mono">One vehicle, both loops</span></div>`)}</div>`);
+      if (K === "voices") return W(`<div class="gg-vc" data-gg-tabs><div class="gg-vc-tabs" role="tablist">${b.groups.map((g, i) => `<button type="button" role="tab" aria-selected="${!i}" data-i="${i}">${esc(g.t)}</button>`).join("")}</div>
+          ${b.groups.map((g, i) => `<div class="gg-vc-p" role="tabpanel" data-i="${i}"${i ? " hidden" : ""}><div class="gg-vc-who"><span class="mono">Who we asked</span><p>${esc(g.who)}</p></div>
+            <ul class="gg-vc-l">${g.heard.map((x, k) => `<li style="--i:${k}">${esc(x)}</li>`).join("")}</ul><div class="gg-vc-so"><span class="mono">So we</span><p>${esc(g.so)}</p></div></div>`).join("")}</div>`);
+      if (K === "diff") return W(`<div class="gg-df">${b.cols.map((c, ci) => `<article class="gg-df-c c${ci}" data-reveal style="--i:${ci}"><span class="mono">${esc(c.k)}</span><h4>${esc(c.t)}</h4><ol>${c.steps.map((s, i) => `<li style="--i:${i}">${esc(s)}</li>`).join("")}</ol><p><b>${esc(c.r)}</b></p></article>`).join("")}</div>`);
+      if (K === "runway") { const M = b.max;
+        return W(`<div class="gg-rw" data-reveal><div class="gg-rw-month"><span class="mono">${esc(b.monthTitle)}</span>${b.month.map((x, i) => `<div class="gg-rw-r c${i}"><span>${esc(x.l)}</span><span class="gg-rw-t"><i style="--a:${x.a / b.monthMax};--b:${x.b / b.monthMax};--i:${i}"></i></span><b>${esc(x.v)}</b></div>`).join("")}<p>${esc(b.monthNote)}</p></div>
+          <div class="gg-rw-fund"><span class="mono">${esc(b.fundTitle)}</span><div class="gg-rw-bar"><i class="s" style="--w:${b.startup / M}"><b>${esc(b.startupL)}</b></i><i class="r" style="--w:${(b.fundA - b.startup) / M}"><b>${esc(b.restL)}</b></i><i class="x" style="--w:${(b.fundB - b.fundA) / M}"></i></div>
+          <div class="gg-rw-ax mono">${b.ticks.map((t) => `<span style="--t:${t / M}">${t ? "₹" + t + " L" : "0"}</span>`).join("")}</div><p>${esc(b.fundNote)}</p></div></div>`); }
+      if (K === "gtm") return W(`<div class="gg-gtm">${b.phases.map((ph, pi) => `<div class="gg-gtm-ph p${pi}"><span class="mono">${esc(ph.t)}</span><ol>${ph.steps.map((s, i) => `<li style="--k:${pi * 3 + i}"><i class="mono">${pad2(pi * 3 + i + 1)}</i>${esc(s)}</li>`).join("")}</ol></div>`).join("")}</div>`);
+      if (K === "team") return W(`<ul class="gg-team">${b.names.map((n, i) => `<li data-reveal style="--i:${i}"${n === "Srijith D Raj" ? ' class="me"' : ""}><span class="gg-av" aria-hidden="true">${esc(n.split(" ").map((w) => w[0]).slice(0, 2).join(""))}</span>${esc(n)}</li>`).join("")}</ul>`);
+      return "";
+    }
     // TexGenie research figures, built in code
     if (b.type === "tgchain") return `<div class="blk wide"><div class="wrap">${head}<ol class="tgc">${b.items.map((x, i) => `<li data-reveal style="--i:${i}"><span class="mono">${pad2(i + 1)}</span><b>${esc(x.t)}</b><p>${esc(x.d)}</p></li>`).join("")}</ol>${b.caption ? `<p class="blk-cap">${esc(b.caption)}</p>` : ""}</div></div>`;
     if (b.type === "tgrings") {
@@ -999,7 +1256,7 @@
         <p class="tgx-n"><i class="hlk"></i>Highlighted rows are about information moving between people. ${esc(b.note || "")}</p>
         ${b.questions ? `<details class="tgx-q"><summary>The questions I asked</summary><ol>${b.questions.map((q) => `<li>${esc(q)}</li>`).join("")}</ol></details>` : ""}</div></div></div>`;
     if (b.type === "tgmind") return `<div class="blk wide"><div class="wrap">${head}<div class="tgmd" data-reveal>
-        <div class="tgmd-map"><div class="tgmd-c"><span>${esc(b.center)}</span></div>${b.branches.map((br, i) => `<section class="tgmd-b b${i}" style="--i:${i}"><h4>${esc(br.n)}</h4><ul>${br.l.map((x) => `<li>${esc(x)}</li>`).join("")}</ul></section>`).join("")}</div>
+        <div class="tgmd-map"><svg class="tgmd-ln" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">${[[17, 17], [83, 17], [17, 50], [83, 50], [50, 84]].slice(0, b.branches.length).map(([x, y]) => `<path d="M50 42 L${x} ${y}" vector-effect="non-scaling-stroke"/>`).join("")}</svg><div class="tgmd-c"><span>${esc(b.center)}</span></div>${b.branches.map((br, i) => `<section class="tgmd-b b${i}" style="--i:${i}"><h4>${esc(br.n)}</h4><ul>${br.l.map((x) => `<li>${esc(x)}</li>`).join("")}</ul></section>`).join("")}</div>
         <div class="tgmd-arrow mono" aria-hidden="true">became</div>
         <div class="tgmd-out"><span class="label">Functions of the app</span><ul>${b.out.map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div></div></div></div>`;
     if (b.type === "tgeval") return `<div class="blk wide"><div class="wrap">${head}<div class="tge" data-reveal><div class="tgx-scroll"><table class="tge-t"><thead><tr><th scope="col"><span class="label">Function</span></th>${b.cols.map((c) => `<th scope="col">${esc(c)}</th>`).join("")}</tr></thead>
@@ -1019,7 +1276,7 @@
           <div class="tds-aa"><b>Aa</b><span>Plus Jakarta Sans</span><em>Open shapes that stay legible at small sizes, on cheap screens and in bright light.</em></div>
           <ul class="tds-scale">${[["Display", 34, 800, "TexGenie"], ["Heading 1", 24, 800, "Welcome back Sangeetha!"], ["Heading 2", 19, 700, "Issues to be resolved"], ["Heading 3", 15, 700, "Running PO #6522"], ["Body", 13.5, 500, "Loom four stopped this morning."], ["Caption", 11.5, 600, "Nov 24 · 15:05"]].map(([n, s, w, t]) => `<li><span class="mono">${n} · ${s}/${w}</span><b style="font-size:${s}px;font-weight:${w}${n === "Display" || n === "Heading 1" ? ";color:#004796" : ""}">${t}</b></li>`).join("")}</ul></section>
         <section class="tds-sec"><span class="tds-l">Components</span><div class="tds-grid">
-          <div class="tds-cell w2"><span class="tds-cl">App header</span><div class="tds-hd"><span class="m">${tgIc("menu")}</span><b>DesignStyle</b><span class="n">${tgIc("bell")}</span></div></div>
+          <div class="tds-cell w2"><span class="tds-cl">App header</span><div class="tds-hd v2"><b><i>DS</i>DesignStyle</b><span class="n">${tgIc("bell")}</span><span class="av">SG</span></div></div>
           <div class="tds-cell w2"><span class="tds-cl">Buttons</span><div class="tds-row"><span class="tds-btn">Login</span><span class="tds-btn o">${tgIc("doc")}Summary</span><span class="tds-btn p">Edit</span><span class="tds-btn s">View</span></div></div>
           <div class="tds-cell w2"><span class="tds-cl">Status</span><div class="tds-row">${["Urgent", "Priority", "Review", "Completed", "Ongoing", "Delayed"].map(chipX).join("")}</div></div>
           <div class="tds-cell w2"><span class="tds-cl">Search</span><div class="tds-search">Search anything ${tgIc("search")}</div></div>
@@ -1028,7 +1285,7 @@
           <div class="tds-cell w2"><span class="tds-cl">Tiles</span><div class="tds-tiles"><span>Yarn Stock</span><span>Fabric Stock</span></div></div>
           <div class="tds-cell w2"><span class="tds-cl">Running card</span><div class="tds-run"><div><em>Running PO</em><b>#6522</b><span>XMas Gloves</span></div><svg viewBox="0 0 60 60" width="56" height="56" aria-hidden="true"><circle cx="30" cy="30" r="25" fill="#fff"/><circle cx="30" cy="30" r="25" fill="none" stroke="#004796" stroke-width="5" stroke-dasharray="70.7 157" transform="rotate(-90 30 30)" stroke-linecap="round"/><text x="30" y="34" text-anchor="middle" font-size="12" font-weight="700" fill="#004796">45%</text></svg><span class="tds-iss">7</span></div></div>
           <div class="tds-cell w2"><span class="tds-cl">Genie suggestion</span><div class="tds-gn"><i>${tgIc("spark")}</i><p><b>Trims are running low</b>Reorder zippers for PO 6522 before stitching starts?</p></div></div>
-          <div class="tds-cell w6"><span class="tds-cl">Navigation, with a word under every icon</span><div class="tds-nav">${[["Home", "home"], ["Orders", "box"], ["Genie", "spark"], ["Finance", "wallet"], ["Stock", "inv"]].map(([l, ic], i) => `<span class="${i ? "" : "on"}">${tgIc(ic)}${l}</span>`).join("")}</div></div>
+          <div class="tds-cell w6"><span class="tds-cl">Navigation: a small floating bar, Genie in the middle</span><div class="tds-nav">${[["Home", "home"], ["Orders", "box"], ["Genie", "spark"], ["Finance", "wallet"], ["Stock", "inv"]].map(([l, ic], i) => `<span class="${i ? "" : "on"}${i === 2 ? " gx" : ""}" aria-label="${l}">${tgIc(ic)}</span>`).join("")}</div></div>
         </div></section>
         <section class="tds-sec tds-foot"><div><span class="tds-l">Icons</span><div class="tds-ics">${["home", "box", "inv", "doc", "wallet", "spark", "mic", "bell", "search", "call", "chat", "alert", "clock", "cam", "check", "plus"].map(tgIc).join("")}</div></div>
           <div><span class="tds-l">Radius</span><div class="tds-rad">${[["6", "Status"], ["12", "Tiles, fields"], ["18", "Cards"], ["22", "Header, nav"], ["999", "Pills"]].map(([r, l]) => `<span><i style="border-top-left-radius:${Math.min(+r, 28)}px"></i><b class="mono">${r === "999" ? "Pill" : r}</b><em>${l}</em></span>`).join("")}</div></div></section>
@@ -1056,8 +1313,8 @@
     if (b.type === "boxshelf") { const d = b.dir;
       return `<div class="blk wide"><div class="wrap">${head}<div class="shelf-b box-b">
         <div class="bx-scene" data-box role="img" aria-label="A rectangular box wearing the selected label. Drag to turn it."><div class="bx" style="--ar:${esc(b.items[0].ar || "1.61")}">
-          <i class="bx-f bx-front" style="background-image:url('${esc(b.items[0].src)}')"></i><i class="bx-f bx-back" style="background-image:url('${esc(d)}/box-back.webp')"></i>
-          <i class="bx-f bx-left" style="background-image:url('${esc(d)}/box-side.webp')"></i><i class="bx-f bx-right" style="background-image:url('${esc(d)}/box-side.webp')"></i>
+          <i class="bx-f bx-front" style="background-image:url('${esc(b.items[0].src)}')"></i>${b.plain ? `<i class="bx-f bx-back bx-plain"></i><i class="bx-f bx-left bx-plain"></i><i class="bx-f bx-right bx-plain"></i>` : `<i class="bx-f bx-back" style="background-image:url('${esc(d)}/box-back.webp')"></i>
+          <i class="bx-f bx-left" style="background-image:url('${esc(d)}/box-side.webp')"></i><i class="bx-f bx-right" style="background-image:url('${esc(d)}/box-side.webp')"></i>`}
           <i class="bx-f bx-top" style="background-image:url('${esc(b.lid || d + "/lid.webp")}')"></i><i class="bx-f bx-bottom"></i></div><i class="bx-shadow"></i></div>
         <div class="shelf"><span class="label">${esc(b.pick || "Pick a label")}</span><div class="shelf-row">${b.items.map((x, i) => `<button type="button" class="sh-i${i ? "" : " on"}" data-label="${esc(x.src)}" data-ar="${esc(x.ar || "1.61")}" aria-pressed="${!i}"><img src="${esc(x.src)}" alt="" loading="lazy"><span>${esc(x.name)}</span></button>`).join("")}</div></div>
       </div>${b.caption ? `<p class="blk-cap">${esc(b.caption)}</p>` : ""}</div></div>`; }
@@ -1207,9 +1464,18 @@
         <dl class="fs-crew">${[["Directed, shot and cut by", p.team], ["My part", p.role], ["Guided by", p.guide], ["Made at", p.context + (p.note ? " · " + p.note : "")], ["Shot in", p.duration], ["Tools", p.tools]].filter(([, v]) => v).map(([l, v]) => `<div><dt class="mono">${l}</dt><dd>${esc(v)}</dd></div>`).join("")}</dl>
       </section>`;
   }
+  // Every case study ends the same way: why it was done, how it was solved, how it ended (and what was hard, if the case study says)
+  const autoConcl = (c) => !c.sections.some((s) => s.key === "conclusion") && (c.conclusion || (c.tldr && c.tldr.length >= 3));
+  function conclusionBlock(p, c, i, n) {
+    const t = c.tldr || [], k = c.conclusion || {};
+    const rows = [["Why it was done", k.why || (t[0] || {}).text], ["How it was solved", k.how || (t[1] || {}).text], ["How it ended", k.ended || (t[2] || {}).text]].filter(([, v]) => v);
+    return `${secHead({ key: "conclusion", kicker: "Conclusion", title: k.title || "Why, how, and how it ended.", paras: [] }, i, n, p, c)}
+      <div class="blk wide"><div class="wrap"><div class="concl">${rows.map(([l, v], j) => `<article class="concl-c" data-reveal style="--i:${j}"><span class="mono">${pad2(j + 1)}</span><h4>${esc(l)}</h4><p>${esc(v)}</p></article>`).join("")}</div>
+        ${k.hard ? `<div class="concl-hard" data-reveal><span class="label">What was hard</span><ul>${k.hard.map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div>` : ""}</div></div>`;
+  }
   function caseStudy(p, c) {
     const st = styleOf(p, c), kind = c.kind || (st === "slate" ? "film" : kindOf(p)), nS = c.sections.length;
-    const secs = [["overview", c.sections.some((s) => (s.nav || s.kicker) === "Overview") ? "Intro" : "Overview"], ...c.sections.map((s) => [s.key, s.nav || s.kicker]), ...(c.iterations ? [["iterations", "Iterations"]] : []), ...(c.finale ? [["final", "Outcome"]] : []), ...(c.steps ? [["walkthrough", "Walkthrough"]] : []), ...(c.specs ? [["specs", c.specsTitle ? "Credits" : "Specs"]] : [])];
+    const secs = [["overview", c.sections.some((s) => (s.nav || s.kicker) === "Overview") ? "Intro" : "Overview"], ...c.sections.map((s) => [s.key, s.nav || s.kicker]), ...(autoConcl(c) ? [["conclusion", "Conclusion"]] : []), ...(c.iterations ? [["iterations", "Iterations"]] : []), ...(c.finale ? [["final", "Outcome"]] : []), ...(c.steps ? [["walkthrough", "Walkthrough"]] : []), ...(c.specs ? [["specs", c.specsTitle ? "Credits" : "Specs"]] : [])];
     if (p.figma) secs.splice(1, 0, ["prototype", "Prototype"]);
     const mode = store.get("mode", "read");
     const opener = (o) => o ? (Array.isArray(o) ? o : [o]).map((b) => block(b, p)).join("") : "";
@@ -1247,6 +1513,7 @@
         ${c.sections.map((s, si) => { const used = st === "level" && secImg(s); const blocks = (s.blocks || []).filter((b, k) => !(used && !s.image && k === (s.blocks || []).findIndex((x) => x.type === "images") && b.items.length === 1));
           return `${secHead(s, si, nS, p, c)}${(s.show || []).map((b) => block(b, p)).join("")}${used && s.image ? "" : figure(s.image || s.figure, p)}${blocks.map((b) => block(b, p)).join("")}${s.still ? `<figure class="still wide" data-reveal><img src="${esc(s.still.src)}" alt="${esc(s.still.caption || "")}" loading="lazy"><figcaption class="mono">${esc(s.still.caption || "")}</figcaption></figure>` : ""}`; }).join("")}
         ${!c.sections.length ? `<section class="story-sec"><p class="notice">The full write-up for ${esc(p.title)} is on its way.</p></section>` : ""}
+        ${autoConcl(c) ? conclusionBlock(p, c, nS, nS + 1) : ""}
         ${c.iterations ? secHead({ key: "iterations", kicker: "Iterations", title: c.iterationsTitle || "What each version taught us.", paras: [], phase: c.iterationsPhase }, nS, nS + 1, p, c) : ""}
       </div>
 
@@ -1375,7 +1642,15 @@
     const docd = eps.filter((x) => x.status === "Documented").length;
     const btn = (act, label) => `<li><button type="button" class="nav-i" data-act="${act}">${label}</button></li>`;
     const d0 = D[0];
+    const R = F.road, RD = "assets/img/films/road/";
+    const roadHero = R ? `<section class="fl-hero" aria-labelledby="fl-h">
+        <div class="fl-cols" aria-hidden="true">${R.cols.map((col, ci) => `<div class="fl-col c${ci}"><div class="fl-track">${[...col, ...col].map(([f, place]) => `<figure><img src="${RD + esc(f)}.webp" alt="" loading="${ci ? "lazy" : "eager"}"><figcaption class="mono">${esc(place)}</figcaption></figure>`).join("")}</div></div>`).join("")}</div>
+        <div class="wrap fl-in"><span class="dot-label"><i class="rec" aria-hidden="true"></i> .films</span><h1 id="fl-h">${esc(R.title)}</h1><p class="lead">${esc(R.text)}</p>
+          <ul class="fl-what">${R.what.map(([t, d], i) => `<li style="--i:${i}"><span class="mono">${pad2(i + 1)}</span><b>${esc(t)}</b><em>${esc(d)}</em></li>`).join("")}</ul>
+          <div class="fl-act"><button type="button" class="btn" data-fl-play><span aria-hidden="true">▶</span> Press play</button><span class="mono muted">The films play on the DVD player below</span></div></div>
+      </section>` : "";
     return `<main id="main" class="films-page${fxIntro ? " fx-enter" : ""}">
+      ${roadHero}
       <section class="dvd" aria-label="Films, played on a DVD player"><div class="wrap">
         <div class="dvd-head"><span class="dot-label"><i class="rec" aria-hidden="true"></i> .films · reel 01</span></div>
 
@@ -1605,12 +1880,12 @@
   const CB = [["none", "Typical"], ["prot", "Protanopia"], ["deut", "Deuteranopia"], ["trit", "Tritanopia"], ["achr", "Monochromacy"]];
   const PIN = {
     story(el) {
-      const steps = $$(".sb-step", el), scr = $$(".sb-scr", el), dots = $$(".sb-rail button", el), n = steps.length; let cur = 0;
+      const steps = $$(".sb-step", el), scr = $$(".sb-scr", el), dots = $$(".sb-rail button", el), n = scr.length; let cur = 0;
       dots.forEach((d, i) => d.addEventListener("click", () => { const top = el.getBoundingClientRect().top + scrollY, span = el.offsetHeight - innerHeight; goTo(top + span * (i + 0.5) / n); }));
       return (p) => {
         const i = Math.min(n - 1, Math.floor(p * n)); el.style.setProperty("--sp", (p * n - i).toFixed(3));
         if (i === cur) return; el.dataset.dir = i > cur ? "1" : "-1"; cur = i; haptic("tick");
-        [steps, scr].forEach((L) => L.forEach((x, k) => { x.classList.toggle("on", k === i); x.classList.toggle("past", k < i); }));
+        [steps, scr].forEach((L) => L.forEach((x) => { const k = +x.dataset.i; x.classList.toggle("on", k === i); x.classList.toggle("past", k < i); }));
         dots.forEach((d, k) => d.classList.toggle("on", k === i));
       };
     },
@@ -1910,13 +2185,14 @@
 
   function rgames() {
     $$("[data-rgame]").forEach((root) => {
+      if (root.dataset.rgOn) return; root.dataset.rgOn = "1";
       const dir = root.dataset.rgame, { N, PLACES, VP, TAX, UNLOCK, MODES, TNAME, EVENTS, ACT, DECK, FACT } = RLV;
       const svg = $(".rg-svg", root), hiG = $(".rg-hi", root), pegG = $(".rg-pegs", root), pawnG = $(".rg-pawns", root);
       const side = $(".rg-side", root), over = $(".rg-over", root), card = $(".rg-card", root), logEl = $(".rg-log", root);
       const COLORS = ["#E8553A", "#F2C230", "#3BB5E8", "#4CAF6A"], NAMES = ["You", "Asha", "Ravi", "Meera"];
       const ROUNDS = 12;
       const shuffle = (a) => { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
-      const wait = (ms) => new Promise((r) => setTimeout(r, reduced ? Math.min(ms, 60) : ms));
+      const wait = (ms) => new Promise((r) => setTimeout(() => { if (root.isConnected) r(); }, reduced ? Math.min(ms, 60) : ms));
       let G = null, busy = false, pick = null;
 
       const owned = (p) => PLACES.filter((k) => G.owner[k] === p.i);
@@ -2194,19 +2470,17 @@
   // Rasta La Vista's page: bunting over the title and traffic along a road under it
   function fiestaHero() {
     if (document.documentElement.dataset.tone !== "fiesta") return;
-    const hero = $(".cs-hero"); if (!hero || $(".fz-bunting", hero)) return;
-    const C = ["#F26B1D", "#E2457A", "#1FA79A", "#FFC93C", "#5B5BD6"];
-    const bunt = document.createElement("div"); bunt.className = "fz-bunting"; bunt.setAttribute("aria-hidden", "true");
-    bunt.innerHTML = Array.from({ length: 26 }, (_, i) => `<i style="--c:${C[i % C.length]};--i:${i}"></i>`).join("");
+    const hero = $(".cs-hero"); if (!hero || $(".fz-road", hero)) return;
+    const bunt = null;
     const V = {
-      bus: '<svg viewBox="0 0 64 34"><rect x="2" y="4" width="58" height="22" rx="6" fill="#F26B1D"/><rect x="8" y="9" width="10" height="7" rx="1.5" fill="#FFF4DF"/><rect x="21" y="9" width="10" height="7" rx="1.5" fill="#FFF4DF"/><rect x="34" y="9" width="10" height="7" rx="1.5" fill="#FFF4DF"/><rect x="47" y="9" width="9" height="11" rx="1.5" fill="#FFF4DF"/><circle cx="15" cy="27" r="5" fill="#2A1A3A"/><circle cx="47" cy="27" r="5" fill="#2A1A3A"/></svg>',
-      train: '<svg viewBox="0 0 96 34"><rect x="2" y="6" width="42" height="20" rx="5" fill="#1FA79A"/><rect x="48" y="6" width="44" height="20" rx="5" fill="#1FA79A"/><path d="M84 6h4a6 6 0 0 1 6 6v14h-10z" fill="#E2457A"/><rect x="8" y="10" width="9" height="7" rx="1" fill="#FFF4DF"/><rect x="21" y="10" width="9" height="7" rx="1" fill="#FFF4DF"/><rect x="54" y="10" width="9" height="7" rx="1" fill="#FFF4DF"/><rect x="67" y="10" width="9" height="7" rx="1" fill="#FFF4DF"/><circle cx="12" cy="28" r="4" fill="#2A1A3A"/><circle cx="34" cy="28" r="4" fill="#2A1A3A"/><circle cx="58" cy="28" r="4" fill="#2A1A3A"/><circle cx="82" cy="28" r="4" fill="#2A1A3A"/></svg>',
-      plane: '<svg viewBox="0 0 64 34"><path d="M4 18c0-3 3-5 7-5h38l10-9h4l-5 11h2c3 0 4 2 4 3s-1 3-4 3H11c-4 0-7-1-7-3z" fill="#5B5BD6"/><path d="M26 18l-8 12h6l14-12z" fill="#4747B8"/><circle cx="20" cy="16" r="1.6" fill="#FFF4DF"/><circle cx="26" cy="16" r="1.6" fill="#FFF4DF"/><circle cx="32" cy="16" r="1.6" fill="#FFF4DF"/></svg>',
-      ferry: '<svg viewBox="0 0 70 34"><path d="M2 20h66l-8 10H10z" fill="#E2457A"/><rect x="14" y="10" width="36" height="10" rx="2" fill="#FFF4DF" stroke="#E2457A" stroke-width="2"/><rect x="40" y="2" width="6" height="8" fill="#FFC93C"/></svg>'
+      bus: '<svg viewBox="0 0 64 34"><rect x="2" y="4" width="58" height="22" rx="6" fill="#E8C547"/><rect x="2" y="17" width="58" height="3" fill="#B5654A"/><rect x="8" y="9" width="10" height="7" rx="1.5" fill="#262626"/><rect x="21" y="9" width="10" height="7" rx="1.5" fill="#262626"/><rect x="34" y="9" width="10" height="7" rx="1.5" fill="#262626"/><rect x="48" y="9" width="8" height="12" rx="1.5" fill="#262626"/><circle cx="15" cy="27" r="5" fill="#111"/><circle cx="47" cy="27" r="5" fill="#111"/><circle cx="15" cy="27" r="2" fill="#B9B4AA"/><circle cx="47" cy="27" r="2" fill="#B9B4AA"/></svg>',
+      train: '<svg viewBox="0 0 96 34"><rect x="2" y="6" width="42" height="20" rx="5" fill="#3FA9F5"/><rect x="48" y="6" width="44" height="20" rx="5" fill="#3FA9F5"/><path d="M84 6h4a6 6 0 0 1 6 6v14h-10z" fill="#1F6FB0"/><rect x="2" y="18" width="90" height="2.5" fill="#F3F0EA"/>' + [8, 21, 54, 67].map((x) => `<rect x="${x}" y="10" width="9" height="6" rx="1" fill="#262626"/>`).join("") + '<circle cx="12" cy="28" r="4" fill="#111"/><circle cx="34" cy="28" r="4" fill="#111"/><circle cx="58" cy="28" r="4" fill="#111"/><circle cx="80" cy="28" r="4" fill="#111"/></svg>',
+      plane: '<svg viewBox="0 0 64 34"><path d="M4 18c0-3 3-5 7-5h38l10-9h4l-5 11h2c3 0 4 2 4 3s-1 3-4 3H11c-4 0-7-1-7-3z" fill="#F3F0EA"/><path d="M26 18l-8 12h6l14-12z" fill="#B9B4AA"/><circle cx="20" cy="16" r="1.6" fill="#3FA9F5"/><circle cx="26" cy="16" r="1.6" fill="#3FA9F5"/><circle cx="32" cy="16" r="1.6" fill="#3FA9F5"/></svg>',
+      ferry: '<svg viewBox="0 0 70 34"><path d="M2 20h66l-8 10H10z" fill="#B5654A"/><rect x="14" y="10" width="36" height="10" rx="2" fill="#F3F0EA" stroke="#B5654A" stroke-width="2"/><rect x="40" y="2" width="6" height="8" fill="#E8C547"/></svg>'
     };
     const road = document.createElement("div"); road.className = "fz-road"; road.setAttribute("aria-hidden", "true");
     road.innerHTML = `<span class="fz-v v-bus">${V.bus}</span><span class="fz-v v-train">${V.train}</span><span class="fz-v v-ferry">${V.ferry}</span><span class="fz-v v-plane">${V.plane}</span>`;
-    hero.prepend(bunt); hero.appendChild(road);
+    hero.appendChild(road);
     road.addEventListener("click", (e) => { const v = e.target.closest(".fz-v"); if (v) { v.classList.remove("honk"); void v.offsetWidth; v.classList.add("honk"); haptic("tick"); } });
   }
   // The folio: filters, grid/index views, a cursor preview on the index, and a lightbox
@@ -2391,6 +2665,98 @@
     });
   }
 
+  /* Rasta La Vista: the arcade frame around the game, the process hexes, the rearrangeable board and the passport */
+  function rgxs() {
+    $$("[data-rgx]").forEach((x) => {
+      const scr = $(".rgx-screen", x), live = $(".rgx-live span", x), tpl = $(".rgx-tpl", x);
+      const watch = () => { const rg = $(".rg", scr); if (!rg) return; const mo = new MutationObserver(() => { live.textContent = rg.classList.contains("live") ? "Playing" : "Ready to play"; x.classList.toggle("is-live", rg.classList.contains("live")); }); mo.observe(rg, { attributes: true, attributeFilter: ["class"] }); cleanup.push(() => mo.disconnect()); };
+      watch();
+      x.addEventListener("click", (e) => {
+        const b = e.target.closest("[data-rgx-act]"); if (!b) return; const a = b.dataset.rgxAct; haptic("tick");
+        if (a === "play") { x.classList.add("started"); live.textContent = "Choose your travellers"; const st = $(".rg-start", scr); st && st.focus({ preventScroll: true }); }
+        else if (a === "how") goTo($(".rgx-info", x));
+        else if (a === "restart") { const old = $(".rg", scr); const fresh = tpl.content.firstElementChild.cloneNode(true); old.replaceWith(fresh); x.classList.add("started"); rgames(); watch(); live.textContent = "Choose your travellers"; }
+        else if (a === "full") { const d = document; if (d.fullscreenElement || d.webkitFullscreenElement) { (d.exitFullscreen || d.webkitExitFullscreen).call(d); } else { const f = x.requestFullscreen || x.webkitRequestFullscreen; if (f) { const r = f.call(x); if (r && r.catch) r.catch(() => {}); } } }
+      });
+    });
+  }
+  function rlvs() {
+    $$("[data-rlv-hex]").forEach((h) => {
+      const bs = $$(".rlv-hx", h), ps = $$(".rlv-hx-d p", h); let i = 0, t, auto = !reduced;
+      const show = (k) => { i = (k + bs.length) % bs.length; bs.forEach((b, j) => { b.classList.toggle("on", j === i); b.setAttribute("aria-pressed", j === i); }); ps.forEach((p, j) => { p.hidden = j !== i; }); if (auto) { clearTimeout(t); t = setTimeout(() => show(i + 1), 3600); } };
+      bs.forEach((b, k) => b.addEventListener("click", () => { auto = false; clearTimeout(t); show(k); haptic("tick"); }));
+      cleanup.push(() => clearTimeout(t)); show(0);
+    });
+    // The modular board: hex tiles with coloured dots on their edges; rearrange them and the routes reconnect
+    $$("[data-rlv-tiles]").forEach((w) => {
+      const svg = $("svg", w), R = 46, SQ = Math.sqrt(3), C = { y: "#E8C547", b: "#3FA9F5", r: "#E0503C" };
+      const pos = []; for (let q = -2; q <= 2; q++) for (let r = Math.max(-2, -q - 2); r <= Math.min(2, -q + 2); r++) pos.push([q, r]);
+      const xy = ([q, r]) => [R * SQ * (q + r / 2), R * 1.5 * r];
+      const kinds = ["y", "b", "r", 0];
+      const tiles = pos.map((_, i) => ({ e: Array.from({ length: 6 }, (_, k) => (i * 7 + k * 3) % 7 === 0 ? 0 : kinds[(k + (i % 2) * 3) % 3]), blank: i % 8 === 7, rot: 0 }));
+      let slot = pos.map((_, i) => i);
+      const hexPts = Array.from({ length: 6 }, (_, k) => { const a = Math.PI / 180 * (60 * k - 30); return [R * Math.cos(a), R * Math.sin(a)]; });
+      const mid = (k) => { const a = Math.PI / 180 * (60 * k); return [R * SQ / 2 * Math.cos(a), R * SQ / 2 * Math.sin(a)]; };
+      const FILL = ["#F6EED8", "#E7F1F8", "#F8E4E1", "#FFFFFF", "#F3F0E6"];
+      svg.innerHTML = tiles.map((t, i) => `<g class="rlv-t" data-t="${i}"><polygon points="${hexPts.map((p) => p.map((v) => v * 0.97).join(",")).join(" ")}" fill="${t.blank ? "#FFFFFF" : FILL[i % 5]}" stroke="#262626" stroke-width="3"/>${t.e.map((c, k) => c && !t.blank ? `<circle cx="${(mid(k)[0] * 0.8).toFixed(1)}" cy="${(mid(k)[1] * 0.8).toFixed(1)}" r="7" fill="${C[c]}"/>` : "").join("")}</g>`).join("") + `<g class="rlv-links"></g>`;
+      const gs = $$(".rlv-t", svg), links = $(".rlv-links", svg);
+      const edgeAt = (ti, dir) => { const t = tiles[ti]; if (t.blank) return 0; return t.e[((dir - t.rot) % 6 + 6) % 6]; };
+      const DIRS = [[1, 0], [0, 1], [-1, 1], [-1, 0], [0, -1], [1, -1]];
+      const layout = () => {
+        gs.forEach((g, ti) => { const s = slot.indexOf(ti), [x, y] = xy(pos[s]); g.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) rotate(${tiles[ti].rot * 60}deg)`; });
+        // Where two neighbouring tiles show the same colour on their shared edge, the route connects
+        let out = "";
+        pos.forEach((p, s) => DIRS.forEach(([dq, dr], d) => { const n = pos.findIndex((o) => o[0] === p[0] + dq && o[1] === p[1] + dr); if (n < 0 || n < s) return; const a = edgeAt(slot[s], d), b2 = edgeAt(slot[n], (d + 3) % 6); if (a && a === b2) { const [x1, y1] = xy(p), [x2, y2] = xy(pos[n]); const lx = (k) => (x1 + (x2 - x1) * k).toFixed(1), ly = (k) => (y1 + (y2 - y1) * k).toFixed(1); out += `<line x1="${lx(0.36)}" y1="${ly(0.36)}" x2="${lx(0.64)}" y2="${ly(0.64)}" stroke="${C[a]}"/>`; } }));
+        links.innerHTML = out;
+      };
+      const shuffleIt = () => { for (let i = slot.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [slot[i], slot[j]] = [slot[j], slot[i]]; } tiles.forEach((t) => { t.rot = Math.floor(Math.random() * 6); }); w.classList.add("moving"); setTimeout(() => w.classList.remove("moving"), 700); layout(); haptic("tick"); };
+      layout();
+      const btn = w.closest(".rlv-bd") && $("[data-rlv-shuf]", w.closest(".rlv-bd"));
+      btn && btn.addEventListener("click", shuffleIt); svg.addEventListener("click", shuffleIt);
+    });
+    $$("[data-rlv-pp]").forEach((pp) => {
+      const ims = $$(".rlv-pp-st img", pp), dots = $$(".rlv-pp-dots i", pp), cap = $(".rlv-pp-cap", pp); let i = 0;
+      const go = (k) => { i = (k + ims.length) % ims.length; ims.forEach((im, j) => im.classList.toggle("on", j === i)); dots.forEach((d, j) => d.classList.toggle("on", j === i)); cap.textContent = ims[i].alt; haptic("tick"); };
+      $$("[data-pp]", pp).forEach((b) => b.addEventListener("click", () => go(i + +b.dataset.pp)));
+      $(".rlv-pp-st", pp).addEventListener("click", () => go(i + 1));
+    });
+  }
+  // Green Grocer: two-way views flip on their own until someone picks one; tabs; the route pauses for reduced motion
+  function ggxs() {
+    $$("[data-gg-tog]").forEach((w) => {
+      const bs = $$(".gg-tog button", w), vs = bs.map((b) => b.dataset.v); let i = 0, t, auto = !reduced;
+      const show = (k) => { i = k % vs.length; w.dataset.mode = vs[i]; bs.forEach((b, j) => b.setAttribute("aria-pressed", j === i)); };
+      const loop = () => { clearTimeout(t); if (auto) t = setTimeout(() => { if (!w.isConnected) return; show(i + 1); loop(); }, 5200); };
+      bs.forEach((b, k) => b.addEventListener("click", () => { auto = false; clearTimeout(t); show(k); haptic("tick"); }));
+      const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) loop(); else clearTimeout(t); }), { threshold: 0.35 });
+      io.observe(w); cleanup.push(() => { clearTimeout(t); io.disconnect(); });
+    });
+    $$("[data-gg-tabs]").forEach((w) => {
+      const bs = $$('[role="tab"]', w), ps = $$('[role="tabpanel"]', w);
+      bs.forEach((b, k) => b.addEventListener("click", () => { bs.forEach((x, j) => x.setAttribute("aria-selected", j === k)); ps.forEach((p, j) => { p.hidden = j !== k; }); haptic("tick"); }));
+    });
+    if (reduced) $$(".gg-rt-map").forEach((s) => s.pauseAnimations && s.pauseAnimations());
+  }
+  // Geometrica: fill the right number of parts and the card says so
+  function geoplays() {
+    $$("[data-geoplay]").forEach((w) => {
+      const clues = JSON.parse(w.dataset.geoplay), svg = $("svg", w), q = $(".geo-q", w), say = $(".geo-say", w), br = $(".geo-br", w);
+      const COL = ["#F4A23A", "#4FB8D8", "#8BD37A", "#F07C6C"]; let k = 0, on = [];
+      const BR = { a: "100000", b: "110000", c: "100100", d: "100110", e: "100010", f: "110100", g: "110110", h: "110010", i: "010100", j: "010110", k: "101000", l: "111000", m: "101100", n: "101110", o: "101010", p: "111100", q: "111110", r: "111010", s: "011100", t: "011110", u: "101001", v: "111001", w: "010111", x: "101101", y: "101111", z: "101011" };
+      const cell = (bits) => `<i class="geo-cell">${[0, 3, 1, 4, 2, 5].map((n) => `<b class="${bits[n] === "1" ? "on" : ""}"></b>`).join("")}</i>`;
+      const brl = (t) => t.toLowerCase().replace(/[^a-z ]/g, "").split("").slice(0, 18).map((ch) => ch === " " ? '<i class="geo-cell sp"></i>' : cell(BR[ch] || "000000")).join("");
+      const draw = () => { const c = clues[k], n = c.parts, R = 100, pts = Array.from({ length: n }, (_, i) => { const a = -Math.PI / 2 + i * 2 * Math.PI / n; return [R * Math.cos(a), R * Math.sin(a)]; });
+        svg.innerHTML = pts.map((p, i) => { const p2 = pts[(i + 1) % n]; return `<path class="geo-pt${on[i] ? " on" : ""}" data-i="${i}" tabindex="0" role="button" aria-pressed="${!!on[i]}" aria-label="Part ${i + 1} of ${n}" d="M0 0 L${p[0].toFixed(1)} ${p[1].toFixed(1)} L${p2[0].toFixed(1)} ${p2[1].toFixed(1)} Z" style="--c:${COL[(i + k) % COL.length]}"/>`; }).join("");
+        q.textContent = c.q; br.innerHTML = brl(c.q);
+        const cnt = on.filter(Boolean).length; say.textContent = cnt === c.need ? c.yes : cnt > c.need ? "Too many. Tap one to take it back." : cnt ? `${cnt} of ${n} so far…` : "Tap the parts to build it.";
+        w.classList.toggle("won", cnt === c.need); };
+      svg.addEventListener("click", (e) => { const t = e.target.closest("[data-i]"); if (!t) return; on[+t.dataset.i] = !on[+t.dataset.i]; haptic("tick"); draw(); });
+      svg.addEventListener("keydown", (e) => { if (e.key !== "Enter" && e.key !== " ") return; const t = e.target.closest("[data-i]"); if (!t) return; e.preventDefault(); on[+t.dataset.i] = !on[+t.dataset.i]; draw(); $(`[data-i="${t.dataset.i}"]`, svg).focus(); });
+      $('[data-geo="next"]', w).addEventListener("click", () => { k = (k + 1) % clues.length; on = []; draw(); });
+      $('[data-geo="clear"]', w).addEventListener("click", () => { on = []; draw(); });
+      draw();
+    });
+  }
   // Moo: plays once when it scrolls in, again on every tap
   function moos() {
     $$("[data-moo]").forEach((st) => {
@@ -2719,10 +3085,11 @@
   function startOrbit() {
     const el = $("#orbit"); if (!el) return;
     const nodes = $$(".node", el);
-    const ring = [{ rx: .47, ry: .133, sp: .00011 }, { rx: .357, ry: .1, sp: -.00016 }, { rx: .243, ry: .067, sp: .00024 }];
+    const fig = el.classList.contains("has-fig");
+    const ring = fig ? [{ rx: .47, ry: .0816, sp: .00011 }, { rx: .347, ry: .0605, sp: -.00016 }, { rx: .233, ry: .0408, sp: .00024 }] : [{ rx: .47, ry: .133, sp: .00011 }, { rx: .357, ry: .1, sp: -.00016 }, { rx: .243, ry: .067, sp: .00024 }];
     const per = {}; nodes.forEach((n) => { const r = +n.dataset.ring; per[r] = (per[r] || 0) + 1; });
     const idx = {}; nodes.forEach((n) => { const r = +n.dataset.ring; idx[r] = (idx[r] || 0); n._phase = (idx[r]++ / per[r]) * Math.PI * 2 + r * 0.7; });
-    const tilt = -10 * Math.PI / 180, cx = .5, cy = .683;
+    const tilt = (fig ? -8 : -10) * Math.PI / 180, cx = .5, cy = fig ? .22 : .683;
     let paused = false, raf, t0 = performance.now(), offset = 0, visible = true;
     const place = (now) => {
       const W = el.clientWidth, H = el.clientHeight, k = W < 480 ? 0.78 : 1;
@@ -2732,7 +3099,7 @@
         const X = x * Math.cos(tilt) - y * Math.sin(tilt), Y = x * Math.sin(tilt) + y * Math.cos(tilt);
         const depth = Math.sin(a);
         n.style.transform = `translate(${((cx + X) * W).toFixed(1)}px, ${((cy + Y) * H).toFixed(1)}px) translate(-50%, -50%) scale(${(0.86 + 0.14 * depth).toFixed(3)})`;
-        n.style.zIndex = depth > 0 ? 4 : 1;
+        n.style.zIndex = depth > 0 ? 4 : 1; n.classList.toggle("behind", depth < -0.15);
         n.style.opacity = (0.62 + 0.38 * (depth + 1) / 2).toFixed(2);
       });
     };
@@ -2740,7 +3107,7 @@
     if (!reduced) { const base = tick; tick = (now) => { coast(); base(now); }; }
     if (reduced) { place(0); addEventListener("resize", () => place(0)); return; }
     let drag = null, vel = 0;
-    el.addEventListener("pointerdown", (e) => { if (e.target.closest(".node") || e.button) return; drag = { x: e.clientX, moved: 0 }; el.classList.add("spinning"); });
+    el.addEventListener("pointerdown", (e) => { if (e.target.closest(".node, .me-btn") || e.button) return; drag = { x: e.clientX, moved: 0 }; el.classList.add("spinning"); });
     const pm = (e) => { if (!drag) return; const dx = e.clientX - drag.x; drag.x = e.clientX; drag.moved += Math.abs(dx); vel = dx * 60; offset += vel; };
     const pu = () => { if (!drag) return; drag = null; el.classList.remove("spinning"); };
     addEventListener("pointermove", pm); addEventListener("pointerup", pu);
@@ -2887,8 +3254,8 @@
   function stageTabs() {
     const stage = $("#stage"); if (!stage) return;
     const tabs = $$("[data-area]", stage), panels = tabs.map((t) => document.getElementById(t.getAttribute("aria-controls"))), media = $$(".sm", stage), ind = $(".seg-ind", stage);
-    let cur = 0, auto = !reduced, timer;
-    const DUR = 5000; let held = false;
+    let cur = 0, auto = !reduced, timer, resume;
+    const DUR = 5500; const held = false;
     const slide = () => { const t = tabs[cur]; ind.style.width = t.offsetWidth + "px"; ind.style.transform = `translateX(${t.offsetLeft}px)`; };
     const show = (i, focus) => {
       cur = (i + tabs.length) % tabs.length;
@@ -2898,14 +3265,13 @@
       slide(); if (focus) tabs[cur].focus();
       if (auto && !held) { void tabs[cur].offsetWidth; tabs[cur].classList.add("run"); clearTimeout(timer); timer = setTimeout(() => show(cur + 1), DUR); }
     };
-    const stop = () => { auto = false; clearTimeout(timer); tabs.forEach((t) => t.classList.remove("run")); };
+    // Choosing an area holds it for a while, then the stage moves on again by itself
+    const stop = () => { if (reduced) return; auto = false; clearTimeout(timer); clearTimeout(resume); tabs.forEach((t) => t.classList.remove("run")); resume = setTimeout(() => { auto = true; show(cur + 1); }, 12000); };
     tabs.forEach((t, i) => {
       t.addEventListener("click", () => { stop(); show(i); });
       t.addEventListener("keydown", (e) => { if (e.key === "ArrowRight" || e.key === "ArrowLeft") { e.preventDefault(); stop(); show(cur + (e.key === "ArrowRight" ? 1 : -1), true); } });
     });
-    stage.addEventListener("pointerenter", () => { held = true; clearTimeout(timer); tabs.forEach((t) => t.classList.remove("run")); });
-    stage.addEventListener("pointerleave", () => { held = false; if (auto) show(cur); });
-    addEventListener("resize", slide); cleanup.push(() => { clearTimeout(timer); removeEventListener("resize", slide); });
+    addEventListener("resize", slide); cleanup.push(() => { clearTimeout(timer); clearTimeout(resume); removeEventListener("resize", slide); });
     show(0);
   }
 
@@ -3126,10 +3492,10 @@
     cleanup.forEach((f) => f()); cleanup = [];
     const r = parse();
     const ar = areaOf(r.page);
-    const body = r.page === "p" ? project(r.id) : r.page === "for" ? forPage(r.q) : ar ? areaPage(ar) : (PAGES[r.page] || notFound)();
+    const body = r.page === "p" ? project(r.id) : r.page === "for" ? forPage(r.q) : ar ? work(ar.key) : (PAGES[r.page] || notFound)();
     if (r.page === "films") document.documentElement.dataset.page = "films"; else document.documentElement.removeAttribute("data-page");
     const tp = r.page === "p" && byId[r.id] ? byId[r.id] : null;
-    const tone = tp && !tp.hidden ? (tp.tone || (S.caseStudies[tp.id] || {}).tone) : ar ? ar.tone : "";
+    const tone = tp && !tp.hidden ? (tp.tone || (S.caseStudies[tp.id] || {}).tone) : "";
     if (tone) document.documentElement.dataset.tone = tone; else document.documentElement.removeAttribute("data-tone");
     $("#app").innerHTML = shell(r) + body + footer();
     const p = r.page === "p" ? byId[r.id] : null;
@@ -3139,12 +3505,13 @@
   }
   function after(r) {
     if (r.page === "archive") archiveRender();
-    if (r.page === "home") { pixelMe(); askCycle(); startOrbit(); stageTabs(); accordion(); marquee(); bindPreview($("#type-index"), ".ti[data-id]"); cycle(".fs-frame img", null, []); }
-    if (r.page === "work") { /* nothing extra */ }
-    if (r.page === "films") { dvd(); mapSync(); scenes(); }
+    if (r.page === "home") { pixelMe(); askCycle(); startOrbit(); wkMini(); accordion(); marquee(); bindPreview($("#type-index"), ".ti[data-id]"); cycle(".fs-frame img", null, []); }
+    if (r.page === "work" || areaOf(r.page)) workPage();
+    if (r.page === "films") { dvd(); mapSync(); scenes(); const fp = $("[data-fl-play]"); if (fp) fp.addEventListener("click", () => { const tv = $("#tv"); goTo($(".dvd")); setTimeout(() => { if (tv) { tv.focus({ preventScroll: true }); const pa = $('[data-act="playall"]', tv); if (pa) pa.click(); } }, 700); }); }
     footerFx(); howBoards(); xrRooms(); if (r.page === "xr-design") xrBoot(); reveal(); countUp(); splitHeads(); scrubs(); screenStates(); tilts(); gaze(); roiDials(); panos();
-    pins(); charts(); compares(); cbsims(); tins(); boxes(); watches(); fgames(); rgames(); moos(); buildits(); pipelines(); flowmaps(); decks(); fiestaHero(); folios(); brailles(); reqmaps(); tgsuites(); videos(); visualHero();
+    pins(); charts(); compares(); cbsims(); tins(); boxes(); watches(); fgames(); rgames(); moos(); buildits(); pipelines(); flowmaps(); decks(); fiestaHero(); folios(); brailles(); reqmaps(); tgsuites(); rgxs(); rlvs(); ggxs(); geoplays(); videos(); visualHero();
     if (r.page === "p") { const pr = S.projects.find((x) => x.id === r.id); if (pr) xrHero(pr); }
+    if (r.page === "p") { const md = $(".local-nav .mode"); if (md && !reduced) { md.classList.add("nudge"); const tt = setTimeout(() => md.classList.remove("nudge"), 2600); cleanup.push(() => clearTimeout(tt)); } }
     if (r.page === "p") $$(LB, $("#main")).forEach((im) => { if (!im.closest("a")) { im.classList.add("lb-able"); im.setAttribute("tabindex", "0"); im.setAttribute("role", "button"); } });
     // XR area page: the frame leans toward the pointer
     const lean = $(".area-xr .area-media");

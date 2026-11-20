@@ -19,6 +19,7 @@ SITE.caseStudies["texgenie"] = {
     "Owners kept naming the same pain: updates that never arrive.",
     "Make people faster, not fewer.",
     "A desktop for the office, a phone for the floor.",
+    "Genie, the AI layer, writes reports, hears voice notes and warns about delays.",
     "Genie suggests. People decide."
   ],
   sections: [
@@ -150,7 +151,7 @@ SITE.caseStudies["texgenie"] = {
         ] }
       ] },
     { key: "structure", kicker: "Structure", title: "Four places, one home.", paras: [
-      "The information architecture puts everything under four areas: Orders, Inventory, Documents and Finance, with a profile, a metrics calculator and notifications one step from home. Documents link back to the orders and payments they belong to.",
+      "The information architecture puts everything under four areas: Orders, Inventory, Documents and Finance, with a profile, a metrics calculator and notifications one step from home. Documents link back to the orders and payments they belong to. Genie, the assistant, sits across all four.",
       "I sketched the key screens as greyscale wireframes before any colour went in."
     ], quote: "",
       show: [
@@ -158,9 +159,10 @@ SITE.caseStudies["texgenie"] = {
           { name: "Orders", items: [{ name: "Running PO", items: ["Process tracking", "Raised issues"] }, { name: "Today's tasks", items: ["Add tasks", "Reminders"] }, "Daily report", "Progress dashboard"] },
           { name: "Inventory", items: [{ name: "Textile", items: ["Yarn", "Fabric", "Trims", "Finished goods", "Previous samples"] }, { name: "Other", items: ["Packaging", "Tools and repairs", "Office supplies"] }] },
           { name: "Documents", items: ["Purchase orders", "Styling specs", "Logistics records", "Inspection records", "Production reports", "Inventory reports", "Purchase bills", "Sales invoices", "Audit and tax records"] },
-          { name: "Finance", items: [{ name: "Market statistics", items: ["Cotton price", "Currency"] }, { name: "Dashboard", items: ["Ledger", "Payroll", "Buyer payments", "Transactions"] }] }
+          { name: "Finance", items: [{ name: "Market statistics", items: ["Cotton price", "Currency"] }, { name: "Dashboard", items: ["Ledger", "Payroll", "Buyer payments", "Transactions"] }] },
+          { name: "Genie", ai: true, items: ["Daily report", "Voice updates", "Delay warnings", "Reorder suggestions", "Ask a question"] }
         ] },
-        { type: "images", layout: "phones", items: [
+        { type: "collage", title: "Wireframes", bg: "sky", items: [
           { src: "assets/img/projects/texgenie/wf-login.webp", caption: "Login" },
           { src: "assets/img/projects/texgenie/wf-home.webp", caption: "Home" },
           { src: "assets/img/projects/texgenie/wf-track.webp", caption: "Order tracking" },
@@ -175,27 +177,27 @@ SITE.caseStudies["texgenie"] = {
     ], quote: "",
       show: [ { type: "tgds", title: "The TexGenie design system" } ] },
     { key: "mobile", kicker: "Mobile", title: "The factory, in your pocket.", paras: [
-      "The phone app is for people on the move: owners between units, supervisors on the floor. It opens on what matters today, and every screen ends in one clear action.",
+      "The phone app is for people on the move: owners between units, supervisors on the floor. It opens on what matters today, every screen ends in one clear action, and Genie sits in the middle of the navigation, one tap from anywhere.",
       "Scroll through it screen by screen."
     ], quote: "Big type, big buttons, plain words.",
       show: [
         { type: "story", device: "phone", title: "The phone app", steps: [
-          { label: "Login", title: "One account per person.", text: "Each role signs in to see only its own part of the order.", img: "assets/img/projects/texgenie/p-login.webp" },
-          { label: "Home", title: "Today, at a glance.", text: "The daily report Genie wrote, the most important task, the running purchase order with its progress and issues, and the day's checklist.", img: "assets/img/projects/texgenie/p-home.webp" },
-          { label: "Order tracking", title: "Where is PO 6577?", text: "Every step with its time and status, quick call and message buttons for the unit, and the purchase order or bill one tap away. A printable summary sits on top.", img: "assets/img/projects/texgenie/p-track.webp" },
-          { label: "Issues", title: "Problems, sorted by urgency.", text: "Urgent, priority and review, in colours readable at arm's length. Add an issue or edit the list without leaving the screen.", img: "assets/img/projects/texgenie/p-issues.webp" },
+          { label: "Login", title: "Your factory, in your language.", text: "Sign in with a phone number and a code, or face unlock: no passwords to forget on the floor. English, Tamil or Hindi from the first screen, and each role sees only its own part of the order.", img: "assets/img/projects/texgenie/p-login.webp" },
+          { label: "Home", title: "Today, at a glance.", text: "The daily report Genie wrote, with the orders that may slip, the most important task, the running purchase order with its progress and issues, and the day's checklist.", img: "assets/img/projects/texgenie/p-home.webp" },
+          { label: "Order tracking", title: "Where is PO 6577?", text: "Every step with its time and status, quick call and message buttons for the unit, and the purchase order or bill one tap away. Genie says when it will really ship, and why.", img: "assets/img/projects/texgenie/p-track.webp" },
+          { label: "Issues", title: "Problems, sorted by urgency.", text: "Urgent, priority and review, in colours readable at arm's length. Genie groups issues that share a cause, like two failed inspections from the same supplier.", img: "assets/img/projects/texgenie/p-issues.webp" },
           { label: "Genie", title: "Talk, don't type.", text: "A supervisor says what happened in Tamil, Hindi or English. Genie fills in the order, step, issue and new date, and nothing is saved until they confirm.", img: "assets/img/projects/texgenie/p-voice.webp" },
           { label: "Inventory", title: "Stock that warns you.", text: "Product and office stock in tiles. Genie spots trims running short for an upcoming step and offers a reorder.", img: "assets/img/projects/texgenie/p-stock.webp" },
-          { label: "Documents", title: "Every record, one search away.", text: "Purchase orders, styling specs, inspection records, invoices and reports, in one list.", img: "assets/img/projects/texgenie/p-docs.webp" },
-          { label: "Finance", title: "Money and markets.", text: "Cotton price and the dollar rate, credit and debit, payroll and ledger, and recent transactions.", img: "assets/img/projects/texgenie/p-money.webp" }
+          { label: "Documents", title: "Every record, one search away.", text: "Purchase orders, styling specs, inspection records, invoices and reports, in one list. Or just ask Genie for the one you need.", img: "assets/img/projects/texgenie/p-docs.webp" },
+          { label: "Finance", title: "Money and markets.", text: "Cotton price and the dollar rate, credit and debit, payroll and ledger, and recent transactions. Genie notices when it's a good week to buy yarn.", img: "assets/img/projects/texgenie/p-money.webp" }
         ] }
       ] },
     { key: "desktop", kicker: "Desktop", title: "The whole factory, on one screen.", paras: [
       "The office needs the wide view: every order, every unit, every rupee. The desktop keeps the phone's visual language and adds space for planning, comparing and approving.",
-      "Scroll and the workspace changes."
+      "Scroll: the laptop stays in the middle, and each workspace is named on the left and explained on the right."
     ], quote: "",
       show: [
-        { type: "appframe", title: "Eight workspaces", app: "TexGenie", items: [
+        { type: "story", layout: "center", device: "laptop", title: "Eight workspaces", steps: [
           { label: "Dashboard", title: "Good morning, Sangeetha.", text: "Running orders with their progress and where each one is now, the issues raised, what is due for dispatch, the cotton price, today's tasks, and a morning report Genie has already written.", img: "assets/img/projects/texgenie/d-dash.webp" },
           { label: "Order", title: "One order, end to end.", text: "PO 6522's journey from order to dispatch, updates as they arrive from the floor, where it is right now with a button to call the unit, and every document attached to it.", img: "assets/img/projects/texgenie/d-order.webp" },
           { label: "Production", title: "Every order at its step.", text: "A board with one column per stage. Genie flags the order that will miss its date and suggests the fix.", img: "assets/img/projects/texgenie/d-prod.webp" },
@@ -207,7 +209,7 @@ SITE.caseStudies["texgenie"] = {
         ] }
       ] },
     { key: "genie", kicker: "AI", nav: "Genie", title: "Genie suggests. People decide.", paras: [
-      "The thesis ended with AI as the future scope: better productivity, quality control, resource use and decisions. In the 2026 revisit I designed that layer and called it Genie.",
+      "The thesis named AI as the way forward for the industry: better productivity, quality control, resource use and decisions. Genie is that layer, designed into the product rather than added on top.",
       "Genie never replaces anyone's judgement. It reads what's already flowing through TexGenie, saves people time, and always asks before anything is saved, sent or paid."
     ], quote: "AI that saves people time, not AI that replaces them.",
       show: [
@@ -241,8 +243,20 @@ SITE.caseStudies["texgenie"] = {
           { title: "The floor reports once", text: "One tap or one voice note updates everyone who needs to know." },
           { title: "Problems surface early", text: "Issues from the floor, and Genie's warnings, reach the office while they can still be fixed." },
           { title: "Records stay with the order", text: "Bills, specs and inspection reports attach to the order they belong to." }
-        ] },
-        { type: "images", items: [ { src: "assets/img/projects/texgenie/poster-results.webp", caption: "Where it started: the 2023 thesis screens, from the final poster" } ] }
+        ] }
+      ] },
+    { key: "conclusion", kicker: "Conclusion", title: "They wished it already existed.", paras: [
+      "Why it was done: the industry's skilled work was being slowed down by the information around it. Plans, updates and records moved by phone call and paper, and nobody had designed software for the people who actually move an order through a factory.",
+      "How it was solved: by organising the work people already do instead of replacing them. A desktop for the office, a phone for the floor, one live record for every order, and Genie to write, warn and listen.",
+      "How it ended: the people I tested it with from the textile industry were happy with it. They cared less about how it looked than about what it did, and they wished something like it already existed, which says the need is real."
+    ], quote: "",
+      show: [
+        { type: "causes", title: "What made it hard", items: [
+          { title: "Every factory is different", text: "Owners asked to customise it to their own process. A product for the whole industry has to bend to each factory without breaking." },
+          { title: "Skills on the floor vary", text: "The workforce's familiarity with apps varies a lot, so the floor app has to work with big type, plain words and voice." },
+          { title: "Digitisation is never total", text: "Much of the work stays manual by nature. The software has to sit beside the craft, not replace it." },
+          { title: "What it shows", text: "As a concept, it brought fresh thinking to the industry and addressed problems the industry itself hadn't looked at." }
+        ] }
       ] }
   ],
   specs: [
@@ -260,6 +274,6 @@ SITE.caseStudies["texgenie"] = {
       { label: "Concept", detail: "Mind map, requirements, concept evaluation, design brief" },
       { label: "Design", detail: "Information architecture, wireframes, design system, high-fidelity screens" },
       { label: "Testing", detail: "Think-aloud sessions with stakeholders" },
-      { label: "Tools", detail: "Figma (2023), HTML and React (2026)" } ] }
+      { label: "Tools", detail: "Figma, Illustrator" } ] }
   ]
 };

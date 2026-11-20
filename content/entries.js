@@ -39,6 +39,16 @@ SITE.entries = {
     { title: "Why", text: "As a music lover, JioSaavn is my go-to app. But in a quick comparison with Wynk, Spotify and YouTube Music, it fell short on user experience and content curation, and didn't position its content well. So I gave it a new touch, keeping its own brand guide." },
     { title: "What changed", text: "New users pick their first content, so the journey is personal from the start. The important controls and navigation sit at the bottom for quick, easy reach. The search bar moves down too, and leads with genres for genre-driven exploration." }
   ],
+  "spatial-design": [
+    { title: "The brief", text: "A spatial design course: study a brand, then redesign one of its spaces. We studied Burberry, a British luxury fashion house known for its trench coats and its check, and redesigned its store front for the festive season." },
+    { title: "What we learnt from the brand", text: "Its windows don't just show products. They tell the brand's story, use its motifs to say who it is from across the street, and often add something interactive, like screens and augmented reality, to pull people in." },
+    { title: "The design", text: "Two display windows either side of the entrance. On one side, a single dress on an AR display that lets passers-by try the look; on the other, mannequins dressed for winter beside a Christmas tree and gift boxes. Stone walls, so the windows glow." }
+  ],
+  "native-packaging": [
+    { title: "The brand", text: "A traditional groceries brand selling handmade snacks, masalas and mixes with no artificial colours. The packaging carries that promise: a grandmother who has made them for years, and the village at work around her." },
+    { title: "Tins first", text: "The first products, two masala cashews and two cooking masalas, came in round tins, so their labels wrap all the way round: the name in Tamil and English, a photo of the food, and the cooking steps." },
+    { title: "Then boxes", text: "The later ranges came in boxes. A single sticker on the front names the range, the grandmother sits on the lid, and the rest of the board is left plain." }
+  ],
   "gpay-wrist": [
     { title: "What it was", text: "An attempt to make UPI payments accessible on the go, without a phone. The idea uses NFC to make UPI payments from the watch. A conceptual project." },
     { title: "How it works", text: "Pay through your UPI ID over NFC, pay your contacts, and switch bank accounts for a payment. Cards can be added because the watch already speaks NFC, and scanning uses the same hardware as the cards." }
@@ -78,21 +88,11 @@ SITE.entries = {
     { title: "What we looked at", text: "Three Sticks, where players build shapes from sticks of three lengths and score by perimeter and type of shape, and Pizza Fraction Fun, where you build whole pizzas from fraction slices." },
     { title: "In the box", text: "The board, shape frames in five kinds, shape and fraction clue cards, answer keys, the rules and a poster, designed to sit on a shelf like any other game for children eight and up." }
   ],
-  "green-grocer": [
-    { title: "The problem", text: "Small farmers don't know how demand moves prices, and find transport hard, so they sell through middlemen and lose out." },
-    { title: "The idea", text: "Give the farmers mobility. Collect produce from several small farms and sell it where demand is higher, from a moving market, for a small commission. And pay for the model by selling the vehicle's sides as ad space." },
-    { title: "The brand", text: "A farmer carrying his harvest, in a round badge, with the line “From farmers to you”, in green on black, and painted onto a modified auto-rickshaw with shelves of produce down its sides." },
-    { title: "What people told us", text: "Farmers asked us to build trust with proof, plan for surplus, and check demand by area. Customers wanted fresher produce near places without grocery stores, and advertisers said a moving vehicle reaches people a TV ad can't, once they trust you." },
-    { title: "Different from the rest", text: "Competitors buy from farms, store the produce and sell it for profit. Green Grocer moves the farmers' own produce straight to buyers, so more of the price goes back to the farm." },
-    { title: "The app", text: "Separate paths for farmers and for advertising clients: sign-up, orders and earnings, live tracking of the vehicle, marketing services, help and an about page. We tested the first screens with farmers and business clients and watched them work through tasks." }
-  ]
-  ,
   "rasta-la-vista": [
     { title: "The question", text: "How do you teach the next generation about the vast geography of India in a way that's engaging and fun? Rasta La Vista simulates the real choices of India's public transport: buses, the far-reaching railways and coastal ferries, disguised as a competitive adventure for kids and families." },
     { title: "Educational, strategic, engaging", text: "Players learn the map and a fact on every postcard; they plan routes against a budget of tickets; and events and action cards keep every round unpredictable. Moving across the board becomes a growing story of ownership, collection and a personal journey." },
     { title: "A board that changes", text: "We started from games we knew, Monopoly, Catan, Scotland Yard, Abalone and Life, and took Catan's rearrangeable hexagons further: modular tiles that assemble into a different map every time, carrying roads, railways and rivers across their edges." },
     { title: "Playtesting", text: "Paper prototypes first, then a second version where any numbered hexagon could swap with another of the same colour. New players found it engaging and easy to learn, and loved the rearrangeable map. They also found too little conflict early on, kept making mistakes when rearranging, and couldn't spot unvisited places at a glance." },
-    { title: "What changed", text: "Action cards for more player-to-player conflict. Puzzle-like interlocking edges, one shape per route type, so a tile physically can't connect the wrong way. And a tray of pegs to mark the places you've claimed." },
     { title: "Built and shown", text: "Illustrated digitally, printed, and stuck onto laser-cut acrylic tiles that sit in a board with colour-coded hexagonal holes. We showed it at a public exhibition, where children picked up the rules quickly and stayed for full games." }
   ],
   evoke: [

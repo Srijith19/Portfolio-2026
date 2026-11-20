@@ -118,13 +118,40 @@ SITE.caseStudies["shoetime"] = {
         ] }
       ] },
 
-    { key: "design-s", kicker: "Designing the solution", title: "Collections for seasons, films and moods.", paras: [
-      "The interface is set in Poppins, in black and white, so the shoes bring the colour. Home leads with collections (for her, for him, an MCU collection, a winter collection) and brand rows. Product pages carry sizes, colours, materials and price up front, and filters cover size, colour and price."
+    { key: "design-s", kicker: "Designing the solution", title: "What a shoe store people trust looks like.", paras: [
+      "ShoeTime was my attempt to work out what a shoe marketplace customers actually prefer should be: how to organise it, how the shoes should be shown, and what gives people the confidence to buy without trying them on.",
+      "The answers came straight from the four requirements. Collections that follow seasons, films and occasions instead of a flat catalogue. Sizes in every format, with a note on how each brand runs. Close-ups and a 360° view in place of touch. A verified badge on every pair. And combo offers that make a once-a-year purchase feel like good value.",
+      "I've taken the screens to today's standards: one main action per screen, a small floating navigation bar, and the shoes, not the interface, bringing the colour. Scroll through it."
     ], quote: "",
       blocks: [
-        { type: "images", items: [ { src: "assets/img/projects/shoetime/solution.webp", caption: "Collections, home and a product page" } ] },
-        { type: "images", items: [ { src: "assets/img/projects/shoetime/screens-1.webp", caption: "Sign in, home, collections and a product page" } ] },
-        { type: "images", items: [ { src: "assets/img/projects/shoetime/screens-2.webp", caption: "Results, wishlist, filters and profile" } ] }
+        { type: "story", layout: "center", device: "phone", title: "The app", steps: [
+          { label: "Sign in", title: "Every brand. The right size.", points: ["Email or phone, no password", "Your size saved once"], text: "Sign-in leads with the promise the research asked for: every brand in one place, and the right size. Signing in saves your size and favourites, so the next visit starts where you left off.", img: "assets/img/projects/shoetime/s-login.webp" },
+          { label: "Home", title: "The season comes first.", points: ["Seasonal collection up top", "Occasion chips", "Verified on every card"], text: "Home opens on what's relevant now, like a monsoon collection that's waterproof and grippy, then occasions to shop by, then what's trending. Every card carries a verified badge, because trust was the biggest gap.", img: "assets/img/projects/shoetime/s-home.webp" },
+          { label: "Collections", title: "Shop by season, film and mood.", points: ["Seasons, films, sport, festive", "Updated through the year"], text: "Requirement one: time and trend-based categories. Collections change with the year, so a shopper who buys once a year finds something new each time, and the store can push the lines it wants to sell.", img: "assets/img/projects/shoetime/s-collect.webp" },
+          { label: "Product", title: "Everything you'd check in a shop.", points: ["360° view and material close-up", "Size in UK, EU or cm", "How this model fits"], text: "Requirement three: detailed information. The 360° view and close-ups stand in for touching the shoe. Sizes switch between UK, EU and centimetres, and a note says how this model runs compared with your usual size.", img: "assets/img/projects/shoetime/s-product.webp" },
+          { label: "Size guide", title: "Find your size, once.", points: ["Measure your foot", "How each brand runs"], text: "Sizing was the most common reason people didn't trust online shoe shopping. Measure your foot once, see it in every system, and see which brands run small or large.", img: "assets/img/projects/shoetime/s-size.webp" },
+          { label: "Results", title: "Shoes for the office.", points: ["Search by occasion", "Combo offers in context"], text: "Requirement four: value. People search by what the shoe is for, and combo offers appear where they make sense, like two office pairs for someone starting a new job.", img: "assets/img/projects/shoetime/s-results.webp" },
+          { label: "Filters", title: "Narrow it down, fast.", points: ["Occasion, size, colour, price", "Verified sellers only"], text: "Personalised filters cut search fatigue: occasion first, then size, colour and a price range that shows where most shoes sit. A single switch hides anything that isn't verified.", img: "assets/img/projects/shoetime/s-filter.webp" },
+          { label: "Saved", title: "Wait for the right price.", points: ["Price-drop alerts", "Combos on saved pairs"], text: "Saved pairs watch their own price and suggest a combo when two of them go well together, so the once-a-year purchase feels like a good deal.", img: "assets/img/projects/shoetime/s-saved.webp" }
+        ] },
+        { type: "collage", title: "The 2023 prototype", bg: "ink", items: [
+          { src: "assets/img/projects/shoetime/screens-1.webp", caption: "Sign in, home, collections, product", wide: true },
+          { src: "assets/img/projects/shoetime/solution.webp", caption: "Collections and product page" },
+          { src: "assets/img/projects/shoetime/screens-2.webp", caption: "Results, wishlist, filters, profile", wide: true }
+        ] }
+      ] },
+
+    { key: "conclusion", kicker: "Conclusion", title: "Trust is the product.", paras: [
+      "Why it was done: online shoe shopping in India was split across brand sites and marketplaces, and people didn't trust what they saw. They doubted the fit, the photos and whether the pair was genuine, and because most people buy shoes once a year, a bad purchase stings.",
+      "How it was solved: by designing around confidence rather than catalogue size. Collections that change with the year, sizes in every format with a note on how each brand runs, close-ups and 360° views in place of touch, a verified badge on every pair, and offers that reward buying more than one.",
+      "How it ended: as a high-fidelity prototype of a multi-brand store, reviewed by faculty from IISc Bengaluru."
+    ], quote: "",
+      blocks: [
+        { type: "causes", title: "What made it hard", items: [
+          { title: "Sizes don't agree", text: "Every brand sizes differently, so a single size chart isn't enough. The answer had to be per brand and per model." },
+          { title: "A screen can't be touched", text: "Material and comfort are felt, not seen. Close-ups, 360° views and plain descriptions had to do that job." },
+          { title: "Proof is hard to show", text: "A badge only means something if it's earned. Authenticity needs a real check behind it, not just an icon." }
+        ] }
       ] }
   ]
 };

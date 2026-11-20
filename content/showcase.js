@@ -58,9 +58,25 @@ SITE.showcase = {
 
   "gpay-wrist": [
     { type: "words", text: "Pay with UPI from your wrist, over NFC, *with no phone needed*." },
-    // A working prototype, built from the screens in the gallery below. To use your Figma prototype instead,
-    // add  figma: "https://www.figma.com/proto/…"  to this project in content/projects.js.
-    { type: "watch", title: "Try it on the wrist.", text: "This one works. Tap the screen, press the side button to unlock, and go back home with the crown." }
+    { type: "note", entry: 0 },
+    { type: "story", layout: "center", device: "watch", title: "On the wrist", steps: [
+      { label: "Unlock", title: "Press the side button.", points: ["Wakes straight into Google Pay"], text: "The watch opens on Google Pay. One press of the side button and you're in.", img: "assets/img/projects/gpay-wrist/w-01.webp" },
+      { label: "PIN", title: "Your UPI PIN, on a keypad you can hit.", points: ["Large keys for a small screen"], text: "Big round keys sized for a fingertip on a 45 mm screen, with four dots that fill as you type.", img: "assets/img/projects/gpay-wrist/w-16.webp" },
+      { label: "Home", title: "Everything one tap away.", points: ["Pay by NFC", "Pay a contact", "Switch bank"], text: "Three big actions down the side, your people in a grid, and your history underneath.", img: "assets/img/projects/gpay-wrist/w-02.webp" },
+      { label: "Pay by NFC", title: "Slide to pay.", points: ["A slide, not a tap", "No accidental payments"], text: "Paying takes a slide rather than a tap, so a brush of the sleeve can't send money.", img: "assets/img/projects/gpay-wrist/w-03.webp" },
+      { label: "Scan", title: "Hold it near the scanner.", points: ["NFC, like a card"], text: "The watch already speaks NFC, so it pays at the counter the way a card would, and it can carry your cards too.", img: "assets/img/projects/gpay-wrist/w-11.webp" },
+      { label: "Contacts", title: "Pay the people you pay most.", points: ["Slide to pay a contact"], text: "Your frequent contacts, one slide away.", img: "assets/img/projects/gpay-wrist/w-22.webp" },
+      { label: "Bank", title: "Choose which account pays.", points: ["Switch accounts per payment"], text: "Switch the bank account behind a payment without picking up your phone.", img: "assets/img/projects/gpay-wrist/w-23.webp" },
+      { label: "History", title: "What went in and out.", points: ["Glanceable amounts"], text: "Every payment, with a green or red amount you can read at a glance.", img: "assets/img/projects/gpay-wrist/w-15.webp" }
+    ] },
+    { type: "note", entry: 1, side: "right" },
+    { type: "collage", title: "More screens", bg: "sky", items: [
+      { src: "assets/img/projects/gpay-wrist/w-09.webp", caption: "Cards" },
+      { src: "assets/img/projects/gpay-wrist/w-13.webp", caption: "Contacts" },
+      { src: "assets/img/projects/gpay-wrist/w-14.webp", caption: "Banks" },
+      { src: "assets/img/projects/gpay-wrist/w-24.webp", caption: "Settings" }
+    ] },
+    { type: "concl", why: "UPI is everywhere in India, but paying with it still means taking out your phone. I wanted to see whether a watch could do it alone.", how: "The watch already speaks NFC, so it can pay at a counter like a card. On top of that: a PIN keypad sized for the wrist, a slide instead of a tap so nothing is paid by accident, and contacts and bank accounts one step from home.", ended: "As a concept and a clickable prototype, designed around the 45 mm Apple Watch screen." }
   ],
 
   kalviexpert: [
@@ -180,23 +196,39 @@ SITE.showcase = {
   ],
 
   "rasta-la-vista": [
-    // Playable: the printed map, the routes traced from it, the real event and action cards
-    { type: "rgame", dir: "assets/img/projects/rasta-la-vista", title: "Play a journey.", text: "The printed board with its routes traced, the ticket, event and action cards from the game, and up to three computer travellers. Events that rotate the junction tiles are left out of this digital version." },
+    // Played like an arcade game: the printed map, its routes traced, the real event and action cards
+    { type: "rgame", dir: "assets/img/projects/rasta-la-vista", title: "Rasta La Vista", text: "The printed board with its routes traced, the ticket, event and action cards from the game, and up to three computer travellers. Events that rotate the junction tiles are left out of this digital version." },
     { type: "images", items: [
-      { src: "assets/img/projects/rasta-la-vista/concept.webp", caption: "How do you teach India's geography in a way that's fun?" }
+      { src: "assets/img/projects/rasta-la-vista/concept.webp", caption: "How do you teach the next generation about India's geography in a way that's engaging and fun?" }
     ] },
+    { type: "rlv", kind: "strategy", title: "Design strategy", items: [
+      { t: "Educational", d: "Demystify public transport for all ages through an intuitive game: route planning, resource management and the trade-offs between buses, trains and ferries, so a child feels like an empowered adventurer.", k: "Attention to detail" },
+      { t: "Strategic", d: "A satisfying puzzle that scales with the player. A child should feel clever in their choices, while a seasoned gamer feels the weight of long-term decisions, all within the same framework.", k: "Satisfaction" },
+      { t: "Engaging", d: "Lively interaction that feels different every time it comes to the table: memorable moments, friendly rivalries and a shared story families want to revisit.", k: "Memorable" } ] },
+    { type: "rlv", kind: "process", title: "Design process", items: [
+      { t: "Empathise", d: "We started by empathising with kids and with the adventurous, chaotic spirit of Indian public transport, to create a truly relatable experience." },
+      { t: "Define", d: "The goal became a single challenge: turn the complex logistics of Indian travel into a simple, joyful and educational tabletop adventure." },
+      { t: "Ideate", d: "Ideation focused on the strategic placement of cities and routes, with key reshuffle elements so every playthrough feels new and unpredictable." },
+      { t: "Prototype", d: "Through rapid, hands-on prototyping with paper and pen, we refined every mechanic, from movement to the final scoring system." },
+      { t: "Test", d: "Continuous playtesting with our batchmates was our compass: it balanced the card deck, clarified rules and kept the game fun and fair for all ages." } ] },
+    { type: "rlv", kind: "timeline", title: "Nine days, start to finish", days: ["Day 1", "Day 2", "Day 3", "Day 4", "Day 5", "Day 6", "Day 7", "Day 8", "Day 9"], caption: "A rapid, intensive sprint focused on creativity, prototyping and feedback from players.", items: [
+      { t: "Research and case studies", s: 1, e: 2, c: "m" }, { t: "Core mechanics", s: 2, e: 3, c: "t" }, { t: "Ideation", s: 3, e: 3, c: "o" },
+      { t: "First low-fidelity prototype", s: 3, e: 4, c: "b" }, { t: "Proof of concept, second prototype", s: 4, e: 5, c: "o" }, { t: "Player feedback", s: 5, e: 6, c: "t" },
+      { t: "Iterations", s: 6, e: 7, c: "g" }, { t: "High-fidelity build", s: 7, e: 8, c: "o" }, { t: "Final exhibition", s: 9, e: 9, c: "g" } ] },
+    { type: "rlv", kind: "cases", title: "What we borrowed from other games", caption: "We took apart games we knew, looking for what made each one engaging and where it could improve.", items: [
+      { t: "Catan", d: "Rearrangeable hexagonal tiles let the map change every game, so each session is unique. A hexagon also gives more directions to move.", k: "the modular hex board" },
+      { t: "Abalone", d: "Strategic movement and careful positioning shape how players plan their steps. Every move matters.", k: "a thoughtful, tactical pace" },
+      { t: "Scotland Yard", d: "Crossing paths adds tension and surprise; the chance of meeting others on the board keeps play social and unpredictable.", k: "routes that cross" },
+      { t: "Monopoly", d: "Developing and owning spaces creates a sense of progression, so travel becomes a story of ownership and collection.", k: "claiming places" } ] },
     { type: "note", entry: 2, side: "right" },
-    { type: "images", items: [
-      { src: "assets/img/projects/rasta-la-vista/mechanics.webp", caption: "Ideation: rivers, roads and railways as coloured dots on hex edges" },
-      { src: "assets/img/projects/rasta-la-vista/proof.webp", caption: "Proof of concept: routes across swappable numbered tiles" }
-    ] },
-    { type: "note", entry: 3 },
+    { type: "rlv", kind: "boards", title: "Core mechanic: a board that changes", proof: "assets/img/projects/rasta-la-vista/board-proof.webp", final: "assets/img/projects/rasta-la-vista/map-final.webp" },
     { type: "images", items: [ { src: "assets/img/projects/rasta-la-vista/lofi.webp", caption: "Paper prototypes and the first playtests" } ] },
-    { type: "note", entry: 4, side: "right" },
-    { type: "images", items: [
-      { src: "assets/img/projects/rasta-la-vista/tiles.webp", caption: "Interlocking edges: a tile can't connect the wrong way" },
-      { src: "assets/img/projects/rasta-la-vista/pegs.webp", caption: "Pegs mark the places you've claimed" }
-    ] },
+    { type: "note", entry: 3 },
+    { type: "rlv", kind: "feedback", title: "What players told us", good: ["The game was engaging", "The rules were easy to understand", "The rearrangeable map was appreciated"], bad: ["Too few player-to-player conflicts early in the game", "Players kept making mistakes when rearranging the map, even with colour coding", "Unvisited places were hard to spot at a glance"] },
+    { type: "rlv", kind: "iterations", title: "Iterations", items: [
+      { t: "Adding action cards", d: "Action cards brought more player-to-player conflict. They can be drawn throughout the game and change its course at crucial moments.", img: "assets/img/projects/rasta-la-vista/deck/act-4.webp" },
+      { t: "Interlocking hex tiles", d: "To prevent placement errors, tiles got three puzzle-like edges, one shape per route type, so a tile physically can't connect the wrong way.", img: "assets/img/projects/rasta-la-vista/tiles.webp" },
+      { t: "Player pegs", d: "Pegs mark the places each player has visited, so nobody has to remember: players can spend that attention on strategy.", img: "assets/img/projects/rasta-la-vista/pegs.webp" } ] },
     { type: "deck", kind: "tickets", title: "Four tickets, unlocked as you travel", hint: "Tap a ticket", items: [
       { src: "assets/img/projects/rasta-la-vista/t-bus.webp", caption: "Bus: unlocks with your first place" },
       { src: "assets/img/projects/rasta-la-vista/t-rail.webp", caption: "Rail: unlocks with two places" },
@@ -237,9 +269,22 @@ SITE.showcase = {
       { name: "Mumbai", front: "assets/img/projects/rasta-la-vista/pc/f-mumbai.webp", back: "assets/img/projects/rasta-la-vista/pc/b-mumbai.webp" },
       { name: "Jaisalmer", front: "assets/img/projects/rasta-la-vista/pc/f-jaisalmer.webp", back: "assets/img/projects/rasta-la-vista/pc/b-jaisalmer.webp" }
     ] },
-    { type: "images", items: [ { src: "assets/img/projects/rasta-la-vista/passport.webp", caption: "The rulebook, printed as a passport" } ] },
-    { type: "note", entry: 5 },
-    { type: "images", items: [ { src: "assets/img/projects/rasta-la-vista/build.webp", caption: "Laser-cutting the acrylic tiles" } ] }
+    { type: "rlv", kind: "passport", title: "The rulebook is a passport", caption: "Tap the page or use the arrows to turn it.", pages: [
+      { src: "assets/img/projects/rasta-la-vista/pp-0.webp", cap: "The cover" }, { src: "assets/img/projects/rasta-la-vista/pp-1.webp", cap: "01 Introduction · 14 Final scoring" }, { src: "assets/img/projects/rasta-la-vista/pp-6.webp", cap: "02 Introduction · 13 Junctions and action cards" },
+      { src: "assets/img/projects/rasta-la-vista/pp-2.webp", cap: "03 Objective · 12 Claiming a location" }, { src: "assets/img/projects/rasta-la-vista/pp-3.webp", cap: "04 Components · 11 Movement and tickets" }, { src: "assets/img/projects/rasta-la-vista/pp-4.webp", cap: "05 Game setup · 10 Playing the game" },
+      { src: "assets/img/projects/rasta-la-vista/pp-5.webp", cap: "06 Assets · 09 Playing the game" }, { src: "assets/img/projects/rasta-la-vista/pp-7.webp", cap: "07 Game setup · 08 Assets" } ] },
+    { type: "note", entry: 4 },
+    { type: "images", items: [ { src: "assets/img/projects/rasta-la-vista/build.webp", caption: "Laser-cutting the acrylic tiles" } ] },
+    { type: "rlv", kind: "learnings", title: "What we learned", items: [
+      { t: "Physical design", d: "Prevent player error with the object itself, like interlocking tiles, rather than relying on players to remember rules." },
+      { t: "Offload memory", d: "Pegs for visited places free players to focus on deeper strategy." },
+      { t: "Rapid prototyping", d: "The most effective way to test competing ideas early and drop the ones that don't work." },
+      { t: "Modularity", d: "A variable hex-tile board is a direct and powerful driver of replayability." },
+      { t: "Real-world observation", d: "The ultimate test of a design's intuitiveness and appeal." } ] },
+    { type: "rlv", kind: "future", title: "Where it goes next", items: [
+      { t: "Formal feedback analysis", d: "Review what we saw at the exhibition: where players were confused, made mistakes or got stuck, and refine the rules and pieces." },
+      { t: "Rigorous balance testing", d: "It works, but is it balanced? Focused sessions with experienced players to find and remove dominant strategies." },
+      { t: "Rulebook optimisation", d: "A clearly illustrated rulebook, tested by people who have never seen the game learning it without any explanation." } ] }
   ],
 
   "shape-chase": [
@@ -252,24 +297,30 @@ SITE.showcase = {
   ],
 
   "native-packaging": [
-    // Pick a label and it goes on the front of the box; the grandmother sits on the lid
-    { type: "boxshelf", dir: "assets/img/projects/packaging", title: "The range, boxed", pick: "Pick a label", lid: "assets/img/projects/packaging/lid.webp", caption: "Drag the box to turn it. The labels' contact details are left out here.", items: [
+    { type: "note", entry: 0 },
+    { type: "note", entry: 1, side: "right" },
+    // The first products came in round tins, so their labels wrap all the way round
+    { type: "shelf", title: "The first range, in tins", pick: "Pick a label", caption: "Drag the tin to turn it. The labels' contact details are left out here.", items: [
       { src: "assets/img/projects/packaging/label-kongu.webp", name: "Kongu masala mundhiri" },
       { src: "assets/img/projects/packaging/label-murungai.webp", name: "Murungai masala mundhiri" },
       { src: "assets/img/projects/packaging/label-uppu-kari.webp", name: "Uppu kari masala" },
-      { src: "assets/img/projects/packaging/label-65-masala.webp", name: "65 masala" },
-      { src: "assets/img/projects/packaging/label-ragi.webp", name: "Sprouted ragi mix" },
-      { src: "assets/img/projects/packaging/sticker-native-groceries.webp", name: "Native groceries" },
-      { src: "assets/img/projects/packaging/sticker-day-today.webp", name: "Day today snacks" },
-      { src: "assets/img/projects/packaging/sticker-kids.webp", name: "Kids snack pack" }
+      { src: "assets/img/projects/packaging/label-65-masala.webp", name: "65 masala", ar: "2" },
+      { src: "assets/img/projects/packaging/label-ragi.webp", name: "Sprouted ragi mix" }
     ] },
-    { type: "hscroll", title: "Beyond the box", items: [
-      { src: "assets/img/projects/packaging/lid.webp", caption: "The lid: the grandmother, and the village at work", ar: "1025 / 721" },
-      { src: "assets/img/projects/packaging/box-dieline.webp", caption: "The box, flat", ar: "1449 / 655" },
-      { src: "assets/img/projects/packaging/poster-murungai.webp", caption: "A launch post", ar: "1 / 1" },
-      { src: "assets/img/projects/packaging/wrap-1.webp", caption: "A gift wrap", ar: "434 / 1689" },
-      { src: "assets/img/projects/packaging/wrap-2.webp", caption: "A gift wrap", ar: "434 / 1689" },
-      { src: "assets/img/projects/packaging/lettering.webp", caption: "Tamil lettering", ar: "347 / 300" }
+    { type: "note", entry: 2 },
+    // Later ranges came in boxes: a sticker on the front, the grandmother on the lid, plain board everywhere else
+    { type: "boxshelf", plain: true, dir: "assets/img/projects/packaging", title: "The later ranges, boxed", pick: "Pick a box", lid: "assets/img/projects/packaging/lid.webp", caption: "Drag the box to turn it.", items: [
+      { src: "assets/img/projects/packaging/sticker-native-groceries.webp", name: "Native groceries", ar: "2" },
+      { src: "assets/img/projects/packaging/sticker-day-today.webp", name: "Day today snacks", ar: "2" },
+      { src: "assets/img/projects/packaging/sticker-kids.webp", name: "Kids snack pack", ar: "2" }
+    ] },
+    { type: "images", title: "Gift wraps", layout: "wraps", items: [
+      { src: "assets/img/projects/packaging/wrap-1-h.webp", caption: "Gift wrap: best wishes, in green" },
+      { src: "assets/img/projects/packaging/wrap-2-h.webp", caption: "Gift wrap: best wishes, with hearts" }
+    ] },
+    { type: "images", title: "Launch", items: [
+      { src: "assets/img/projects/packaging/lid.webp", caption: "The lid: the grandmother, and the village at work" },
+      { src: "assets/img/projects/packaging/poster-murungai.webp", caption: "A launch post" }
     ] }
   ],
 
@@ -304,7 +355,7 @@ SITE.showcase = {
       ["Immediate feedback", "Live timers, points and badges after every step"],
       ["Progressive disclosure", "AR instructions revealed one step at a time, so nothing overloads"]
     ] },
-    { type: "appframe", title: "One lesson, start to finish", app: "UXplore", items: [
+    { type: "story", layout: "center", device: "tablet", title: "One lesson, start to finish", steps: [
       { label: "Start", title: "Learn UX laws the interactive way.", text: "A calm teal opening, then a welcome that offers to explain more or to start learning straight away.", img: "assets/img/projects/uxplore/splash.webp" },
       { label: "Mode", title: "Choose how you want to learn.", text: "Spatial mode learns through your real environment with the camera; 2D learning runs guided on-screen activities.", img: "assets/img/projects/uxplore/mode.webp" },
       { label: "Journey", title: "Your learning journey.", text: "One law per tile. Finish a lesson and the next one opens.", img: "assets/img/projects/uxplore/journey.webp" },
@@ -328,7 +379,8 @@ SITE.showcase = {
       { src: "assets/img/projects/uxplore/story-1.webp", caption: "From the chaos of learning UX to the first AR lesson", ar: "1398 / 715" },
       { src: "assets/img/projects/uxplore/story-2.webp", caption: "From Hick's Law in action to the learner's transformation", ar: "1469 / 715" }
     ] },
-    { type: "note", entry: 5 }
+    { type: "note", entry: 5 },
+    { type: "concl", why: "Beginners read about the laws of UX instead of feeling them, so they struggle to apply them. The Instructional Design course asked us to design how something hard should be taught.", how: "Lessons on a tablet that let you feel each law: in AR, in the room you're in, for the laws you learn with your body, and in 2D simulations for the analytical ones. Built with the SAM model, with feedback after every step.", ended: "As a designed course and a lesson-by-lesson prototype, compared against learning the same laws from videos or a textbook." }
   ],
 
   "graphic-design-days": [
@@ -356,7 +408,13 @@ SITE.showcase = {
 
   geometrica: [
     { type: "note", entry: 0 },
-    { type: "images", items: [ { src: "assets/img/projects/geometrica/board-art.webp", caption: "The textured board: shape frames sit in its rows of holes" } ] },
+    { type: "images", items: [ { src: "assets/img/projects/geometrica/board-3d.webp", caption: "The board: rows of holes in orange, blue and green, where the shape frames sit" } ] },
+    { type: "geoplay", title: "Play a clue", caption: "The clue card is printed in ink and in braille, like the real ones.", clues: [
+      { q: "Make two fifths of a regular pentagon", parts: 5, need: 2, yes: "Two of five parts. That's two fifths!" },
+      { q: "Make three quarters of a square", parts: 4, need: 3, yes: "Three of four parts. Three quarters!" },
+      { q: "Make half of a regular hexagon", parts: 6, need: 3, yes: "Three of six parts make a half!" },
+      { q: "Make one third of a hexagon", parts: 6, need: 2, yes: "Two of six parts. One third!" }
+    ] },
     { type: "note", entry: 2, side: "right" },
     { type: "braille", title: "Every clue, in ink and in braille", cards: [
       { kind: "Shapes", q: "Build the shape made of two triangles placed next to each other", a: "A rhombus" },
@@ -364,51 +422,35 @@ SITE.showcase = {
       { kind: "Shapes", q: "Make a regular shape with four equilateral triangles", a: "A larger equilateral triangle" }
     ] },
     { type: "note", entry: 3 },
-    { type: "images", items: [
-      { src: "assets/img/projects/geometrica/contents.webp", caption: "What's in the box" },
+    { type: "collage", title: "In the box", bg: "cream", items: [
+      { src: "assets/img/projects/geometrica/contents.webp", caption: "What's in the box", wide: true },
       { src: "assets/img/projects/geometrica/rules-1.webp", caption: "The rules" },
       { src: "assets/img/projects/geometrica/rules-2.webp", caption: "How points are won" }
     ] },
     { type: "note", entry: 1, side: "right" },
-    { type: "images", items: [
+    { type: "collage", title: "Answer keys and cards", bg: "sky", items: [
       { src: "assets/img/projects/geometrica/answers-shapes.webp", caption: "Answer key: shapes" },
-      { src: "assets/img/projects/geometrica/answers-fractions.webp", caption: "Answer key: fractions" },
-      { src: "assets/img/projects/geometrica/card-front.webp", caption: "A clue card" }
+      { src: "assets/img/projects/geometrica/card-front.webp", caption: "A clue card" },
+      { src: "assets/img/projects/geometrica/answers-fractions.webp", caption: "Answer key: fractions" }
     ] },
     { type: "note", entry: 4 },
     { type: "images", items: [ { src: "assets/img/projects/geometrica/board-flat.webp", caption: "The board, flat" } ] }
   ],
 
-  "green-grocer": [
-    { type: "note", entry: 1 },
-    { type: "hscroll", title: "A market on three wheels", items: [
-      { src: "assets/img/projects/green-grocer/rickshaw.webp", caption: "The modified auto-rickshaw", ar: "16 / 9" },
-      { src: "assets/img/projects/green-grocer/rickshaw-road.webp", caption: "Produce on the shelves", ar: "1600 / 938" },
-      { src: "assets/img/projects/green-grocer/rickshaw-road-2.webp", caption: "Ad space on the side", ar: "1600 / 938" },
-      { src: "assets/img/projects/green-grocer/rickshaw-ad.webp", caption: "Advertising as it goes", ar: "16 / 9" }
+  "spatial-design": [
+    { type: "note", entry: 0 },
+    { type: "note", entry: 1, side: "right" },
+    { type: "images", title: "Store front", items: [
+      { src: "assets/img/projects/spatial-design/facade.webp", caption: "Facade elevation: two windows either side of the entrance" },
+      { src: "assets/img/projects/spatial-design/plan.webp", caption: "Plan: the window depths and the entry" }
     ] },
-    { type: "note", entry: 2, side: "right" },
-    { type: "images", items: [
-      { src: "assets/img/projects/green-grocer/logo-dark.webp", caption: "The badge" },
-      { src: "assets/img/projects/green-grocer/logo.webp", caption: "From farmers to you" }
-    ] },
-    { type: "note", entry: 3 },
-    { type: "images", items: [
-      { src: "assets/img/projects/green-grocer/journeys.webp", caption: "The journeys of small farmers and of intermediaries" }
-    ] },
-    { type: "note", entry: 5, side: "right" },
-    { type: "images", layout: "phones", items: [
-      { src: "assets/img/projects/green-grocer/app-1.webp", caption: "Farmers or advertisers" },
-      { src: "assets/img/projects/green-grocer/app-2.webp", caption: "Sign up" },
-      { src: "assets/img/projects/green-grocer/app-3.webp", caption: "Orders and earnings" },
-      { src: "assets/img/projects/green-grocer/app-4.webp", caption: "Tracking" },
-      { src: "assets/img/projects/green-grocer/app-6.webp", caption: "Marketing services" },
-      { src: "assets/img/projects/green-grocer/app-7.webp", caption: "About us" }
-    ] },
-    { type: "images", items: [
-      { src: "assets/img/projects/green-grocer/gtm.webp", caption: "Going to market" }
+    { type: "note", entry: 2 },
+    { type: "images", title: "Final renders", items: [
+      { src: "assets/img/projects/spatial-design/render-front.webp", caption: "Facade" },
+      { src: "assets/img/projects/spatial-design/render-side.webp", caption: "Side elevation" }
     ] }
   ],
+
   evoke: [
     { type: "note", entry: 0 },
     { type: "images", items: [ { src: "assets/img/projects/evoke/study.webp", caption: "Study of the groundnut: pod, seed coat, hull, kernel and skin" } ] },

@@ -6,9 +6,9 @@
    in content/entries.js) or "Glimpse" (one image and a line).
    ========================================================================== */
 SITE.projects = [
-  { id: "texgenie", title: "TexGenie", year: "2023 / 2026", sortYear: 2026, context: "PES University", chapter: "PES University", note: "B.Des thesis, rebuilt in 2026",
+  { id: "texgenie", title: "TexGenie", year: "2023", sortYear: 2023, context: "PES University", chapter: "PES University", note: "B.Des thesis",
     discipline: "UX", also: ["AI"], theme: "Systems and commerce", depth: "Case study", status: "Thesis",
-    role: "", team: "", tools: "Figma, React", readMins: 8,
+    role: "", team: "", tools: "Figma, Illustrator", readMins: 8,
     summary: "A production manager for home-textile factories that makes people faster, not fewer: a desktop for the office, a phone app for the floor.",
     outcome: "One live record of every order, shared by the office desktop and the floor phone app.",
     cover: "assets/img/projects/texgenie/cover.webp", focus: "50% 50%", hero: "assets/img/projects/texgenie/hero.webp", gallery: [] },
@@ -65,7 +65,7 @@ SITE.projects = [
     summary: "An app and design system for urology and pelvic-floor health.",
     cover: "", hero: "", gallery: [] },
 
-  { id: "dreambig", title: "Dreambig fitness app", year: "", sortYear: null, context: "Freelance", chapter: "Practice", note: "Dreambig Soccer School",
+  { id: "dreambig", hidden: true, title: "Dreambig fitness app", year: "", sortYear: null, context: "Freelance", chapter: "Practice", note: "Dreambig Soccer School",
     discipline: "UX", also: [], theme: "Care and access", depth: "Entry", status: "Client work",
     role: "Designer and builder", team: "", tools: "PWA, Android",
     summary: "A fitness-assessment app built for a youth football coach.",
@@ -74,7 +74,7 @@ SITE.projects = [
   { id: "shoetime", title: "ShoeTime", year: "2023", sortYear: 2023, context: "PES University", chapter: "PES University", note: "Reviewed by faculty from IISc Bengaluru",
     discipline: "UX", also: [], theme: "Everyday interfaces", depth: "Case study", status: "Coursework", readMins: 6,
     role: "", team: "", tools: "Figma, Google Forms",
-    links: [{ label: "Try the prototype", href: "https://tiny.cc/ShoeTime" }, { label: "Research documentation", href: "https://tiny.cc/ShoeTimeD" }],
+    links: [{ label: "Try the prototype", href: "https://tiny.cc/ShoeTime" }, { label: "Documentation film", href: "https://tiny.cc/ShoeTimeD" }],
     summary: "Making online shoe shopping more reliable and exciting, from a survey of 220+ people and 15+ interviews.",
     outcome: "Eight product requirements, four that mattered most, and a high-fidelity prototype of a multi-brand store.",
     cover: "assets/img/projects/shoetime/cover.webp", focus: "22% 50%", hero: "assets/img/projects/shoetime/hero.webp", gallery: [] },
@@ -119,7 +119,7 @@ SITE.projects = [
     cover: "assets/img/projects/savoury-skies/cover.webp", focus: "50% 50%", hero: "assets/img/projects/savoury-skies/cover.webp",
     gallery: [ { src: "assets/img/projects/savoury-skies/board.webp", natural: true, caption: "Logo, website, Instagram and stationery" } ] },
 
-  { id: "kalviexpert", title: "KalviExpert", year: "", sortYear: null, context: "Freelance", chapter: "Practice",
+  { id: "kalviexpert", hidden: true, title: "KalviExpert", year: "", sortYear: null, context: "Freelance", chapter: "Practice",
     discipline: "UX", also: [], theme: "Everyday interfaces", depth: "Glimpse", status: "Client work",
     role: "UI/UX designer", team: "", tools: "Figma",
     summary: "A responsive website for KalviExpert, a place for students to learn everything about their education.",
@@ -157,7 +157,7 @@ SITE.projects = [
     discipline: "Physical", also: ["Game"], theme: "Play and worlds", depth: "Entry", status: "Coursework",
     role: "Game designer", team: "Edwin, Mariya, Nidhin and Srijith", tools: "Illustrator, laser-cut acrylic",
     summary: "A board game for travellers and explorers: buy a ticket, ride India's buses, trains, ferries and planes, and claim places before anyone else. Play it right here.",
-    cover: "assets/img/projects/rasta-la-vista/hero.webp", focus: "50% 55%", hero: "assets/img/projects/rasta-la-vista/hero.webp", gallery: [] },
+    cover: "assets/img/projects/rasta-la-vista/hero.webp", focus: "50% 55%", hero: "assets/img/projects/rasta-la-vista/render.webp", gallery: [] },
 
   { id: "shape-chase", title: "Shape Chase", year: "", sortYear: null, context: "Coursework", chapter: "IIT Jodhpur",
     discipline: "Physical", also: ["Game"], theme: "Play and worlds", depth: "Glimpse", status: "Coursework",
@@ -181,14 +181,14 @@ SITE.projects = [
     summary: "Redesigning Bengaluru's metro map so that people with colour blindness can read it.",
     cover: "assets/img/projects/namma-metro/cover.webp", focus: "50% 50%", hero: "", gallery: [] },
 
-  { id: "space-plan", title: "Human-centred space plan", year: "", sortYear: null, context: "PES University", chapter: "PES University", note: "Human-Centred Design and Ergonomics",
+  { id: "space-plan", hidden: true, title: "Human-centred space plan", year: "", sortYear: null, context: "PES University", chapter: "PES University", note: "Human-Centred Design and Ergonomics",
     videos: [{ label: "Walk through the 3D model", id: "ozqf17z4oyo" }],
     discipline: "Physical", also: [], theme: "Everyday interfaces", depth: "Glimpse", status: "Coursework",
     role: "", team: "", tools: "",
     summary: "An ergonomic plan for a shared hall, worked out on paper and then modelled in 3D.",
     cover: "assets/img/projects/space-plan/cover.webp", focus: "50% 50%", hero: "", gallery: [] },
 
-  { id: "smart-device", title: "Interactive smart device", year: "", sortYear: null, context: "PES University", chapter: "PES University",
+  { id: "smart-device", hidden: true, title: "Interactive smart device", year: "", sortYear: null, context: "PES University", chapter: "PES University",
     discipline: "Physical", also: [], theme: "Everyday interfaces", depth: "Glimpse", status: "Coursework",
     role: "", team: "", tools: "Arduino",
     links: [{ label: "See the design process", href: "https://tiny.cc/InSD" }],
@@ -209,19 +209,19 @@ SITE.projects = [
     summary: "Two semesters of graphic design in college, kept the way a graphic designer keeps a folio: posters, type, packaging, signs, pop art, and a word that moos.",
     cover: "assets/img/projects/graphic-design-days/bag-front.webp", focus: "50% 50%", hero: "", gallery: [] },
 
-  { id: "geometrica", title: "Geometrica", year: "2021", sortYear: 2021, context: "PES University", chapter: "PES University", note: "Game Design",
+  { id: "geometrica", title: "Geometrica", year: "2021", sortYear: 2021, context: "PES University", chapter: "PES University", note: "Game Design", tone: "geo",
     discipline: "Game", also: ["Physical"], theme: "Play and worlds", depth: "Entry", status: "Coursework",
     role: "Game designer", team: "Dharanetha P and Srijith D Raj", tools: "Illustrator",
     summary: "A tabletop game that teaches children geometry and fractions with shape frames on a textured board, and clue cards printed in braille, so children who can't see can play too.",
-    cover: "assets/img/projects/geometrica/board-art.webp", focus: "50% 50%", hero: "assets/img/projects/geometrica/board-flat.webp", gallery: [] },
+    cover: "assets/img/projects/geometrica/board-art.webp", focus: "50% 50%", hero: "assets/img/projects/geometrica/board-3d.webp", gallery: [] },
 
   { id: "green-grocer", title: "Green Grocer", year: "2023", sortYear: 2023, context: "PES University", chapter: "PES University", note: "Design Innovation and Management",
-    discipline: "Visual", also: ["UX"], theme: "Systems and commerce", depth: "Entry", status: "Concept",
-    role: "", team: "", tools: "Illustrator, Figma, Blender",
-    summary: "A moving farmers' market: an auto-rickshaw that carries small farmers' produce to where the demand is, and pays for itself with the ads on its sides.",
+    discipline: "Visual", also: ["UX"], theme: "Systems and commerce", depth: "Case study", status: "Coursework", readMins: 6, tone: "market",
+    role: "UI screens, with Dara Shashank and Keziah", team: "Alan Mathew, Dinesh Kumar A, Dara Shashank, Keziah, Pooja Shenoy, Srijith D Raj", tools: "Figma, Illustrator, Blender",
+    summary: "A business from an entrepreneurship course: a moving farmers' market that sells small farmers' produce where demand is high, and pays for itself with the ads on its side.",
     cover: "assets/img/projects/green-grocer/rickshaw.webp", focus: "50% 55%", hero: "assets/img/projects/green-grocer/rickshaw-road-2.webp", gallery: [] },
 
-  { id: "youtube-redesign", title: "YouTube redesign", year: "2022", sortYear: 2022, context: "PES University", chapter: "PES University", note: "UI UX II",
+  { id: "youtube-redesign", hidden: true, title: "YouTube redesign", year: "2022", sortYear: 2022, context: "PES University", chapter: "PES University", note: "UI UX II",
     discipline: "UX", also: [], theme: "Everyday interfaces", depth: "Glimpse", status: "Coursework",
     role: "", team: "", tools: "Figma",
     summary: "Interviews and task tests on the YouTube app, then redesigns of playlist creation, a “New” feature and a well-being view of time spent.",
@@ -232,7 +232,7 @@ SITE.projects = [
       { src: "assets/img/projects/youtube-redesign/playlist.webp", natural: true, caption: "Creating a playlist, before and after" }
     ] },
 
-  { id: "conversational-ux", title: "Conversational interfaces", year: "2022", sortYear: 2022, context: "PES University", chapter: "PES University", note: "Design for Conversational UX",
+  { id: "conversational-ux", hidden: true, title: "Conversational interfaces", year: "2022", sortYear: 2022, context: "PES University", chapter: "PES University", note: "Design for Conversational UX",
     discipline: "UX", also: [], theme: "Everyday interfaces", depth: "Glimpse", status: "Coursework",
     role: "", team: "", tools: "Figma",
     summary: "Studying how Kuki, Replika and Google Assistant hold a conversation, then designing a voice assistant for a car that keeps the driver's eyes on the road.",
@@ -242,6 +242,12 @@ SITE.projects = [
       { src: "assets/img/projects/conversational-ux/journey.webp", natural: true, caption: "The driver's journey, from trip start to the last mile" },
       { src: "assets/img/projects/conversational-ux/replika.webp", natural: true, caption: "Studying a companion bot's conversation" }
     ] },
+
+  { id: "spatial-design", title: "Spatial Design", year: "2023", sortYear: 2023, context: "PES University", chapter: "PES University", note: "A window display for Burberry",
+    discipline: "Physical", also: [], theme: "Moving image and space", depth: "Glimpse", status: "Coursework",
+    role: "", team: "Dara Shashank, Vishwak Tummala, Melvin Benny and Srijith D Raj", tools: "Sketching, 3D modelling",
+    summary: "A spatial design study: a festive store front for a luxury fashion brand, with two display windows around the entrance, an AR screen, mannequins and gift boxes.",
+    cover: "assets/img/projects/spatial-design/render-front.webp", focus: "50% 50%", hero: "assets/img/projects/spatial-design/render-side.webp", gallery: [] },
 
   { id: "evoke", title: "Evoke", year: "2023", sortYear: 2023, context: "PES University", chapter: "PES University", note: "Spatial Design",
     discipline: "Physical", also: [], theme: "Moving image and space", depth: "Entry", status: "Coursework",

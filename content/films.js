@@ -23,6 +23,17 @@ SITE.films = {
   // Places I'm planning to film next: { name, region }
   planned: [],
   intro: "I travel, and I document the places I go. It started with Rajasthan.",
+  // The opening of the Films page: what's here, over photos from the road. Photos live in assets/img/films/road/.
+  road: {
+    title: "Films from the road.",
+    text: "I carry a camera wherever I go. This is where the films end up: a series on the towns of Rajasthan, trailers for the games and VR worlds I've built, films for courses, and a few made for friends.",
+    what: [ ["The road", "A series on Rajasthan, town by town"], ["Trailers", "For my games and VR worlds"], ["Coursework", "Films for courses at IIT Jodhpur"], ["Other films", "Ads, farewells and stop motion"] ],
+    cols: [
+      [ ["hawa-mahal", "Jaipur"], ["pushkar-wheel", "Pushkar"], ["dunes", "Jaisalmer"], ["udaipur-palace", "Udaipur"], ["camel-art", "Bikaner"], ["haveli", "Jaisalmer"] ],
+      [ ["road-bike", "On the road"], ["jal-mahal", "Jaipur"], ["mehrangarh", "Jodhpur"], ["pushkar-fair", "Pushkar"], ["ripples", "Thar"], ["musicians", "Amer"] ],
+      [ ["jodhpur-rooftop", "Jodhpur"], ["pushkar-camels", "Pushkar"], ["amer", "Amer"], ["dunes-bw", "Jaisalmer"], ["pushkar-ropeway", "Pushkar"], ["bulls", "Bikaner"], ["silhouettes", "Pushkar"] ]
+    ]
+  },
   // The Rajasthan series, in the order the films were made. status: "Documented", "In progress" or "Planned".
   // `film` is the YouTube video id. `clip` (optional) is a short muted .mp4 for the DVD player.
   places: [
@@ -30,7 +41,7 @@ SITE.films = {
     { name: "Jaisalmer", region: "Rajasthan", lat: 26.9157, lon: 70.9083, status: "Documented", year: "2024", runtime: "4:04", music: "Maahi Ve · A. R. Rahman", film: "TuWl2qaHh0I", thumb: "assets/img/films/jaisalmer.webp" },
     { name: "Udaipur", label: "l", region: "Rajasthan", lat: 24.5854, lon: 73.7125, status: "Documented", year: "2024", runtime: "4:16", music: "Sapta Sagaradaache Ello, title track", film: "PFlQ_61DNt8", thumb: "assets/img/films/udaipur.webp" },
     { name: "Pushkar", label: "br", region: "Rajasthan", lat: 26.4897, lon: 74.5511, status: "Documented", year: "2025", runtime: "5:52", music: "The Child In Us · Enigma", film: "Y5cTmSEFSZQ", thumb: "assets/img/films/pushkar.webp" },
-    { name: "Jaipur", region: "Rajasthan", lat: 26.9124, lon: 75.7873, status: "In progress", year: "", film: "", thumb: "" }
+    { name: "Jaipur", region: "Rajasthan", lat: 26.9124, lon: 75.7873, status: "In progress", year: "", film: "", thumb: "assets/img/films/jaipur.webp" }
   ],
   // Videos without a known id link to a search on the channel (`q`). Add `id` when you have the link.
   trailers: [

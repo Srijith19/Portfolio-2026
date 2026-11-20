@@ -94,7 +94,7 @@ window.SITE = {
   // Home page tabs, and the three discipline pages. `projects` are the ones shown, in this order; `more` are named in one small line under them.
   // homeVideo plays behind the area on the home page; video (optional) would also play on the area page.
   areas: [
-    { key: "ux", slug: "ux-design", label: "UX Design", short: "UX", disciplines: ["UX"], projects: ["texgenie", "dignity", "shoetime", "gpay-wrist", "internshala"], leadWide: true, more: ["kego-care", "dreambig", "jiosaavn", "cookr", "kalviexpert", "youtube-redesign", "conversational-ux"],
+    { key: "ux", slug: "ux-design", label: "UX Design", short: "UX", disciplines: ["UX"], projects: ["texgenie", "dignity", "shoetime", "gpay-wrist", "internshala"], work: ["texgenie", "dignity", "shoetime", "gpay-wrist"], leadWide: true, more: ["kego-care", "jiosaavn", "cookr"],
       line: "UX projects addressing uncommon, real-world problems through research-driven design.",
       // The board in the UX page's header: each step, one line, and where it happened in my projects
       how: [
@@ -110,15 +110,15 @@ window.SITE = {
           { p: "shoetime", t: "Validated with stakeholders, reviewed by faculty from IISc Bengaluru" }, { p: "internshala", t: "Benchmarked against LinkedIn and Glassdoor" }, { p: "texgenie", t: "Think-aloud tests with business owners" } ] }
       ],
       video: "", poster: "assets/img/projects/gpay-wrist/cover.webp", pagePoster: "assets/img/projects/internshala/hero.webp",
-      homeVideo: "assets/video/area-ux.mp4", homePoster: "assets/img/home/area-ux.webp" },
-    { key: "xr", slug: "xr-design", label: "XR Design", short: "XR", disciplines: ["XR"], tone: "deep", projects: ["atelier-xr", "immerse-editor-pro", "reven-vr", "who-vr", "uxplore"], more: ["vannavision"],
+ },
+    { key: "xr", slug: "xr-design", label: "XR Design", short: "XR", disciplines: ["XR"], tone: "deep", projects: ["atelier-xr", "immerse-editor-pro", "reven-vr", "who-vr", "uxplore"], work: ["immerse-editor-pro", "who-vr", "atelier-xr", "uxplore"], more: ["vannavision"],
       line: "Immersive experiences exploring interaction, narrative, and presence through XR design.",
       video: "", poster: "assets/img/projects/immerse-editor-pro/cover.webp",
-      homeVideo: "assets/video/area-xr.mp4", homePoster: "assets/img/home/area-xr.webp" },
-    { key: "gg", slug: "graphics-and-games", label: "Graphics and Games", short: "Graphics & Games", disciplines: ["Game", "Visual", "Physical"], tone: "night", projects: ["reven-vr", "akai-tsuki", "rasta-la-vista", "fredrick-runs", "native-packaging", "graphic-design-days", "geometrica"], more: ["green-grocer", "evoke", "classhour"],
-      line: "Games, worldbuilding and visual media.",
+ },
+    { key: "gg", slug: "graphics-and-games", label: "Graphics and Games", short: "Graphics & Games", disciplines: ["Game", "Visual", "Physical"], tone: "night", projects: ["reven-vr", "akai-tsuki", "rasta-la-vista", "fredrick-runs", "native-packaging", "graphic-design-days", "geometrica"], work: ["reven-vr", "akai-tsuki", "rasta-la-vista", "graphic-design-days"], more: ["green-grocer", "evoke", "classhour"],
+      line: "Games, worlds and graphics: things to play, explore and look at.",
       video: "", poster: "assets/img/projects/akai-tsuki/render-wall.webp",
-      homeVideo: "assets/video/area-gg.mp4", homePoster: "assets/img/home/area-gg.webp" }
+ }
   ],
 
 
